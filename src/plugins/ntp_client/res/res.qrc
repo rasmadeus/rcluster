@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+        <file>ntp_client.svg</file>
+    </qresource>
+</RCC>

@@ -1,0 +1,12 @@
+#ifndef TRANSPORT_GLOBAL_H
+#define TRANSPORT_GLOBAL_H
+
+#include <QtGlobal>
+
+#if defined(TRANSPORT_LIBRARY)
+    #define TRANSPORT_SHARED_EXPORT Q_DECL_EXPORT
+#else
+    #define TRANSPORT_SHARED_EXPORT Q_DECL_IMPORT
+#endif
+
+#endif // TRANSPORT_GLOBAL_H
