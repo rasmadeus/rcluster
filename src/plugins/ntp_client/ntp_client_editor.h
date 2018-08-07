@@ -10,7 +10,7 @@ class NtpClientEditor : public DefaultBaseEditor
     Q_OBJECT
 
 public:
-    explicit NtpClientEditor(Config const &config, Plugins const &plugins, CoreClientSocket &socket, QUuid const &id, QWidget &parent);
+    explicit NtpClientEditor(QWidget &parent);
 
 public:
     QVariantHash params() const override;

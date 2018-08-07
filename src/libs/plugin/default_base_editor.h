@@ -6,9 +6,11 @@
 class PLUGIN_SHARED_EXPORT DefaultBaseEditor : public Editor
 {
 public:
-    explicit DefaultBaseEditor(Config const &config, Plugins const &plugins, CoreClientSocket &socket, QUuid const &id, QWidget &parent);
+    explicit DefaultBaseEditor(QWidget &parent);
 
 public:
+    void init() override;
+
     QSet<QUuid> events() const override;
     void setEvents(QSet<QUuid> const &events) override;
 

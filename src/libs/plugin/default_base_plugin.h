@@ -13,8 +13,8 @@ public:
     QString process() const override;
     bool hasEditor() const override { return false; }
     bool hasProcess() const override { return false; }
-    Editor *editor(Config const &config,  Plugins const &plugins, CoreClientSocket &socket, QUuid const &id, QWidget &parent) const override;
-    std::unique_ptr<SlaveController> controller(Config const &config, Plugin const &plugin, CoreClientSocket &socket) const override;
+    Editor *editor(QWidget &parent) const override;
+    std::unique_ptr<SlaveController> controller() const override;
 };
 
 #endif // DEFAULT_BASE_PLUGIN_H

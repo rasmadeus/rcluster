@@ -7,7 +7,7 @@
 class Controller : public SlaveController
 {
 public:
-    Controller(Config const &config, Plugin const &plugin, CoreClientSocket &socket);
+    Controller();
 
 public:
     void init() override {}

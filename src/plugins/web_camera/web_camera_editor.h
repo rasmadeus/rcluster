@@ -10,9 +10,10 @@ class WebCameraEditor : public DefaultBaseEditor
     Q_OBJECT
 
 public:
-    explicit WebCameraEditor(Config const &config, Plugins const &plugins, CoreClientSocket &socket, QUuid const &id, QWidget &parent);
+    explicit WebCameraEditor(QWidget &parent);
 
 public:
+    void init() override;
     QVariantHash params() const override;
     void setParams(QVariantHash const &params) override;
 

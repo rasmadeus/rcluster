@@ -12,10 +12,11 @@ class MessageViewerEditor : public DefaultBaseEditor
     Q_OBJECT
 
 public:
-    explicit MessageViewerEditor(Config const &config, Plugins const &plugins, CoreClientSocket &socket, QUuid const &id, QWidget &parent);
+    explicit MessageViewerEditor(QWidget &parent);
 
 public:
-    QSet<QUuid> events() const override { return _slaveModel.checked(); }
+    void init() override;
+    QSet<QUuid> events() const override { return _slaveModel->checked(); }
     void setEvents(QSet<QUuid> const &events) override;
 
 private:
@@ -26,7 +27,7 @@ private:
     QTreeView _treeView;
     QPushButton _selectAll;
     QPushButton _deselectAll;
-    SlaveModelCheck _slaveModel;
+    SlaveModelCheck *_slaveModel;
 };
 
 #endif // MESSAGE_VIEWER_EDITOR_H

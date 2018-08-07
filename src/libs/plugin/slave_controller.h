@@ -12,17 +12,21 @@ class Plugin;
 class PLUGIN_SHARED_EXPORT SlaveController
 {
 public:
-    SlaveController(Config const &config, Plugin const &plugin, CoreClientSocket &socket);
     virtual ~SlaveController() = default;
 
 public:
     virtual void init() = 0;
     virtual void onMessage(Message const &message) = 0;
 
+public:
+    void setConfig(Config const &config) { _config = &config; }
+    void setPlugin(Plugin const &plugin) { _plugin = &plugin; }
+    void setSocket(CoreClientSocket &socket) { _socket = &socket; }
+
 protected:
-    Config const &_config;
-    Plugin const &_plugin;
-    CoreClientSocket &_socket;
+    Config const *_config{ nullptr };
+    Plugin const *_plugin{ nullptr };
+    CoreClientSocket *_socket{ nullptr };
 };
 
 #endif // SLAVE_CONTROLLER_H

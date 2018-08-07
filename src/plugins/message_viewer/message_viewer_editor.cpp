@@ -5,20 +5,24 @@
 #include <globals.h>
 #include "message_viewer_editor.h"
 
-MessageViewerEditor::MessageViewerEditor(Config const &config, Plugins const &plugins, CoreClientSocket &socket, QUuid const &id, QWidget &parent)
-    : DefaultBaseEditor{ config, plugins, socket, id, parent }
+MessageViewerEditor::MessageViewerEditor(QWidget &parent)
+    : DefaultBaseEditor{ parent }
     , _captionLabel{ tr("Watch objects:")}
     , _treeView{ this }
     , _selectAll{ tr("Select all"), this }
     , _deselectAll{ tr("Deselect all"), this }
-    , _slaveModel{ config, plugins, *this }
 {
-    _slaveModel.setSlave(id);
+}
+
+void MessageViewerEditor::init()
+{
+    _slaveModel = new SlaveModelCheck{ *_config, *_plugins, *this };
+    _slaveModel->setSlave(_id);
 
     _treeView.header()->hide();
     _treeView.setSelectionBehavior(QAbstractItemView::SelectRows);
     _treeView.setSelectionMode(QAbstractItemView::SingleSelection);
-    _treeView.setModel(&_slaveModel);
+    _treeView.setModel(_slaveModel);
 
     auto buttonsLayout = new QHBoxLayout{};
     buttonsLayout->setMargin(0);
@@ -35,17 +39,17 @@ MessageViewerEditor::MessageViewerEditor(Config const &config, Plugins const &pl
     mainLayout->addLayout(buttonsLayout);
 
     connect(&_treeView, &QTreeView::clicked, this, &MessageViewerEditor::onTreeViewClicked);
-    connect(&_selectAll, &QPushButton::clicked, &_slaveModel, &SlaveModelCheck::selectAll);
-    connect(&_deselectAll, &QPushButton::clicked, &_slaveModel, &SlaveModelCheck::deselectAll);
+    connect(&_selectAll, &QPushButton::clicked, _slaveModel, &SlaveModelCheck::selectAll);
+    connect(&_deselectAll, &QPushButton::clicked, _slaveModel, &SlaveModelCheck::deselectAll);
 }
 
 void MessageViewerEditor::onTreeViewClicked(QModelIndex const &index)
 {
-    _slaveModel.setData(index, {}, SlaveModelCheck::RoleToggleCheckState);
+    _slaveModel->setData(index, {}, SlaveModelCheck::RoleToggleCheckState);
 }
 
 void MessageViewerEditor::setEvents(QSet<QUuid> const &events)
 {
-    _slaveModel.setChecked(events);
+    _slaveModel->setChecked(events);
     _treeView.expandAll();
 }

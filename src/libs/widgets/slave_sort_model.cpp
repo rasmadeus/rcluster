@@ -13,5 +13,7 @@ bool SlaveSortModel::lessThan(QModelIndex const &sourceLeft, QModelIndex const &
     auto const leftCaption = sourceLeft.data();
     auto const rightCaption = sourceRight.data();
 
-    return leftType == rightType ? leftCaption < rightCaption : leftType < rightType;
+    return leftType == rightType
+        ? leftCaption.toString().localeAwareCompare(rightCaption.toString())
+        : leftType.toString().localeAwareCompare(rightType.toString());
 }

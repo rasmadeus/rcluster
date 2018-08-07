@@ -32,20 +32,13 @@ QString DefaultBasePlugin::process() const
     return hasProcess() ? type().toLower() : QString{};
 }
 
-Editor *DefaultBasePlugin::editor(Config const &config, Plugins const &plugins, CoreClientSocket &socket, QUuid const &id, QWidget &parent) const
+Editor *DefaultBasePlugin::editor(QWidget &parent) const
 {
-    Q_UNUSED(config)
-    Q_UNUSED(plugins)
-    Q_UNUSED(socket)
-    Q_UNUSED(id)
     Q_UNUSED(parent)
     return nullptr;
 }
 
-std::unique_ptr<SlaveController> DefaultBasePlugin::controller(Config const &config, Plugin const &plugin, CoreClientSocket &socket) const
+std::unique_ptr<SlaveController> DefaultBasePlugin::controller() const
 {
-    Q_UNUSED(config)
-    Q_UNUSED(plugin)
-    Q_UNUSED(socket)
     return nullptr;
 }

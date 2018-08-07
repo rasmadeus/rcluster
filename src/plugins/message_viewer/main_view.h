@@ -9,7 +9,7 @@ class MainView : public MainViewController
     Q_OBJECT
 
 public:
-    explicit MainView(Config const &config, Plugin const &plugin, CoreClientSocket &socket);
+    explicit MainView();
 
 public:
     void onMessage(Message const &message) override;

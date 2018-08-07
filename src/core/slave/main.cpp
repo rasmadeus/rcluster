@@ -29,9 +29,12 @@ int main(int argc, char *argv[])
     ConfigWatcher configWatcher{ config };
     CoreClientSocket socket{ args.id };
 
-    auto controller = plugin->controller(config, *plugin, socket);
+    auto controller = plugin->controller();
     Q_ASSERT(controller != nullptr);
 
+    controller->setConfig(config);
+    controller->setPlugin(*plugin);
+    controller->setSocket(socket);
     controller->init();
 
     QObject::connect(&socket, &CoreClientSocket::ready, [&controller, &configWatcher](auto const &message){

@@ -11,10 +11,10 @@ class Controller : public QObject, public SlaveController
     Q_OBJECT
 
 public:
-    explicit Controller(Config const &config, Plugin const &plugin, CoreClientSocket &socket);
+    explicit Controller();
 
 public:
-    void init() override {}
+    void init() override;
     void onMessage(Message const &message) override { Q_UNUSED(message) }
 
 protected:

@@ -12,7 +12,7 @@ class PLUGIN_SHARED_EXPORT MainViewController : public QMainWindow, public Slave
     Q_OBJECT
 
 public:
-    explicit MainViewController(Config const &config, Plugin const &plugin, CoreClientSocket &socket);
+    explicit MainViewController();
 
 public:
     void init() override;

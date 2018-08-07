@@ -2,8 +2,12 @@
 #include <QUuid>
 #include "default_base_editor.h"
 
-DefaultBaseEditor::DefaultBaseEditor(Config const &config, Plugins const &plugins, CoreClientSocket &socket, QUuid const &id, QWidget &parent)
-    : Editor{ config, plugins, socket, id, parent }
+DefaultBaseEditor::DefaultBaseEditor(QWidget &parent)
+    : Editor{ parent }
+{
+}
+
+void DefaultBaseEditor::init()
 {
 }
 

@@ -16,8 +16,8 @@ public:
     QString defaultName() const override { return tr("Web camera"); }
     bool hasProcess() const override { return true; }
     bool hasEditor() const override { return true; }
-    Editor *editor(Config const &config,  Plugins const &plugins, CoreClientSocket &socket, QUuid  const &id, QWidget &parent) const override;
-    std::unique_ptr<SlaveController> controller(Config const &config, Plugin const &plugin, CoreClientSocket &socket) const override;
+    Editor *editor(QWidget &parent) const override;
+    std::unique_ptr<SlaveController> controller() const override;
 };
 
 #endif // MESSAGE_VIEWER_PLUGIN_H

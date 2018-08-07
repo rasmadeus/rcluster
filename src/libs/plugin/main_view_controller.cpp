@@ -7,17 +7,17 @@
 #include "main_view_controller.h"
 #include "plugin.h"
 
-MainViewController::MainViewController(Config const &config, Plugin const &plugin, CoreClientSocket &socket)
+MainViewController::MainViewController()
     : QMainWindow{ nullptr, Qt::WindowTitleHint | Qt::WindowMinMaxButtonsHint }
-    , SlaveController{ config, plugin, socket }
+    , SlaveController{}
 {
-    setWindowIcon(plugin.pixmap({ 32, 32}));
     setContentsMargins(rcluster::layoutGap(), rcluster::layoutGap(), rcluster::layoutGap(), rcluster::layoutGap());
     connect(qApp, &QApplication::aboutToQuit, this, static_cast<void(MainViewController::*)()>(&MainViewController::storeSettings));
 }
 
 void MainViewController::init()
 {
+    setWindowIcon(_plugin->pixmap({ 32, 32}));
     restoreSettings();
     show();
 }

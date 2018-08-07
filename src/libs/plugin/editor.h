@@ -14,9 +14,11 @@ class PLUGIN_SHARED_EXPORT Editor : public QWidget
     Q_OBJECT
 
 public:
-    explicit Editor(Config const &config, Plugins const &plugins, CoreClientSocket &socket, QUuid const &id, QWidget &parent);
+    explicit Editor(QWidget &parent);
 
 public:
+    virtual void init() = 0;
+
     virtual QSet<QUuid> events() const = 0;
     virtual void setEvents(QSet<QUuid> const &events) = 0;
 
@@ -26,13 +28,15 @@ public:
     virtual QStringList errors() const = 0;
 
 public:
+    void setConfig(Config const &config) { _config = &config; }
+    void setPlugins(Plugins const &plugins) { _plugins = &plugins; }
+    void setSocket(CoreClientSocket &socket) { _socket = &socket; }
     void setId(QUuid const &id) { _id = id; }
-    QUuid const &id() const { return _id; }
 
 protected:
-    Config const &_config;
-    Plugins const &_plugins;
-    CoreClientSocket &_socket;
+    Config const *_config{ nullptr };
+    Plugins const *_plugins{ nullptr };
+    CoreClientSocket *_socket{ nullptr };
     QUuid _id;
 };
 

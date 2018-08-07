@@ -9,7 +9,7 @@ class ComputerEditor : public DefaultBaseEditor
     Q_OBJECT
 
 public:
-    explicit ComputerEditor(Config const &config, Plugins const &plugins, CoreClientSocket &socket, QUuid const &id, QWidget &parent);
+    explicit ComputerEditor(QWidget &parent);
 
 public:
     QVariantHash params() const override;

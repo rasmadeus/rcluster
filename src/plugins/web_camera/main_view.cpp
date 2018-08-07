@@ -1,7 +1,7 @@
 #include "main_view.h"
 
-MainView::MainView(Config const &config, Plugin const &plugin, CoreClientSocket &socket)
-    : MainViewController{ config, plugin, socket }
+MainView::MainView()
+    : MainViewController{}
 {
     setWindowTitle(tr("Web Camera"));
 }

@@ -5,8 +5,8 @@
 #include <message.h>
 #include "main_view.h"
 
-MainView::MainView(Config const &config, Plugin const &plugin, CoreClientSocket &socket)
-    : MainViewController{ config, plugin, socket }
+MainView::MainView()
+    : MainViewController{}
     , _log{ this }
 {
     setWindowTitle(tr("Message Viewer"));

@@ -9,12 +9,12 @@ QVariantHash ComputerPlugin::defaultParams() const
     };
 }
 
-Editor *ComputerPlugin::editor(Config const &config, Plugins const &plugins, CoreClientSocket &socket, QUuid const &id, QWidget &parent) const
+Editor *ComputerPlugin::editor(QWidget &parent) const
 {
-    return new ComputerEditor{ config, plugins, socket, id, parent };
+    return new ComputerEditor{ parent };
 }
 
-std::unique_ptr<SlaveController> ComputerPlugin::controller(Config const &config, Plugin const &plugin, CoreClientSocket &socket) const
+std::unique_ptr<SlaveController> ComputerPlugin::controller() const
 {
-    return std::unique_ptr<SlaveController>(new Controller{ config, plugin, socket });
+    return std::make_unique<Controller>();
 }
