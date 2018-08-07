@@ -25,6 +25,7 @@ private:
     void showMenu(QPoint const &pos);
     void select(QModelIndex const &current);
     void selectCurrent();
+    void sortSlaves();
 
 private:
     QTreeView _view;

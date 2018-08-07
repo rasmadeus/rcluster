@@ -20,6 +20,8 @@ ConfigView::ConfigView(Config &config, Plugins &plugins, CoreClientSocket &socke
     , _plugins{ plugins }
     , _socket{ socket }
 {
+    _sortModel.setSourceModel(&_model);
+
     auto mainLayout = new QVBoxLayout{ this };
     mainLayout->setMargin(rcluster::layoutGap());
     mainLayout->setSpacing(rcluster::layoutGap());
@@ -34,8 +36,10 @@ ConfigView::ConfigView(Config &config, Plugins &plugins, CoreClientSocket &socke
     connect(&_view, &QTreeView::customContextMenuRequested, this, &ConfigView::showMenu);
     connect(_view.selectionModel(), &QItemSelectionModel::currentChanged, this, &ConfigView::select);
     connect(&_model, &SlaveModel::rowsRemoved, this, &ConfigView::selectCurrent);
-    connect(&_model, &SlaveModel::rowsInserted, &_sortModel, &SlaveSortModel::invalidate);
-    connect(&_model, &SlaveModel::dataChanged, &_sortModel, &SlaveSortModel::invalidate);
+    connect(&_model, &SlaveModel::rowsInserted, this, &ConfigView::sortSlaves);
+    connect(&_model, &SlaveModel::dataChanged, this, &ConfigView::sortSlaves);
+
+    sortSlaves();
 }
 
 void ConfigView::showMenu(QPoint const &pos)
@@ -54,4 +58,9 @@ void ConfigView::select(QModelIndex const &current)
 void ConfigView::selectCurrent()
 {
     qDebug() << "Current:" << _view.currentIndex().data(SlaveModel::RoleItemId).toUuid();
+}
+
+void ConfigView::sortSlaves()
+{
+    _sortModel.sort(SlaveModel::ColumnCaption);
 }
