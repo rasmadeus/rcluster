@@ -3,6 +3,7 @@
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 #include <globals.h>
+#include <slave_proxy_check_model.h>
 #include "message_viewer_editor.h"
 
 MessageViewerEditor::MessageViewerEditor(QWidget &parent)
@@ -19,10 +20,14 @@ void MessageViewerEditor::init()
     _slaveModel = new SlaveModelCheck{ *_config, *_plugins, *this };
     _slaveModel->setSlave(_id);
 
+    _slaveProxyModel = new SlaveProxyCheckModel{ *this };
+    _slaveProxyModel->setSourceModel(_slaveModel);
+    _slaveProxyModel->setSlaveId(_id);
+
     _treeView.header()->hide();
     _treeView.setSelectionBehavior(QAbstractItemView::SelectRows);
     _treeView.setSelectionMode(QAbstractItemView::SingleSelection);
-    _treeView.setModel(_slaveModel);
+    _treeView.setModel(_slaveProxyModel);
 
     auto buttonsLayout = new QHBoxLayout{};
     buttonsLayout->setMargin(0);
@@ -38,14 +43,25 @@ void MessageViewerEditor::init()
     mainLayout->addWidget(&_treeView);
     mainLayout->addLayout(buttonsLayout);
 
+    connect(_slaveModel, &SlaveModel::rowsInserted, this, &MessageViewerEditor::onConfigChanged);
+    connect(_slaveModel, &SlaveModel::dataChanged, this, &MessageViewerEditor::onConfigChanged);
+
     connect(&_treeView, &QTreeView::clicked, this, &MessageViewerEditor::onTreeViewClicked);
     connect(&_selectAll, &QPushButton::clicked, _slaveModel, &SlaveModelCheck::selectAll);
     connect(&_deselectAll, &QPushButton::clicked, _slaveModel, &SlaveModelCheck::deselectAll);
+
+    onConfigChanged();
 }
 
 void MessageViewerEditor::onTreeViewClicked(QModelIndex const &index)
 {
-    _slaveModel->setData(index, {}, SlaveModelCheck::RoleToggleCheckState);
+    _slaveModel->setData(_slaveProxyModel->mapToSource(index), {}, SlaveModelCheck::RoleToggleCheckState);
+}
+
+void MessageViewerEditor::onConfigChanged()
+{
+    _slaveProxyModel->sort(SlaveModel::ColumnCaption);
+    _slaveProxyModel->invalidate();
 }
 
 void MessageViewerEditor::setEvents(QSet<QUuid> const &events)

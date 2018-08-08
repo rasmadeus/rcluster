@@ -7,6 +7,8 @@
 #include <default_base_editor.h>
 #include <slave_model_check.h>
 
+class SlaveProxyCheckModel;
+
 class MessageViewerEditor : public DefaultBaseEditor
 {
     Q_OBJECT
@@ -21,13 +23,15 @@ public:
 
 private:
     void onTreeViewClicked(QModelIndex const &index);
+    void onConfigChanged();
 
 private:
     QLabel _captionLabel;
     QTreeView _treeView;
     QPushButton _selectAll;
     QPushButton _deselectAll;
-    SlaveModelCheck *_slaveModel;
+    SlaveModelCheck *_slaveModel{ nullptr };
+    SlaveProxyCheckModel *_slaveProxyModel{ nullptr };
 };
 
 #endif // MESSAGE_VIEWER_EDITOR_H
