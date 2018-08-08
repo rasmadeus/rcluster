@@ -1,5 +1,5 @@
 <RCC>
     <qresource prefix="/">
-        <file>computer.svg</file>
+        <file>res/computer.svg</file>
     </qresource>
 </RCC>

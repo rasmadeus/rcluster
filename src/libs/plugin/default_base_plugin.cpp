@@ -1,6 +1,7 @@
 #include <QHash>
 #include <QPainter>
 #include <QSvgRenderer>
+#include <svg.h>
 #include "default_base_plugin.h"
 
 inline uint qHash(QSize const &key)
@@ -12,17 +13,8 @@ QPixmap DefaultBasePlugin::pixmap(QSize const &size) const
 {
     static QHash<QString, QHash<QSize, QPixmap>> pixmaps;
 
-    if (!pixmaps.contains(type()))
-    {
-        if (!pixmaps[type()].contains(size))
-        {
-            QPixmap pixmap{ size };
-            pixmap.fill(QColor{ 0, 0, 0, 0 });
-            QPainter painter{ &pixmap };
-            QSvgRenderer{ QStringLiteral(":/%1.svg").arg(type().toLower()) }.render(&painter);
-            pixmaps[type()][size] = std::move(pixmap);
-        }
-    }
+    if (!pixmaps.contains(type()) && !pixmaps[type()].contains(size))
+        pixmaps[type()][size] = rcluster::fromSvg(type().toLower(), size);
 
     return pixmaps[type()][size];
 }

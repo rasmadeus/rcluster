@@ -21,24 +21,24 @@ PRECOMPILED_HEADER = \
 HEADERS += \
     pch.h \
     main_view.h \
-    core_menu.h \
     config_view.h \
     slave_params_view.h \
     name_dialog.h \
     slave_editor.h \
     empty_slave_editor.h \
-    config_view_menu.h
+    config_view_menu.h \
+    core_actions.h
 
 SOURCES += \
     main.cpp \
     main_view.cpp \
-    core_menu.cpp \
     config_view.cpp \
     slave_params_view.cpp \
     name_dialog.cpp \
     slave_editor.cpp \
     empty_slave_editor.cpp \
-    config_view_menu.cpp
+    config_view_menu.cpp \
+    core_actions.cpp
 
 RESOURCES += \
     res.qrc

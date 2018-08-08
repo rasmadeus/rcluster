@@ -36,7 +36,7 @@ SOURCES += \
     ntp_reply.cpp
 
 RESOURCES += \
-    $$PWD/res/res.qrc
+    $$PWD/res.qrc
 
 TRANSLATIONS += \
     ../../../translations/plugins/ntp_client_ru.ts \

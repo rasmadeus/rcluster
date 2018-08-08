@@ -3,7 +3,7 @@
 
 #include <QMainWindow>
 #include <QSplitter>
-#include <core_menu.h>
+#include "core_actions.h"
 #include "config_view.h"
 #include "slave_params_view.h"
 
@@ -25,7 +25,7 @@ private:
 
 private:
     CoreClientSocket &_socket;
-    CoreMenu _coreMenu;
+    CoreActions _coreActions;
     QSplitter _splitter;
     ConfigView _configView;
     SlaveParamsView _slaveParamsView;

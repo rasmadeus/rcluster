@@ -28,7 +28,7 @@ SOURCES += \
     message_viewer_plugin.cpp
 
 RESOURCES += \
-    $$PWD/res/res.qrc
+    $$PWD/res.qrc
 
 TRANSLATIONS += \
     ../../../translations/plugins/message_viewer_ru.ts \

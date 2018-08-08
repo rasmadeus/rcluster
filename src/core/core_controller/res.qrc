@@ -2,5 +2,7 @@
     <qresource prefix="/">
         <file>res/icon.png</file>
         <file>res/icon.ico</file>
+        <file>res/connect_dialog.svg</file>
+        <file>res/exit_core.svg</file>
     </qresource>
 </RCC>

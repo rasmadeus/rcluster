@@ -25,7 +25,7 @@ SOURCES += \
     camera_plugin.cpp
 
 RESOURCES += \
-    $$PWD/res/res.qrc
+    $$PWD/res.qrc
 
 TRANSLATIONS += \
     ../../../translations/plugins/camera_ru.ts \

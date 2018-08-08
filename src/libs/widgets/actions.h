@@ -10,8 +10,13 @@
 
 class QToolBar;
 
-class WIDGETS_SHARED_EXPORT Actions
+class WIDGETS_SHARED_EXPORT Actions : public QObject
 {
+    Q_OBJECT
+
+public:
+    explicit Actions(QObject &parent);
+
 public:
     QAction &append(QString const &icon, QString const &name, bool afterSeparator = false);
     void install(QMenu &menu) { install<QMenu>(menu); }

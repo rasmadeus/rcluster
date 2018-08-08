@@ -1,4 +1,5 @@
 #include <QApplication>
+#include <QMenuBar>
 #include <QSettings>
 #include <QStatusBar>
 #include <core_client_socket.h>
@@ -7,13 +8,21 @@
 MainViewController::MainViewController(Config &config, Plugins &plugins, CoreClientSocket &socket)
     : QMainWindow{}
     , _socket{ socket }
-    , _coreMenu{ socket, *this }
+    , _coreActions{ socket, *this }
     , _splitter{ this }
     , _configView{ config, plugins, socket, *this }
     , _slaveParamsView{ config, plugins, socket, *this }
 {
     setWindowIcon(QIcon{ QStringLiteral(":/res/icon.ico") });
     setWindowTitle(tr("RCluster Core Controller"));
+
+    auto coreMenu = menuBar()->addMenu(tr("Core actions"));
+    coreMenu->setObjectName(QStringLiteral("core_actions_menu"));
+   _coreActions.install(*coreMenu);
+
+   auto coreToolBar = addToolBar(tr("Core actions"));
+   coreToolBar->setObjectName(QStringLiteral("core_actions_tool_bar"));
+   _coreActions.install(*coreToolBar);
 
     _splitter.addWidget(&_configView);
     _splitter.addWidget(&_slaveParamsView);

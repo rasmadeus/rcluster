@@ -29,7 +29,7 @@ SOURCES += \
     computer_plugin.cpp
 
 RESOURCES += \
-    $$PWD/res/res.qrc
+    $$PWD/res.qrc
 
 TRANSLATIONS += \
     ../../../translations/plugins/computer_ru.ts \

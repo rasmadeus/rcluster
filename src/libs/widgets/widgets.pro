@@ -22,7 +22,6 @@ PRECOMPILED_HEADER = \
 
 HEADERS += \
     widgets_global.h \
-    menu.h \
     translator.h \
     slave_item.h \
     slave_model.h \
@@ -33,7 +32,6 @@ HEADERS += \
     pch.h
 
 SOURCES += \
-    menu.cpp \
     translator.cpp \
     slave_item.cpp \
     slave_model.cpp \

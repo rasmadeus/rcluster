@@ -17,69 +17,36 @@
    version="1.1"
    id="svg8"
    inkscape:version="0.92.3 (2405546, 2018-03-11)"
-   sodipodi:docname="icon.svg"
-   inkscape:export-filename="/home/rasmadeus/Documents/dev/pro/rcluster/src/core/core_server/res/icon.png"
+   sodipodi:docname="connect_dialog.svg"
+   inkscape:export-filename="C:\dev\projects\rcluster\src\core_controller\res\icon.png"
    inkscape:export-xdpi="96"
    inkscape:export-ydpi="96">
   <defs
      id="defs2">
-    <marker
-       inkscape:stockid="TriangleInS"
-       orient="auto"
-       refY="0"
-       refX="0"
-       id="marker2301"
-       style="overflow:visible"
-       inkscape:isstock="true">
-      <path
-         inkscape:connector-curvature="0"
-         id="path2299"
-         d="m 5.77,0 -8.65,5 0,-10 8.65,5 z"
-         style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#ffffff;stroke-width:1pt;stroke-opacity:1"
-         transform="scale(-0.2,-0.2)" />
-    </marker>
-    <marker
-       inkscape:isstock="true"
-       style="overflow:visible"
-       id="marker1778"
-       refX="0"
-       refY="0"
-       orient="auto"
-       inkscape:stockid="TriangleInS"
-       inkscape:collect="always">
-      <path
-         transform="scale(-0.2,-0.2)"
-         style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#ffffff;stroke-width:1pt;stroke-opacity:1"
-         d="m 5.77,0 -8.65,5 0,-10 8.65,5 z"
-         id="path1776"
-         inkscape:connector-curvature="0" />
-    </marker>
     <linearGradient
        inkscape:collect="always"
-       id="linearGradient1306">
+       id="linearGradient4807">
       <stop
          style="stop-color:#0000ff;stop-opacity:1;"
          offset="0"
-         id="stop1302" />
+         id="stop4803" />
       <stop
          style="stop-color:#0000ff;stop-opacity:0;"
          offset="1"
-         id="stop1304" />
+         id="stop4805" />
     </linearGradient>
-    <marker
-       inkscape:stockid="TriangleInS"
-       orient="auto"
-       refY="0.0"
-       refX="0.0"
-       id="TriangleInS"
-       style="overflow:visible"
-       inkscape:isstock="true">
-      <path
-         id="path4387"
-         d="M 5.77,0.0 L -2.88,5.0 L -2.88,-5.0 L 5.77,0.0 z "
-         style="fill-rule:evenodd;stroke:#ffffff;stroke-width:1pt;stroke-opacity:1;fill:#ffffff;fill-opacity:1"
-         transform="scale(-0.2)" />
-    </marker>
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient4795">
+      <stop
+         style="stop-color:#0000ff;stop-opacity:1;"
+         offset="0"
+         id="stop4791" />
+      <stop
+         style="stop-color:#0000ff;stop-opacity:0;"
+         offset="1"
+         id="stop4793" />
+    </linearGradient>
     <linearGradient
        id="linearGradient6857"
        osb:paint="solid">
@@ -186,76 +153,36 @@
          d="M 8.7185878,4.0337352 -2.2072895,0.01601326 8.7185884,-4.0017078 c -1.7454984,2.3720609 -1.7354408,5.6174519 -6e-7,8.035443 z"
          transform="matrix(-0.3,0,0,-0.3,0.69,0)" />
     </marker>
-    <marker
-       inkscape:stockid="TriangleInS"
-       orient="auto"
-       refY="0"
-       refX="0"
-       id="TriangleInS-3"
-       style="overflow:visible"
-       inkscape:isstock="true">
-      <path
-         inkscape:connector-curvature="0"
-         id="path4387-6"
-         d="m 5.77,0 -8.65,5 0,-10 8.65,5 z"
-         style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#ffffff;stroke-width:1pt;stroke-opacity:1"
-         transform="scale(-0.2,-0.2)" />
-    </marker>
-    <marker
-       inkscape:stockid="TriangleInS"
-       orient="auto"
-       refY="0"
-       refX="0"
-       id="TriangleInS-5"
-       style="overflow:visible"
-       inkscape:isstock="true">
-      <path
-         inkscape:connector-curvature="0"
-         id="path4387-3"
-         d="m 5.77,0 -8.65,5 0,-10 8.65,5 z"
-         style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#ffffff;stroke-width:1pt;stroke-opacity:1"
-         transform="scale(-0.2,-0.2)" />
-    </marker>
-    <marker
-       inkscape:stockid="TriangleInS"
-       orient="auto"
-       refY="0"
-       refX="0"
-       id="TriangleInS-6"
-       style="overflow:visible"
-       inkscape:isstock="true">
-      <path
-         inkscape:connector-curvature="0"
-         id="path4387-2"
-         d="m 5.77,0 -8.65,5 0,-10 8.65,5 z"
-         style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#ffffff;stroke-width:1pt;stroke-opacity:1"
-         transform="scale(-0.2,-0.2)" />
-    </marker>
-    <marker
-       inkscape:stockid="TriangleInS"
-       orient="auto"
-       refY="0"
-       refX="0"
-       id="TriangleInS-6-1"
-       style="overflow:visible"
-       inkscape:isstock="true">
-      <path
-         inkscape:connector-curvature="0"
-         id="path4387-2-2"
-         d="m 5.77,0 -8.65,5 0,-10 8.65,5 z"
-         style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#ffffff;stroke-width:1pt;stroke-opacity:1"
-         transform="scale(-0.2,-0.2)" />
-    </marker>
     <linearGradient
        inkscape:collect="always"
-       xlink:href="#linearGradient1306"
-       id="linearGradient1308"
-       x1="-4.7978883"
-       y1="294.17294"
-       x2="20.808392"
-       y2="284.48474"
+       xlink:href="#linearGradient4795"
+       id="linearGradient4797"
+       x1="0.019270177"
+       y1="282.9189"
+       x2="19.341959"
+       y2="290.10995"
        gradientUnits="userSpaceOnUse"
-       gradientTransform="translate(4.4504801e-7,-8.5286458e-6)" />
+       gradientTransform="matrix(0.98407739,0,0,1.0096152,0.12541315,-1.970934)" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4795"
+       id="linearGradient4799"
+       x1="2.421812"
+       y1="286.97623"
+       x2="19.341959"
+       y2="290.10995"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.75707837,0,0,0.91799909,2.0518521,25.306324)" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4807"
+       id="linearGradient4809"
+       x1="7.7864839"
+       y1="295.14789"
+       x2="9.6879301"
+       y2="294.94748"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(3.1119109,0,0,3.1119106,-17.880845,-624.2069)" />
   </defs>
   <sodipodi:namedview
      id="base"
@@ -264,9 +191,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.1113281"
-     inkscape:cx="-428.58736"
-     inkscape:cy="59.44766"
+     inkscape:zoom="2.8284271"
+     inkscape:cx="-45.150172"
+     inkscape:cy="3.4620245"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -296,25 +223,39 @@
      inkscape:groupmode="layer"
      id="layer1"
      transform="translate(0,-280.06665)">
-    <circle
-       style="fill:url(#linearGradient1308);fill-opacity:1;fill-rule:evenodd"
-       id="path4230"
-       cx="8.4666662"
-       cy="288.53333"
-       r="8.4666672"
-       inkscape:export-xdpi="95.800003"
-       inkscape:export-ydpi="95.800003" />
-    <path
-       inkscape:connector-curvature="0"
-       id="path1774"
-       d="m 11.641626,288.23026 v 5.91002"
-       style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#ffffff;stroke-width:2.9104166;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-start:url(#marker1778)"
-       sodipodi:nodetypes="cc" />
-    <path
-       sodipodi:nodetypes="cc"
-       style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#ffffff;stroke-width:2.9104166;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-start:url(#marker2301)"
-       d="m 5.2918907,288.80988 v -5.91002"
-       id="path2297"
-       inkscape:connector-curvature="0" />
+    <g
+       id="g925"
+       transform="translate(3.3240366e-7,-4.3563208e-6)">
+      <path
+         sodipodi:open="true"
+         d="m 1.6032633,285.05114 a 8.9595366,7.7842326 0 0 1 6.8634031,-2.78062 8.9595366,7.7842326 0 0 1 6.8634026,2.78062"
+         sodipodi:end="5.5850536"
+         sodipodi:start="3.8397244"
+         sodipodi:ry="7.7842326"
+         sodipodi:rx="8.9595366"
+         sodipodi:cy="290.05475"
+         sodipodi:cx="8.4666662"
+         sodipodi:type="arc"
+         id="path4699"
+         style="fill:none;fill-opacity:1;stroke:url(#linearGradient4797);stroke-width:3.1750164;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers" />
+      <path
+         style="fill:none;fill-opacity:1;stroke:url(#linearGradient4799);stroke-width:3.17499995;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+         id="path4703"
+         sodipodi:type="arc"
+         sodipodi:cx="8.4666662"
+         sodipodi:cy="292.284"
+         sodipodi:rx="4.6592345"
+         sodipodi:ry="4.309269"
+         sodipodi:start="3.8397244"
+         sodipodi:end="5.5850536"
+         d="m 4.8974856,289.51405 a 4.6592345,4.309269 0 0 1 3.5691807,-1.53932 4.6592345,4.309269 0 0 1 3.5691807,1.53932"
+         sodipodi:open="true" />
+      <circle
+         r="2.1166666"
+         cy="294.26697"
+         cx="8.4666662"
+         id="path4743"
+         style="fill:url(#linearGradient4809);fill-opacity:1;stroke:none;stroke-width:7.2937026;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:stroke fill markers" />
+    </g>
   </g>
 </svg>

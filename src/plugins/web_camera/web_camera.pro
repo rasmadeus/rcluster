@@ -29,7 +29,7 @@ SOURCES += \
     web_camera_plugin.cpp
 
 RESOURCES += \
-    $$PWD/res/res.qrc
+    $$PWD/res.qrc
 
 TRANSLATIONS += \
     ../../../translations/plugins/web_camera_ru.ts \
