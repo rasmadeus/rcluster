@@ -116,6 +116,7 @@ void SlaveModel::reloadSlaves()
     _root.clear();
     appendChildren({}, _root);
     endResetModel();
+    emit reloaded();
 }
 
 void SlaveModel::appendSlave(QUuid const &slave)

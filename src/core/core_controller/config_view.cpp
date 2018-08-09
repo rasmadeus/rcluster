@@ -38,6 +38,7 @@ ConfigView::ConfigView(Config &config, Plugins &plugins, CoreClientSocket &socke
     connect(&_model, &SlaveModel::rowsRemoved, this, &ConfigView::selectCurrent);
     connect(&_model, &SlaveModel::rowsInserted, this, &ConfigView::sortSlaves);
     connect(&_model, &SlaveModel::dataChanged, this, &ConfigView::sortSlaves);
+    connect(&_model, &SlaveModel::reloaded, &_view, &QTreeView::expandAll);
 
     sortSlaves();
 }

@@ -20,9 +20,12 @@ MainViewController::MainViewController(Config &config, Plugins &plugins, CoreCli
     coreMenu->setObjectName(QStringLiteral("core_actions_menu"));
    _coreActions.install(*coreMenu);
 
-   auto coreToolBar = addToolBar(tr("Core actions"));
-   coreToolBar->setObjectName(QStringLiteral("core_actions_tool_bar"));
-   _coreActions.install(*coreToolBar);
+    auto coreToolBar = addToolBar(tr("Core actions"));
+    coreToolBar->setObjectName(QStringLiteral("core_actions_tool_bar"));
+    _coreActions.install(*coreToolBar);
+
+    auto viewMenu = menuBar()->addMenu(tr("View"));
+    viewMenu->addAction(coreToolBar->toggleViewAction());
 
     _splitter.addWidget(&_configView);
     _splitter.addWidget(&_slaveParamsView);

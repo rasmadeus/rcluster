@@ -37,6 +37,9 @@ public:
     int columnCount(QModelIndex const &parent = {}) const override;
     QVariant data(QModelIndex const &index, int role = Qt::DisplayRole) const override;
 
+signals:
+    void reloaded();
+
 protected:
     SlaveItem &item(QModelIndex const &index) const;
     Slave slave(QModelIndex const &index) const;
