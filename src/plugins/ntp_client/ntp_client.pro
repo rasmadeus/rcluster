@@ -7,7 +7,8 @@ TEMPLATE = \
 CONFIG += \
     c++14 \
     precompile_header \
-    warn_on
+    warn_on \
+    plugin
 
 PRECOMPILED_HEADER = \
     pch.h
