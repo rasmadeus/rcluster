@@ -1,7 +1,3 @@
-QT += \
-    core \
-    widgets
-
 TARGET = \
     ntp_client
 
@@ -43,5 +39,4 @@ TRANSLATIONS += \
 
 include($$(PRO_ROOT)/src/libs/config/config.pri)
 include($$(PRO_ROOT)/src/libs/plugin/plugin.pri)
-include($$(PRO_ROOT)/src/libs/transport/transport.pri)
 include($$(PRO_ROOT)/src/common/install_plugin.pri)

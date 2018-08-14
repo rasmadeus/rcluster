@@ -1,7 +1,3 @@
-QT  += \
-    gui \
-    widgets
-
 TARGET = \
     plugin
 
@@ -46,5 +42,4 @@ TRANSLATIONS += \
     ../../translations/libs/plugin_ru.ts \
 
 include($$(PRO_ROOT)/src/libs/config/config.pri)
-include($$(PRO_ROOT)/src/libs/transport/transport.pri)
 include($$(PRO_ROOT)/src/common/install_lib.pri)

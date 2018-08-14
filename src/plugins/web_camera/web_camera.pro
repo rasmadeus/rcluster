@@ -1,8 +1,3 @@
-QT += \
-    core \
-    widgets \
-    network
-
 TARGET = \
     web_camera
 
@@ -26,6 +21,9 @@ HEADERS += \
 SOURCES += \
     web_camera_editor.cpp \
     main_view.cpp \
+    core \
+    widgets \
+    network
     web_camera_plugin.cpp
 
 RESOURCES += \
@@ -35,6 +33,5 @@ TRANSLATIONS += \
     ../../../translations/plugins/web_camera_ru.ts \
 
 include($$(PRO_ROOT)/src/libs/config/config.pri)
-include($$(PRO_ROOT)/src/libs/transport/transport.pri)
 include($$(PRO_ROOT)/src/libs/plugin/plugin.pri)
 include($$(PRO_ROOT)/src/common/install_plugin.pri)

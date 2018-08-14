@@ -1,6 +1,4 @@
 QT += \
-    core \
-    widgets \
     multimedia
 
 TARGET = \

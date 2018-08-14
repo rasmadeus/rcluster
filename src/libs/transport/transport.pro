@@ -43,4 +43,5 @@ DISTFILES += \
 TRANSLATIONS += \
     ../../translations/libs/transport_ru.ts \
 
+include($$(PRO_ROOT)/src/libs/utils/utils.pri)
 include($$(PRO_ROOT)/src/common/install_lib.pri)

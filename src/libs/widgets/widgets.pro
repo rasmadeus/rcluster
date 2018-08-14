@@ -1,8 +1,3 @@
-QT  += \
-    gui \
-    widgets \
-    network
-
 TARGET = \
     widgets
 
@@ -41,9 +36,6 @@ SOURCES += \
 DISTFILES += \
     widgets.pri
 
-include($$(PRO_ROOT)/src/common/boost.pri)
 include($$(PRO_ROOT)/src/libs/config/config.pri)
 include($$(PRO_ROOT)/src/libs/plugin/plugin.pri)
-include($$(PRO_ROOT)/src/libs/utils/utils.pri)
-include($$(PRO_ROOT)/src/libs/transport/transport.pri)
 include($$(PRO_ROOT)/src/common/install_lib.pri)

@@ -1,3 +1,5 @@
+include($$(PRO_ROOT)/src/libs/utils/utils.pri)
+
 CONFIG += \
     plugin
 

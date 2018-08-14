@@ -1,3 +1,6 @@
+include($$(PRO_ROOT)/src/libs/config/config.pri)
+include($$(PRO_ROOT)/src/libs/plugin/plugin.pri)
+
 INCLUDEPATH += \
     $$PWD
 
@@ -13,9 +16,3 @@ CONFIG(release, debug|release) {
 
 LIBS += \
     -lwidgets
-
-include($$(PRO_ROOT)/src/libs/config/config.pri)
-include($$(PRO_ROOT)/src/common/boost.pri)
-include($$(PRO_ROOT)/src/common/globals.pri)
-include($$(PRO_ROOT)/src/libs/plugin/plugin.pri)
-include($$(PRO_ROOT)/src/libs/transport/transport.pri)

@@ -4,12 +4,6 @@ TARGET = \
 TEMPLATE = \
     app
 
-QT += \
-    core \
-    gui \
-    network \
-    widgets
-
 CONFIG += \
     c++14 \
     precompile_header \
@@ -46,10 +40,5 @@ RESOURCES += \
 TRANSLATIONS += \
     ../../translations/core_controller_ru.ts \
 
-include($$(PRO_ROOT)/src/common/boost.pri)
-include($$(PRO_ROOT)/src/libs/utils/utils.pri)
-include($$(PRO_ROOT)/src/libs/config/config.pri)
-include($$(PRO_ROOT)/src/libs/plugin/plugin.pri)
-include($$(PRO_ROOT)/src/libs/transport/transport.pri)
 include($$(PRO_ROOT)/src/libs/widgets/widgets.pri)
 include($$(PRO_ROOT)/src/common/install_app.pri)

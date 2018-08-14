@@ -1,7 +1,3 @@
-QT += \
-    core \
-    network
-
 TARGET = \
     config
 
@@ -41,8 +37,7 @@ DISTFILES += \
     config.pri
 
 TRANSLATIONS += \
-    ../../translations/libs/config_ru.ts \
-
+    ../../translations/libs/config_ru.ts
 
 include($$(PRO_ROOT)/src/libs/transport/transport.pri)
 include($$(PRO_ROOT)/src/common/install_lib.pri)

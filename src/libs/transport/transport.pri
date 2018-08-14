@@ -1,4 +1,7 @@
 QT += \
+    gui \
+    core \
+    widgets \
     network
 
 INCLUDEPATH += \
@@ -16,3 +19,5 @@ CONFIG(release, debug|release) {
 
 LIBS += \
     -ltransport
+
+include($$(PRO_ROOT)/src/libs/utils/utils.pri)

@@ -1,7 +1,3 @@
-QT += \
-    core \
-    widgets
-
 TARGET = \
     message_viewer
 
@@ -33,6 +29,5 @@ RESOURCES += \
 TRANSLATIONS += \
     ../../../translations/plugins/message_viewer_ru.ts \
 
-include($$(PRO_ROOT)/src/libs/plugin/plugin.pri)
 include($$(PRO_ROOT)/src/libs/widgets/widgets.pri)
 include($$(PRO_ROOT)/src/common/install_plugin.pri)

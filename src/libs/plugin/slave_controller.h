@@ -8,6 +8,7 @@ class Config;
 class Corebus;
 class Message;
 class Plugin;
+class Slave;
 
 class PLUGIN_SHARED_EXPORT SlaveController
 {
