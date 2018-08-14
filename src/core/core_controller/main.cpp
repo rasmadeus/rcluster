@@ -3,12 +3,12 @@
 #include <QTcpSocket>
 #include <config.h>
 #include <config_watcher.h>
-#include <dump.h>
 #include <log.h>
 #include <globals.h>
 #include <core_bus.h>
 #include <message.h>
 #include <plugins.h>
+#include <crash_handler.h>
 #include <translator.h>
 #include "main_view.h"
 

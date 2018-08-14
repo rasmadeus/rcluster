@@ -1,16 +1,14 @@
 QT  += \
-    gui \
-    widgets \
-    network
+    core
 
 TARGET = \
-    widgets
+    utils
 
 TEMPLATE = \
     lib
 
 DEFINES += \
-    WIDGETS_LIBRARY
+    UTILS_LIBRARY
 
 CONFIG += \
     c++14 \
@@ -21,25 +19,17 @@ PRECOMPILED_HEADER = \
     pch.h
 
 HEADERS += \
-    widgets_global.h \
-    slave_item.h \
-    slave_model.h \
-    slave_model_check.h \
-    slave_sort_model.h \
-    slave_proxy_check_model.h \
-    actions.h
+    translator.h \
+    utils_global.h \
+    crash_handler.h
     pch.h
 
 SOURCES += \
-    slave_item.cpp \
-    slave_model.cpp \
-    slave_model_check.cpp \
-    slave_sort_model.cpp \
-    slave_proxy_check_model.cpp \
-    actions.cpp
+    translator.cpp \
+    crash_handler.cpp
 
 DISTFILES += \
-    widgets.pri
+    utils.pri
 
 include($$(PRO_ROOT)/src/common/boost.pri)
 include($$(PRO_ROOT)/src/common/globals.pri)

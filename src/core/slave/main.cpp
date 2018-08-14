@@ -2,11 +2,11 @@
 #include <config.h>
 #include <config_watcher.h>
 #include <core_bus.h>
-#include <dump.h>
 #include <log.h>
 #include <message.h>
 #include <plugins.h>
 #include <slave_controller.h>
+#include <crash_handler.h>
 #include <translator.h>
 #include "args.h"
 
@@ -27,22 +27,22 @@ int main(int argc, char *argv[])
 
     Config config;
     ConfigWatcher configWatcher{ config };
-    Corebus socket{ args.id };
+    Corebus corebus{ args.id };
 
     auto controller = plugin->controller();
     Q_ASSERT(controller != nullptr);
 
     controller->setConfig(config);
     controller->setPlugin(*plugin);
-    controller->setCorebus(socket);
+    controller->setCorebus(corebus);
     controller->init();
 
-    QObject::connect(&socket, &Corebus::ready, [&controller, &configWatcher](auto const &message){
+    QObject::connect(&corebus, &Corebus::ready, [&controller, &configWatcher](auto const &message){
         if (!configWatcher.route(message))
             controller->onMessage(message);
     });
 
-    socket.connectToHost(args.host, args.port);
+    corebus.connectToHost(args.host, args.port);
 
     return app.exec();
 }

@@ -1,9 +1,9 @@
 #include <QApplication>
 #include <QWidget>
 #include <config.h>
-#include <dump.h>
 #include <log.h>
 #include <message.h>
+#include <crash_handler.h>
 #include <translator.h>
 #include "config_storage.h"
 #include "server.h"

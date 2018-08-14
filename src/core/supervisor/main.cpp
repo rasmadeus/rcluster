@@ -7,6 +7,7 @@
 #include <core_bus.h>
 #include <message.h>
 #include <plugins.h>
+#include <crash_handler.h>
 #include <translator.h>
 #include "supervisors.h"
 #include "tray_icon.h"
@@ -29,14 +30,14 @@ int main(int argc, char *argv[])
     Plugins plugins;
     plugins.load();
 
-    Corebus socket{ QUuid::createUuid() };
+    Corebus corebus{ QUuid::createUuid() };
     Supervisors processes{ config, plugins };
 
-    QObject::connect(&socket, &Corebus::connected, [&processes, &socket]{
-        processes.setCoreAddress(socket.host(), QString::number(socket.port()));
+    QObject::connect(&corebus, &Corebus::connected, [&processes, &corebus]{
+        processes.setCoreAddress(socket.host(), QString::number(corebus.port()));
     });
 
-    QObject::connect(&socket, &Corebus::ready, [&configWatcher, &app](Message const &message){
+    QObject::connect(&corebus, &Corebus::ready, [&configWatcher, &app](Message const &message){
         if (!configWatcher.route(message) && message.action() == QStringLiteral("EXIT"))
             app.quit();
     });

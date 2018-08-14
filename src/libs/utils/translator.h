@@ -1,9 +1,9 @@
 #ifndef TRANSLATOR_H
 #define TRANSLATOR_H
 
-#include "widgets_global.h"
+#include "utils_global.h"
 
-class WIDGETS_SHARED_EXPORT Translator
+class UTILS_SHARED_EXPORT Translator
 {
 public:
     enum class Type

@@ -5,7 +5,8 @@ SUBDIRS += \
     transport \
     config \
     plugin \
-    widgets
+    widgets \
+    utils
 
-config.depends = transport
-widgets.depends = config plugin
+config.depends = transport utils
+widgets.depends = config plugin utils

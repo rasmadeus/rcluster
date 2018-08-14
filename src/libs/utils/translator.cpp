@@ -24,9 +24,13 @@ void Translator::load(QString const &fileName, QString const &dir)
 {
     auto translator = new QTranslator{};
     if (translator->load(QLocale::system(), fileName, QStringLiteral("_"), dir))
+    {
         if (qApp->installTranslator(translator))
+        {
+            qDebug() << "Translator has been loaded" << fileName << "from dir" << dir;
             return;
-
+        }
+    }
 
     qWarning() << "Failed to load translator" << fileName << "in directory" << dir;
     translator->deleteLater();

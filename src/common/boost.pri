@@ -2,7 +2,7 @@ DEFINES += \
     BOOST_ALL_DYN_LINK
 
 INCLUDEPATH += \
-    $$(BOOST_HOME)
+    $$(BOOST_HOME)/include
 
 LIBS += \
     -L$$(BOOST_HOME)/lib
