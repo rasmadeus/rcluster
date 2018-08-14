@@ -26,16 +26,16 @@ HEADERS += \
     message.h \
     message_controller.h \
     message_router.h \
-    core_client_socket.h \
-    core_connect_widget.h
+    core_connect_widget.h \
+    core_bus.h
     pch.h
 
 SOURCES += \
     message.cpp \
     message_controller.cpp \
     message_router.cpp \
-    core_client_socket.cpp \
-    core_connect_widget.cpp
+    core_connect_widget.cpp \
+    core_bus.cpp
 
 DISTFILES += \
     transport.pri

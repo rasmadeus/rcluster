@@ -27,7 +27,7 @@ private:
     void init(QHostAddress const &bindAddress, quint16 bindPort);
 
 private:
-    QUdpSocket *_socket;
+    QUdpSocket *_corebus;
 };
 
 #endif // NTP_CLIENT_H

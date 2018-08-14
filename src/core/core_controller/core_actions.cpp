@@ -1,11 +1,11 @@
 #include <QMainWindow>
-#include <core_client_socket.h>
+#include <core_bus.h>
 #include "core_actions.h"
 
-CoreActions::CoreActions(CoreClientSocket &socket, QMainWindow &parent)
+CoreActions::CoreActions(Corebus &corebus, QMainWindow &parent)
     : Actions{ parent }
-    , _socket{ socket }
-    , _coreConnectWidget{ socket, &parent }
+    , _corebus{ corebus }
+    , _coreConnectWidget{ corebus, &parent }
 {
     connect(
         &append(QStringLiteral("connect_dialog"), tr("Show connect dialog"), true),
@@ -24,5 +24,5 @@ CoreActions::CoreActions(CoreClientSocket &socket, QMainWindow &parent)
 
 void CoreActions::exitCoreAndSlaves()
 {
-    _socket.send(QStringLiteral("EXIT"));
+    _corebus.send(QStringLiteral("EXIT"));
 }

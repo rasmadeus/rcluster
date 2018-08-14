@@ -1,9 +1,9 @@
 #include <QApplication>
 #include "tray_icon.h"
 
-TrayIcon::TrayIcon(CoreClientSocket &socket, QObject *parent)
+TrayIcon::TrayIcon(Corebus &corebus, QObject *parent)
     : QSystemTrayIcon{ parent }
-    , _coreConnectWidget{ socket }
+    , _coreConnectWidget{ corebus }
 {
     _menu.addAction(tr("Show connect dialog"), &_coreConnectWidget, &CoreConnectWidget::show);
     _menu.addAction(tr("Exit"), qApp, &QApplication::exit);

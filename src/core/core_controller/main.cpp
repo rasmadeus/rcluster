@@ -6,7 +6,7 @@
 #include <dump.h>
 #include <log.h>
 #include <globals.h>
-#include <core_client_socket.h>
+#include <core_bus.h>
 #include <message.h>
 #include <plugins.h>
 #include <translator.h>
@@ -17,7 +17,7 @@ int main(int argc, char *argv[])
     QApplication app{ argc, argv };
 
     rcluster::initLogging(QStringLiteral("core_controller"));
-    rcluster::catchCrash();
+    CrashHandler::handle(QStringLiteral("core_controller"));
 
     Translator{ Translator::Type::AppAndPlugins };
     qRegisterMetaType<Message>("Message");
@@ -29,8 +29,8 @@ int main(int argc, char *argv[])
     Plugins plugins;
     plugins.load();
 
-    CoreClientSocket socket{ QUuid::createUuid() };
-    QObject::connect(&socket, &CoreClientSocket::ready, [&configWatcher, &app](Message const &message){
+    Corebus socket{ QUuid::createUuid() };
+    QObject::connect(&socket, &Corebus::ready, [&configWatcher, &app](Message const &message){
         if (!configWatcher.route(message) && message.action() == QStringLiteral("EXIT"))
             app.quit();
     });

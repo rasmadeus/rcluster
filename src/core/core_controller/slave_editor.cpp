@@ -2,17 +2,17 @@
 #include <QVBoxLayout>
 #include <globals.h>
 #include <config.h>
-#include <core_client_socket.h>
+#include <core_bus.h>
 #include <editor.h>
 #include <plugins.h>
 #include <slave_ids.h>
 #include "slave_editor.h"
 
-SlaveEditor::SlaveEditor(Config &config, Plugins &plugins, CoreClientSocket &socket, QWidget &parent)
+SlaveEditor::SlaveEditor(Config &config, Plugins &plugins, Corebus &corebus, QWidget &parent)
     : QWidget{ &parent }
     , _config{ config }
     , _plugins{ plugins }
-    , _socket{ socket }
+    , _corebus{ corebus }
     , _apply{ tr("Apply"), this }
     , _cancel{ tr("Cancel"), this }
     , _default{ tr("Default"), this }
@@ -51,7 +51,7 @@ void SlaveEditor::select(QUuid const &id)
     _editor->setId(_id);
     _editor->setConfig(_config);
     _editor->setPlugins(_plugins);
-    _editor->setSocket(_socket);
+    _editor->setCorebus(_corebus);
     _editor->setId(id);
     _editorLayout.addWidget(_editor);
     _editor->init();
@@ -82,7 +82,7 @@ void SlaveEditor::apply()
         return;
     }
 
-    _socket.send(QStringLiteral("UPDATE"), QStringLiteral("core"), {
+    _corebus.send(QStringLiteral("UPDATE"), QStringLiteral("core"), {
         { QStringLiteral("slave"), _id },
         { QStringLiteral("params"), _editor->params() },
         { QStringLiteral("events"), SlaveIds{ _editor->events() }.toArray() },

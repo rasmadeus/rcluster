@@ -6,7 +6,7 @@
 #include "plugin_global.h"
 
 class Config;
-class CoreClientSocket;
+class Corebus;
 class Plugins;
 
 class PLUGIN_SHARED_EXPORT Editor : public QWidget
@@ -30,13 +30,13 @@ public:
 public:
     void setConfig(Config const &config) { _config = &config; }
     void setPlugins(Plugins const &plugins) { _plugins = &plugins; }
-    void setSocket(CoreClientSocket &socket) { _socket = &socket; }
+    void setCorebus(Corebus &corebus) { _corebus = &corebus; }
     void setId(QUuid const &id) { _id = id; }
 
 protected:
     Config const *_config{ nullptr };
     Plugins const *_plugins{ nullptr };
-    CoreClientSocket *_socket{ nullptr };
+    Corebus *_corebus{ nullptr };
     QUuid _id;
 };
 

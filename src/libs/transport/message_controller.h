@@ -41,7 +41,7 @@ private:
     };
 
 private:
-    QTcpSocket &_socket;
+    QTcpSocket &_corebus;
     QDataStream _in;
     State _state{ State::WaitMessageSize };
     int _msgSize{ 0 };

@@ -9,14 +9,14 @@
 #include "config_view_menu.h"
 
 class Plugins;
-class CoreClientSocket;
+class Corebus;
 
 class ConfigView : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit ConfigView(Config &config, Plugins &plugins, CoreClientSocket &socket, QWidget &parent);
+    explicit ConfigView(Config &config, Plugins &plugins, Corebus &corebus, QWidget &parent);
 
 signals:
     void selected(QUuid const &id);
@@ -34,7 +34,7 @@ private:
     ConfigViewMenu _menuController;
     Config &_config;
     Plugins &_plugins;
-    CoreClientSocket &_socket;
+    Corebus &_corebus;
 };
 
 #endif // CONFIG_VIEW_H

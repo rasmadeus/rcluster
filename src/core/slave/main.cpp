@@ -1,7 +1,7 @@
 #include <QApplication>
 #include <config.h>
 #include <config_watcher.h>
-#include <core_client_socket.h>
+#include <core_bus.h>
 #include <dump.h>
 #include <log.h>
 #include <message.h>
@@ -15,8 +15,8 @@ int main(int argc, char *argv[])
     QApplication app{ argc, argv };
 
     auto const args = Args::make(QCoreApplication::arguments());
-    rcluster::initLogging(args.type, args.id);
-    rcluster::catchCrash();
+    rcluster::initLogging(args.type.toLower(), args.id);
+    CrashHandler::handle(args.type.toLower(), args.id);
 
     Translator{ args.type };
 
@@ -27,17 +27,17 @@ int main(int argc, char *argv[])
 
     Config config;
     ConfigWatcher configWatcher{ config };
-    CoreClientSocket socket{ args.id };
+    Corebus socket{ args.id };
 
     auto controller = plugin->controller();
     Q_ASSERT(controller != nullptr);
 
     controller->setConfig(config);
     controller->setPlugin(*plugin);
-    controller->setSocket(socket);
+    controller->setCorebus(socket);
     controller->init();
 
-    QObject::connect(&socket, &CoreClientSocket::ready, [&controller, &configWatcher](auto const &message){
+    QObject::connect(&socket, &Corebus::ready, [&controller, &configWatcher](auto const &message){
         if (!configWatcher.route(message))
             controller->onMessage(message);
     });

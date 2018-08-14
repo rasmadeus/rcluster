@@ -19,14 +19,14 @@ NtpClient::NtpClient(QHostAddress const &bindAddress, quint16 bindPort, QObject 
 
 void NtpClient::init(QHostAddress const &bindAddress, quint16 bindPort)
 {
-    _socket = new QUdpSocket{ this };
-    _socket->bind(bindAddress, bindPort);
-    connect(_socket, &QUdpSocket::readyRead, this, &NtpClient::readPendingDatagrams);
+    _corebus = new QUdpSocket{ this };
+    _corebus->bind(bindAddress, bindPort);
+    connect(_corebus, &QUdpSocket::readyRead, this, &NtpClient::readPendingDatagrams);
 }
 
 bool NtpClient::sendRequest(QHostAddress const &address, quint16 port)
 {
-    if(_socket->state() != QAbstractSocket::BoundState)
+    if(_corebus->state() != QAbstractSocket::BoundState)
         return false;
 
     NtpPacket packet;
@@ -35,23 +35,23 @@ bool NtpClient::sendRequest(QHostAddress const &address, quint16 port)
     packet.transmitTimestamp = NtpTimestamp::fromDateTime(QDateTime::currentDateTimeUtc());
 
     auto const size = sizeof(packet);
-    auto const sent = _socket->writeDatagram(reinterpret_cast<char const *>(&packet), size, address, port);
+    auto const sent = _corebus->writeDatagram(reinterpret_cast<char const *>(&packet), size, address, port);
     if (sent != size)
-        qWarning() << "Socket last error:" << _socket->errorString();
+        qWarning() << "Socket last error:" << _corebus->errorString();
 
     return size == sent;
 }
 
 void NtpClient::readPendingDatagrams()
 {
-    while (_socket->hasPendingDatagrams())
+    while (_corebus->hasPendingDatagrams())
     {
         NtpFullPacket packet;
 
         QHostAddress address;
         quint16 port{ 0 };
 
-        if(_socket->readDatagram(reinterpret_cast<char*>(&packet), sizeof(packet), &address, &port) < sizeof(NtpPacket))
+        if(_corebus->readDatagram(reinterpret_cast<char*>(&packet), sizeof(packet), &address, &port) < sizeof(NtpPacket))
             continue;
 
         auto const now = QDateTime::currentDateTime();

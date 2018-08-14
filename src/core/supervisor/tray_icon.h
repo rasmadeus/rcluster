@@ -10,7 +10,7 @@ class TrayIcon : public QSystemTrayIcon
     Q_OBJECT
 
 public:
-    explicit TrayIcon(CoreClientSocket &socket, QObject *parent = nullptr);
+    explicit TrayIcon(Corebus &corebus, QObject *parent = nullptr);
 
 private:
     QMenu _menu;

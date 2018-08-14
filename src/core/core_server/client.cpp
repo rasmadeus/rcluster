@@ -5,7 +5,7 @@
 
 Client::Client(QTcpSocket &socket, QObject *parent)
     : QObject{ parent }
-    , _socket{ socket }
+    , _corebus{ socket }
     , _messageController{ socket }
 {
     connect(&_messageController, &MessageController::ready, this, &Client::ready);
@@ -15,9 +15,9 @@ Client::Client(QTcpSocket &socket, QObject *parent)
 
 Client::~Client()
 {
-    if (_socket.state() != QAbstractSocket::UnconnectedState)
+    if (_corebus.state() != QAbstractSocket::UnconnectedState)
     {
-        _socket.flush();
-        _socket.waitForBytesWritten();
+        _corebus.flush();
+        _corebus.waitForBytesWritten();
     }
 }

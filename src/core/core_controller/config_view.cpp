@@ -4,21 +4,21 @@
 #include <QUuid>
 #include <QTimer>
 #include <config.h>
-#include <core_client_socket.h>
+#include <core_bus.h>
 #include <globals.h>
 #include <plugins.h>
 #include "config_view.h"
 #include "name_dialog.h"
 
-ConfigView::ConfigView(Config &config, Plugins &plugins, CoreClientSocket &socket, QWidget &parent)
+ConfigView::ConfigView(Config &config, Plugins &plugins, Corebus &corebus, QWidget &parent)
     : QWidget{ &parent }
     , _view{ this }
     , _model{ config, plugins, *this }
     , _sortModel{ *this }
-    , _menuController{ config, plugins, socket, *this }
+    , _menuController{ config, plugins, corebus, *this }
     , _config{ config }
     , _plugins{ plugins }
-    , _socket{ socket }
+    , _corebus{ corebus }
 {
     _sortModel.setSourceModel(&_model);
 

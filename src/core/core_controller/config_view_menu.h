@@ -6,14 +6,14 @@
 
 class Config;
 class Plugins;
-class CoreClientSocket;
+class Corebus;
 
 class ConfigViewMenu : public QObject
 {
     Q_OBJECT
 
 public:
-    explicit ConfigViewMenu(Config &config, Plugins &plugins, CoreClientSocket &socket, QWidget &parent);
+    explicit ConfigViewMenu(Config &config, Plugins &plugins, Corebus &corebus, QWidget &parent);
 
 public:
     void watch(QMenu &menu, QUuid const &id);
@@ -29,7 +29,7 @@ private:
     QWidget &_parent;
     Config &_config;
     Plugins &_plugins;
-    CoreClientSocket &_socket;
+    Corebus &_corebus;
 };
 
 #endif // CONFIG_VIEW_MENU_H

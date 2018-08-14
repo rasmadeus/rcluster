@@ -8,25 +8,25 @@ class QLabel;
 class QLineEdit;
 class QPushButton;
 class QSpinBox;
-class CoreClientSocket;
+class Corebus;
 
 class TRANSPORT_SHARED_EXPORT CoreConnectWidget : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit CoreConnectWidget(CoreClientSocket &socket, QWidget *parent = nullptr);
+    explicit CoreConnectWidget(Corebus &corebus, QWidget *parent = nullptr);
 
 private:
     void connectToHost();
     void disconnectFromHost();
     void storeSettings();
     void restoreSettings();
-    void onSocketConnected();
-    void onSocketDisconnected();
+    void onCorebusConnected();
+    void onCorebusDisconnected();
 
 private:
-    CoreClientSocket &_socket;
+    Corebus &_corebus;
     QLabel *_statusLabel;
     QLineEdit *_hostLineEdit;
     QSpinBox *_portSpinBox;

@@ -5,17 +5,17 @@
 
 MessageController::MessageController(QTcpSocket &socket, QObject *parent)
     : QObject{ parent }
-    , _socket{ socket }
-    , _in{ &_socket }
-    , _out{ &_socket }
+    , _corebus{ socket }
+    , _in{ &_corebus }
+    , _out{ &_corebus }
 {
-    connect(&_socket, &QTcpSocket::readyRead, this, &MessageController::receive);
-    connect(&_socket, &QTcpSocket::disconnected, this, &MessageController::reset);
+    connect(&_corebus, &QTcpSocket::readyRead, this, &MessageController::receive);
+    connect(&_corebus, &QTcpSocket::disconnected, this, &MessageController::reset);
 }
 
 void MessageController::send(Message const &message)
 {
-    if (_socket.state() != QAbstractSocket::ConnectedState)
+    if (_corebus.state() != QAbstractSocket::ConnectedState)
     {
         qCritical() << "Failed to send message due to unconnected socket.";
         return;
@@ -39,7 +39,7 @@ void MessageController::receive()
 
 void MessageController::receiveMessageSize()
 {
-    if (_socket.bytesAvailable() >= static_cast<qint64>(sizeof(decltype(_msgSize))))
+    if (_corebus.bytesAvailable() >= static_cast<qint64>(sizeof(decltype(_msgSize))))
     {
         readMessageSize();
         continueProcessing();
@@ -48,7 +48,7 @@ void MessageController::receiveMessageSize()
 
 void MessageController::receiveMessageBody()
 {
-    if (_socket.bytesAvailable() >= _msgSize)
+    if (_corebus.bytesAvailable() >= _msgSize)
     {
         readMessageBody();
         reset();
@@ -81,6 +81,6 @@ void MessageController::reset()
 
 void MessageController::continueProcessing()
 {
-    if (_socket.bytesAvailable() > 0)
+    if (_corebus.bytesAvailable() > 0)
         receive();
 }

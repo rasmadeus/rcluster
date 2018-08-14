@@ -2,21 +2,69 @@
 #define DUMP_H
 
 #include <fstream>
-#include <signal.h>
+#include <csignal>
 #include <boost/filesystem.hpp>
 #include <boost/stacktrace.hpp>
 #include <QtGlobal>
 #include <QDebug>
 #include "globals.h"
 
-namespace rcluster
+class CrashHandler
 {
-    inline void logDump()
+public:
+    static void handle(QString const &type, QUuid const &id = {})
     {
-        auto const pathToDump = rcluster::dumpPath().toStdString();
-        if (boost::filesystem::exists(pathToDump))
+        _crashHandler.setPath(type, id);
+        _crashHandler.start();
+    }
+
+    CrashHandler(CrashHandler const &other) = delete;
+    CrashHandler &operator = (CrashHandler const &other) = delete;
+
+public:
+    void start()
+    {
+        logPrevDump();
+        createLogDir();
+        std::signal(SIGSEGV, &CrashHandler::signalHandler);
+        std::signal(SIGABRT, &CrashHandler::signalHandler);
+    }
+
+    void setPath(QString const &type, QUuid const &id)
+    {
+        _pathToDump = rcluster::dumpPath(type, id);
+    }
+
+    QString const &path() const
+    {
+        return _pathToDump;
+    }
+
+private:
+    CrashHandler() = default;
+
+    static void signalHandler(int signum)
+    {
+        std::signal(signum, SIG_DFL);
+        boost::stacktrace::safe_dump_to(_crashHandler.path().toStdString().c_str());
+        std::raise(SIGABRT);
+    }
+
+private:
+    void createLogDir()
+    {
+        auto const dumpsDir = rcluster::dumpsLocation().toStdString();
+        if (!boost::filesystem::exists(dumpsDir))
+            if (!boost::filesystem::create_directories(dumpsDir))
+                qWarning() << "Failed to create" << rcluster::dumpsLocation();
+    }
+
+    void logPrevDump()
+    {
+        if (boost::filesystem::exists(_pathToDump.toStdString()))
         {
-            std::ifstream ifs{ pathToDump };
+            qDebug() << "Found crash dump at" << _pathToDump;
+            std::ifstream ifs{ _pathToDump.toStdString() };
             auto const st = boost::stacktrace::stacktrace::from_dump(ifs);
             for(auto const &line : st.as_vector())
                 qDebug() << QString::fromStdString(line.source_file()) << ":" << line.source_line() << QString::fromStdString(line.name());
@@ -24,25 +72,11 @@ namespace rcluster
         }
     }
 
-    inline void signalHandler(int signum)
-    {
-        ::signal(signum, SIG_DFL);
-        qDebug() << "Signal" << signum << ". Created dump file with size" << boost::stacktrace::safe_dump_to(rcluster::dumpPath().toStdString().c_str());
-        ::raise(SIGABRT);
-    }
+private:
+    static CrashHandler _crashHandler;
+    QString _pathToDump;
+};
 
-    inline void catchCrash()
-    {
-        auto const dumpsDir = rcluster::dumpsLocation().toStdString();
-        if (!boost::filesystem::exists(dumpsDir))
-            if (!boost::filesystem::create_directories(dumpsDir))
-                qWarning() << "Failed to create" << rcluster::dumpsLocation();
-
-        logDump();
-
-        ::signal(SIGSEGV, &signalHandler);
-        ::signal(SIGABRT, &signalHandler);
-    }
-}
+CrashHandler CrashHandler::_crashHandler;
 
 #endif //DUMP_H

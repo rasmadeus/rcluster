@@ -10,7 +10,7 @@ class SlaveParamsView : public QWidget
     Q_OBJECT
 
 public:
-    explicit SlaveParamsView(Config &config, Plugins &plugins, CoreClientSocket &socket, QWidget &parent);
+    explicit SlaveParamsView(Config &config, Plugins &plugins, Corebus &corebus, QWidget &parent);
     
 public:
     void select(QUuid const &id);

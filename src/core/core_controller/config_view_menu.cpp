@@ -1,15 +1,15 @@
 #include <QMenu>
 #include <config.h>
-#include <core_client_socket.h>
+#include <core_bus.h>
 #include <plugins.h>
 #include "config_view_menu.h"
 
-ConfigViewMenu::ConfigViewMenu(Config &config, Plugins &plugins, CoreClientSocket &socket, QWidget &parent)
+ConfigViewMenu::ConfigViewMenu(Config &config, Plugins &plugins, Corebus &corebus, QWidget &parent)
     : QObject{ &parent }
     , _parent{ parent }
     , _config{ config }
     , _plugins{ plugins }
-    , _socket{ socket }
+    , _corebus{ corebus }
 {
 }
 
@@ -50,14 +50,14 @@ void ConfigViewMenu::appendSlave(QUuid const &parent, QString const &type)
     slave.setName(name);
     slave.update(plugin->defaultParams());
 
-    _socket.send(QStringLiteral("APPEND"), QStringLiteral("core"), {
+    _corebus.send(QStringLiteral("APPEND"), QStringLiteral("core"), {
         { QStringLiteral("slave"), slave.toJson() },
     });
 }
 
 void ConfigViewMenu::removeSlave(QUuid const &id)
 {
-    _socket.send(QStringLiteral("REMOVE"), QStringLiteral("core"), {
+    _corebus.send(QStringLiteral("REMOVE"), QStringLiteral("core"), {
         { QStringLiteral("slave"), id }
     });
 }
@@ -67,7 +67,7 @@ void ConfigViewMenu::renameSlave(QUuid const &id)
     auto const name = NameDialog::getName(_config.slave(id).name(), _parent);
     if (!name.isEmpty())
     {
-        _socket.send(QStringLiteral("RENAME"), QStringLiteral("core"), {
+        _corebus.send(QStringLiteral("RENAME"), QStringLiteral("core"), {
             { QStringLiteral("slave"), id }, { QStringLiteral("name"), name },
         });
     }
@@ -75,14 +75,14 @@ void ConfigViewMenu::renameSlave(QUuid const &id)
 
 void ConfigViewMenu::enableSlave(QUuid const &id)
 {
-    _socket.send(QStringLiteral("ENABLE"), QStringLiteral("core"), {
+    _corebus.send(QStringLiteral("ENABLE"), QStringLiteral("core"), {
         { QStringLiteral("slave"), id },
     });
 }
 
 void ConfigViewMenu::disableSlave(QUuid const &id)
 {
-    _socket.send(QStringLiteral("DISABLE"), QStringLiteral("core"), {
+    _corebus.send(QStringLiteral("DISABLE"), QStringLiteral("core"), {
         { QStringLiteral("slave"), id },
     });
 }

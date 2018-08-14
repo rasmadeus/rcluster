@@ -1,7 +1,7 @@
 #include <QFormLayout>
 #include <globals.h>
 #include <config.h>
-#include <core_client_socket.h>
+#include <core_bus.h>
 #include <message.h>
 #include "web_camera_editor.h"
 
@@ -19,7 +19,7 @@ WebCameraEditor::WebCameraEditor(QWidget &parent)
 
 void WebCameraEditor::init()
 {
-    connect(_socket, &CoreClientSocket::ready, this, &WebCameraEditor::onMessage);
+    connect(_corebus, &Corebus::ready, this, &WebCameraEditor::onMessage);
 }
 
 QVariantHash WebCameraEditor::params() const
@@ -33,7 +33,7 @@ void WebCameraEditor::setParams(QVariantHash const &params)
 {
     Q_UNUSED(params)
     auto const id = _config->parent(_id, QStringLiteral("COMPUTER"));
-    _socket->send(QStringLiteral("GET_CAMERAS"), id.toString());
+    _corebus->send(QStringLiteral("GET_CAMERAS"), id.toString());
 }
 
 void WebCameraEditor::onMessage(Message const &message)

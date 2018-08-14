@@ -10,7 +10,7 @@
 class Config;
 class Editor;
 class Plugins;
-class CoreClientSocket;
+class Corebus;
 
 class PLUGIN_SHARED_EXPORT Plugin
 {

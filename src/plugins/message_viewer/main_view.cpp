@@ -1,7 +1,7 @@
 #include <QApplication>
 #include <QLayout>
 #include <QSettings>
-#include <core_client_socket.h>
+#include <core_bus.h>
 #include <message.h>
 #include "main_view.h"
 

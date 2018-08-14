@@ -6,7 +6,7 @@
 #include <QUuid>
 
 class Config;
-class CoreClientSocket;
+class Corebus;
 class Editor;
 class Plugins;
 
@@ -15,7 +15,7 @@ class SlaveEditor : public QWidget
     Q_OBJECT
 
 public:
-    explicit SlaveEditor(Config &config, Plugins &plugins, CoreClientSocket &socket, QWidget &parent);
+    explicit SlaveEditor(Config &config, Plugins &plugins, Corebus &corebus, QWidget &parent);
 
 public:
     void select(QUuid const &id);
@@ -30,7 +30,7 @@ private:
     QUuid _id;
     Config &_config;
     Plugins &_plugins;
-    CoreClientSocket &_socket;
+    Corebus &_corebus;
 
     Editor *_editor{ nullptr };
     QHBoxLayout _editorLayout;

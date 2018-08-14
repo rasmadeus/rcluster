@@ -2,16 +2,16 @@
 #include <QMenuBar>
 #include <QSettings>
 #include <QStatusBar>
-#include <core_client_socket.h>
+#include <core_bus.h>
 #include "main_view.h"
 
-MainViewController::MainViewController(Config &config, Plugins &plugins, CoreClientSocket &socket)
+MainViewController::MainViewController(Config &config, Plugins &plugins, Corebus &corebus)
     : QMainWindow{}
-    , _socket{ socket }
-    , _coreActions{ socket, *this }
+    , _corebus{ corebus }
+    , _coreActions{ corebus, *this }
     , _splitter{ this }
-    , _configView{ config, plugins, socket, *this }
-    , _slaveParamsView{ config, plugins, socket, *this }
+    , _configView{ config, plugins, corebus, *this }
+    , _slaveParamsView{ config, plugins, corebus, *this }
 {
     setWindowIcon(QIcon{ QStringLiteral(":/res/icon.ico") });
     setWindowTitle(tr("RCluster Core Controller"));
@@ -34,8 +34,8 @@ MainViewController::MainViewController(Config &config, Plugins &plugins, CoreCli
     setCentralWidget(&_splitter);
 
     connect(qApp, &QApplication::aboutToQuit, this, &MainViewController::storeSettings);
-    connect(&socket, &CoreClientSocket::connected, this, &MainViewController::onCoreConnected);
-    connect(&socket, &CoreClientSocket::disconnected, this, &MainViewController::onCoreDisconnected);
+    connect(&corebus, &Corebus::connected, this, &MainViewController::onCoreConnected);
+    connect(&corebus, &Corebus::disconnected, this, &MainViewController::onCoreDisconnected);
     connect(&_configView, &ConfigView::selected, &_slaveParamsView, &SlaveParamsView::select);
 
     resize(800, 600);

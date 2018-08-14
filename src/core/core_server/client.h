@@ -16,7 +16,7 @@ public:
     ~Client() override;
 
 public:
-    bool isEqual(QTcpSocket &socket) const { return &_socket == &socket; }
+    bool isEqual(QTcpSocket &socket) const { return &_corebus == &socket; }
     void send(Message const &message) { _messageController.send(message); }
 
     void setId(QUuid const &id) { _id = id; }
@@ -28,7 +28,7 @@ signals:
     void disconnected();
 
 private:
-    QTcpSocket &_socket;
+    QTcpSocket &_corebus;
     MessageController _messageController;
     QUuid _id;
 };

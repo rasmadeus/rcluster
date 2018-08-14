@@ -8,12 +8,12 @@
 #include <QFormLayout>
 #include <QSettings>
 #include <globals.h>
-#include "core_client_socket.h"
+#include "core_bus.h"
 #include "core_connect_widget.h"
 
-CoreConnectWidget::CoreConnectWidget(CoreClientSocket &socket, QWidget *parent)
+CoreConnectWidget::CoreConnectWidget(Corebus &corebus, QWidget *parent)
     : QDialog{ parent }
-    , _socket{ socket }
+    , _corebus{ corebus }
 {
     setWindowTitle(tr("Connect to core"));
 
@@ -51,8 +51,8 @@ CoreConnectWidget::CoreConnectWidget(CoreClientSocket &socket, QWidget *parent)
 
     connect(_connectButton, &QPushButton::clicked, this, &CoreConnectWidget::connectToHost);
     connect(_disconnectButton, &QPushButton::clicked, this, &CoreConnectWidget::disconnectFromHost);
-    connect(&_socket, &CoreClientSocket::connected, this, &CoreConnectWidget::onSocketConnected);
-    connect(&_socket, &CoreClientSocket::disconnected, this, &CoreConnectWidget::onSocketDisconnected);
+    connect(&_corebus, &Corebus::connected, this, &CoreConnectWidget::onCorebusConnected);
+    connect(&_corebus, &Corebus::disconnected, this, &CoreConnectWidget::onCorebusDisconnected);
 
     resize(250, 120);
 
@@ -62,12 +62,12 @@ CoreConnectWidget::CoreConnectWidget(CoreClientSocket &socket, QWidget *parent)
 
 void CoreConnectWidget::connectToHost()
 {
-    _socket.connectToHost(_hostLineEdit->text(), static_cast<quint16>(_portSpinBox->value()));
+    _corebus.connectToHost(_hostLineEdit->text(), static_cast<quint16>(_portSpinBox->value()));
 }
 
 void CoreConnectWidget::disconnectFromHost()
 {
-    _socket.disconnectFromHost();
+    _corebus.disconnectFromHost();
 }
 
 void CoreConnectWidget::storeSettings()
@@ -88,7 +88,7 @@ void CoreConnectWidget::restoreSettings()
     settings.endGroup();
 }
 
-void CoreConnectWidget::onSocketConnected()
+void CoreConnectWidget::onCorebusConnected()
 {
     _statusLabel->setText(tr("connected."));
     _connectButton->setEnabled(false);
@@ -96,7 +96,7 @@ void CoreConnectWidget::onSocketConnected()
     storeSettings();
 }
 
-void CoreConnectWidget::onSocketDisconnected()
+void CoreConnectWidget::onCorebusDisconnected()
 {
     _statusLabel->setText(tr("disconnected."));
     _connectButton->setEnabled(true);

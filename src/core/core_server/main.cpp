@@ -14,7 +14,7 @@ int main(int argc, char *argv[])
     QApplication app{ argc, argv };
 
     rcluster::initLogging(QStringLiteral("core_server"));
-    rcluster::catchCrash();
+    CrashHandler::handle(QStringLiteral("core_server"));
     Translator{};
     qRegisterMetaType<Message>("Message");
 

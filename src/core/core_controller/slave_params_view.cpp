@@ -5,12 +5,12 @@
 #include <plugins.h>
 #include "slave_params_view.h"
 
-SlaveParamsView::SlaveParamsView(Config &config, Plugins &plugins, CoreClientSocket &socket, QWidget &parent)
+SlaveParamsView::SlaveParamsView(Config &config, Plugins &plugins, Corebus &corebus, QWidget &parent)
     : QWidget{ &parent }
     , _config{ config }
     , _plugins{ plugins }
     , _stackedWidget{ this }
-    , _slaveEditor{ config, plugins, socket, *this }
+    , _slaveEditor{ config, plugins, corebus, *this }
     , _emptySlaveEditor{ *this }
 {
     _stackedWidget.addWidget(&_slaveEditor);

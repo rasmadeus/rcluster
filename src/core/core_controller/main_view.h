@@ -7,7 +7,7 @@
 #include "config_view.h"
 #include "slave_params_view.h"
 
-class CoreClientSocket;
+class Corebus;
 class Plugins;
 
 class MainViewController : public QMainWindow
@@ -15,7 +15,7 @@ class MainViewController : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit MainViewController(Config &config, Plugins &plugins, CoreClientSocket &socket);
+    explicit MainViewController(Config &config, Plugins &plugins, Corebus &corebus);
 
 private:
     void storeSettings();
@@ -24,7 +24,7 @@ private:
     void onCoreDisconnected();
 
 private:
-    CoreClientSocket &_socket;
+    Corebus &_corebus;
     CoreActions _coreActions;
     QSplitter _splitter;
     ConfigView _configView;

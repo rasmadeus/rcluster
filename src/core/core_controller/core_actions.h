@@ -4,20 +4,20 @@
 #include <actions.h>
 #include <core_connect_widget.h>
 
-class CoreClientSocket;
+class Corebus;
 
 class CoreActions : public Actions
 {
     Q_OBJECT
 
 public:
-    explicit CoreActions(CoreClientSocket &socket, QMainWindow &parent);
+    explicit CoreActions(Corebus &corebus, QMainWindow &parent);
 
 private:
     void exitCoreAndSlaves();
 
 private:
-    CoreClientSocket &_socket;
+    Corebus &_corebus;
     CoreConnectWidget _coreConnectWidget;
 };
 

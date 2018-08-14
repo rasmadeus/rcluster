@@ -3,7 +3,7 @@
 #include <QTimerEvent>
 #include "controller.h"
 #include "config.h"
-#include "core_client_socket.h"
+#include "core_bus.h"
 #include "ntp_reply.h"
 
 Controller::Controller()
@@ -36,12 +36,12 @@ void Controller::onReply(QHostAddress const &address, quint16 port, NtpReply con
     if (correctLocalClock(offsetMs))
     {
         qDebug() << "System clock corrected with:" << offsetMs << "ms.";
-        _socket->send(QStringLiteral("SYSTEM_CLOCK_CORRECTED"), QStringLiteral("core"), { { QStringLiteral("offset"), offsetMs } });
+        _corebus->send(QStringLiteral("SYSTEM_CLOCK_CORRECTED"), QStringLiteral("core"), { { QStringLiteral("offset"), offsetMs } });
     }
     else
     {
         qDebug() << "Failed to corrected system clock.";
-        _socket->send(QStringLiteral("FAILED_CORRECT_SYSTEM_CLOCK"), QStringLiteral("core"), { { QStringLiteral("offset"), offsetMs } });
+        _corebus->send(QStringLiteral("FAILED_CORRECT_SYSTEM_CLOCK"), QStringLiteral("core"), { { QStringLiteral("offset"), offsetMs } });
     }
 }
 
@@ -92,7 +92,7 @@ void Controller::restart()
     if (_timerId != -1)
         killTimer(_timerId);
 
-    auto const slave = _config->slave(_socket->id());
+    auto const slave = _config->slave(_corebus->id());
     _host = QHostInfo::fromName(slave.param(QStringLiteral("host")).toString()).addresses().value(0);
     _port = static_cast<quint16>(slave.param(QStringLiteral("port")).toInt());
     _syncTime = std::chrono::seconds(slave.param(QStringLiteral("sync_time_sec")).toInt());
@@ -103,6 +103,6 @@ void Controller::restart()
 
 void Controller::tryRestart(QUuid const &id)
 {
-    if (id == _socket->id())
+    if (id == _corebus->id())
         restart();
 }

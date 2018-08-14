@@ -1,5 +1,5 @@
-#ifndef CORE_CLIENT_SOCKET_H
-#define CORE_CLIENT_SOCKET_H
+#ifndef CORE_BUS_H
+#define CORE_BUS_H
 
 #include <QTcpSocket>
 #include <QUuid>
@@ -9,13 +9,13 @@
 
 class QTcpSocket;
 
-class TRANSPORT_SHARED_EXPORT CoreClientSocket : public QObject
+class TRANSPORT_SHARED_EXPORT Corebus : public QObject
 {
     Q_OBJECT
 
 public:
-    explicit CoreClientSocket(QUuid const &id, QObject *parent = nullptr);
-    ~CoreClientSocket() override;
+    explicit Corebus(QUuid const &id, QObject *parent = nullptr);
+    ~Corebus() override;
 
 public:
     QUuid const &id() const { return _id; }
@@ -23,7 +23,7 @@ public:
     void connectToHost(QString const &host, quint16 port = rcluster::corePort());
     void disconnectFromHost();
 
-    QAbstractSocket::SocketState state() const { return _socket.state(); }
+    QAbstractSocket::SocketState state() const { return _corebus.state(); }
     QString const &host() const { return _host; }
     quint16 port() const { return _port; }
 
@@ -45,7 +45,7 @@ private:
 
 private:
     QUuid _id;
-    QTcpSocket _socket;
+    QTcpSocket _corebus;
     MessageController _messageController;
     QString _host;
     quint16 _port{ rcluster::corePort() };
@@ -53,4 +53,4 @@ private:
     bool _autoConnect{ true };
 };
 
-#endif // CORE_CLIENT_SOCKET_H
+#endif // CORE_BUS_H

@@ -5,7 +5,7 @@
 #include "plugin_global.h"
 
 class Config;
-class CoreClientSocket;
+class Corebus;
 class Message;
 class Plugin;
 
@@ -21,12 +21,12 @@ public:
 public:
     void setConfig(Config const &config) { _config = &config; }
     void setPlugin(Plugin const &plugin) { _plugin = &plugin; }
-    void setSocket(CoreClientSocket &socket) { _socket = &socket; }
+    void setCorebus(Corebus &corebus) { _corebus = &corebus; }
 
 protected:
     Config const *_config{ nullptr };
     Plugin const *_plugin{ nullptr };
-    CoreClientSocket *_socket{ nullptr };
+    Corebus *_corebus{ nullptr };
 };
 
 #endif // SLAVE_CONTROLLER_H
