@@ -2,7 +2,6 @@
 #include <QMetaType>
 #include <config.h>
 #include <config_watcher.h>
-#include <dump.h>
 #include <log.h>
 #include <core_bus.h>
 #include <message.h>
@@ -34,7 +33,7 @@ int main(int argc, char *argv[])
     Supervisors processes{ config, plugins };
 
     QObject::connect(&corebus, &Corebus::connected, [&processes, &corebus]{
-        processes.setCoreAddress(socket.host(), QString::number(corebus.port()));
+        processes.setCoreAddress(corebus.host(), QString::number(corebus.port()));
     });
 
     QObject::connect(&corebus, &Corebus::ready, [&configWatcher, &app](Message const &message){
@@ -42,7 +41,7 @@ int main(int argc, char *argv[])
             app.quit();
     });
 
-    TrayIcon trayIcon{ socket };
+    TrayIcon trayIcon{ corebus };
     trayIcon.show();
 
     return app.exec();
