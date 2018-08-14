@@ -4,8 +4,9 @@
 #include <string>
 #include <QUuid>
 #include <QString>
+#include "utils_global.h"
 
-class QStringHash
+class UTILS_SHARED_EXPORT QStringHash
 {
 public:
     std::size_t operator () (QString const &var) const
@@ -14,7 +15,7 @@ public:
     }
 };
 
-class QUuidHash
+class UTILS_SHARED_EXPORT QUuidHash
 {
 public:
     std::size_t operator () (QUuid const &var) const

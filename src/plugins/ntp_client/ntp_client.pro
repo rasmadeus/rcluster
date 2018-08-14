@@ -41,7 +41,6 @@ RESOURCES += \
 TRANSLATIONS += \
     ../../../translations/plugins/ntp_client_ru.ts \
 
-include($$(PRO_ROOT)/src/common/globals.pri)
 include($$(PRO_ROOT)/src/libs/config/config.pri)
 include($$(PRO_ROOT)/src/libs/plugin/plugin.pri)
 include($$(PRO_ROOT)/src/libs/transport/transport.pri)

@@ -1,5 +1,6 @@
 QT  += \
-    core
+    core \
+    svg
 
 TARGET = \
     utils
@@ -21,16 +22,21 @@ PRECOMPILED_HEADER = \
 HEADERS += \
     translator.h \
     utils_global.h \
-    crash_handler.h
+    crash_handler.h \
+    log.h \
+    globals.h \
+    qt_types_hash.h \
+    storable.h \
+    svg.h
     pch.h
 
 SOURCES += \
     translator.cpp \
-    crash_handler.cpp
+    crash_handler.cpp \
+    log.cpp
 
 DISTFILES += \
     utils.pri
 
 include($$(PRO_ROOT)/src/common/boost.pri)
-include($$(PRO_ROOT)/src/common/globals.pri)
 include($$(PRO_ROOT)/src/common/install_lib.pri)

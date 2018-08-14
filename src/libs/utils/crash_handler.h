@@ -2,6 +2,7 @@
 #define CRASH_HANDLER_H
 
 #include <QDir>
+#include <QUuid>
 #include <globals.h>
 #include "utils_global.h"
 

@@ -1,3 +1,6 @@
+QT += \
+    svg
+
 INCLUDEPATH += \
     $$PWD
 

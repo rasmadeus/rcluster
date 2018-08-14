@@ -34,7 +34,6 @@ RESOURCES += \
 TRANSLATIONS += \
     ../../../translations/plugins/computer_ru.ts \
 
-include($$(PRO_ROOT)/src/common/globals.pri)
 include($$(PRO_ROOT)/src/libs/config/config.pri)
 include($$(PRO_ROOT)/src/libs/plugin/plugin.pri)
 include($$(PRO_ROOT)/src/common/install_plugin.pri)

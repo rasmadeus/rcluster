@@ -16,8 +16,10 @@ int main(int argc, char *argv[])
 {
     QApplication app{ argc, argv };
 
-    rcluster::initLogging(QStringLiteral("core_controller"));
-    CrashHandler::handle(QStringLiteral("core_controller"));
+    Log log;
+    log.init(app.applicationName());
+
+    CrashHandler::handle(app.applicationName());
 
     Translator{ Translator::Type::AppAndPlugins };
     qRegisterMetaType<Message>("Message");

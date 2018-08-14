@@ -15,9 +15,11 @@ int main(int argc, char *argv[])
     QApplication app{ argc, argv };
 
     auto const args = Args::make(QCoreApplication::arguments());
-    rcluster::initLogging(args.type.toLower(), args.id);
-    CrashHandler::handle(args.type.toLower(), args.id);
 
+    Log log;
+    log.init(args.type.toLower(), args.id);
+
+    CrashHandler::handle(args.type.toLower(), args.id);
     Translator{ args.type };
 
     auto plugin = Plugins::load(args.type);

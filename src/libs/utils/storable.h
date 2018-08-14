@@ -2,8 +2,9 @@
 #define STORABLE_H
 
 #include <QJsonObject>
+#include "utils_global.h"
 
-class Storable
+class UTILS_SHARED_EXPORT Storable
 {
 public:
     virtual ~Storable() = default;

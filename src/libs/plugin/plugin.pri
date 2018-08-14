@@ -1,6 +1,3 @@
-QT += \
-    svg
-
 CONFIG += \
     plugin
 

@@ -1,6 +1,3 @@
-#ifndef LOG_H
-#define LOG_H
-
 #include <iostream>
 #include <unordered_map>
 #include <boost/log/core.hpp>
@@ -12,24 +9,13 @@
 #include <boost/log/sources/severity_logger.hpp>
 #include <boost/log/sources/record_ostream.hpp>
 #include <QtGlobal>
-#include "globals.h"
+#include <QDir>
+#include <globals.h>
+#include "log.h"
 
-namespace rcluster
+namespace
 {
-    inline void initBoostLog(QString const &type, QUuid const &id)
-    {
-        boost::log::add_file_log(
-            boost::log::keywords::file_name = rcluster::logPath(type, id).toStdString(),
-            boost::log::keywords::rotation_size = 10 * 1024 * 1024,
-            boost::log::keywords::time_based_rotation = boost::log::sinks::file::rotation_at_time_point(0, 0, 0),
-            boost::log::keywords::format = "[%TimeStamp%]: %Message%",
-            boost::log::keywords::open_mode = ( std::ios::out | std::ios::app)
-        );
-
-        boost::log::add_common_attributes();
-    }
-
-    inline void messageOutput(QtMsgType type, QMessageLogContext const &context, QString const &msg)
+    void handleQtLogging(QtMsgType type, QMessageLogContext const &context, QString const &msg)
     {
         Q_UNUSED(context)
         static boost::log::sources::severity_logger<boost::log::trivial::severity_level> logger;
@@ -47,12 +33,30 @@ namespace rcluster
         std::cout << message << "\n";
         BOOST_LOG_SEV(logger, it->second) << message;
     }
-
-    inline void initLogging(QString const &type, QUuid const &id = {})
-    {
-        initBoostLog(type, id);
-        qInstallMessageHandler(messageOutput);
-    }
 }
 
-#endif //LOG_H
+QString Log::path(QString const &type, QUuid const &id)
+{
+    return rcluster::logsLocation() + QDir::separator() + type + id.toString() + QStringLiteral("_%N.log");
+}
+
+void Log::init(QString const &type, QUuid const &id)
+{
+    initBoostLogging(type, id);
+    qInstallMessageHandler(::handleQtLogging);
+}
+
+void Log::initBoostLogging(QString const &type, QUuid const &id)
+{
+    boost::log::add_file_log(
+        boost::log::keywords::file_name = path(type, id).toStdString(),
+        boost::log::keywords::rotation_size = 10 * 1024 * 1024,
+        boost::log::keywords::time_based_rotation = boost::log::sinks::file::rotation_at_time_point(0, 0, 0),
+        boost::log::keywords::format = "[%TimeStamp%]: %Message%",
+        boost::log::keywords::open_mode = (std::ios::out | std::ios::app)
+    );
+
+    boost::log::add_common_attributes();
+}
+
+

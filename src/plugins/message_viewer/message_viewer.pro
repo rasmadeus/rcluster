@@ -33,7 +33,6 @@ RESOURCES += \
 TRANSLATIONS += \
     ../../../translations/plugins/message_viewer_ru.ts \
 
-include($$(PRO_ROOT)/src/common/globals.pri)
 include($$(PRO_ROOT)/src/libs/plugin/plugin.pri)
 include($$(PRO_ROOT)/src/libs/widgets/widgets.pri)
 include($$(PRO_ROOT)/src/common/install_plugin.pri)
