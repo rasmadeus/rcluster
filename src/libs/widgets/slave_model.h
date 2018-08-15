@@ -43,13 +43,14 @@ signals:
 protected:
     SlaveItem &item(QModelIndex const &index) const;
     Slave slave(QModelIndex const &index) const;
+
     void appendChildren(QUuid const &id, SlaveItem &item);
-
     void reloadSlaves();
-
     void appendSlave(QUuid const &slave);
     void removeSlave(QUuid const &slave);
     void updateSlave(QUuid const &slave);
+
+    QVariant dataBackground(QModelIndex const &index) const;
 
 protected:
     Config const &_config;

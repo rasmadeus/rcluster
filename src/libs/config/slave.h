@@ -1,6 +1,7 @@
 #ifndef SLAVE_H
 #define SLAVE_H
 
+#include <QProcess>
 #include <QVariantHash>
 #include <storable.h>
 #include <slave_ids.h>
@@ -39,6 +40,9 @@ public:
     bool isListener(QUuid const &id) const { return _listeners.contains(id); }
     SlaveIds const &listeners() const { return _listeners; }
 
+    QProcess::ProcessState processState() const { return _processState; }
+    void setProcessState(QProcess::ProcessState state) { _processState = state; }
+
 private:
     QUuid _parent;
     QString _type{ "ROOT" };
@@ -47,6 +51,7 @@ private:
     bool _enabled{ true };
     QVariantHash _params;
     SlaveIds _listeners;
+    QProcess::ProcessState _processState{ QProcess::NotRunning };
 };
 
 #endif // SLAVE_H

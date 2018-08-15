@@ -1,3 +1,4 @@
+#include <unordered_map>
 #include <QDebug>
 #include "config.h"
 #include <plugins.h>
@@ -17,6 +18,7 @@ SlaveModel::SlaveModel(Config const &config, Plugins const &plugins, QObject &pa
     connect(&_config, &Config::enabled, this, &SlaveModel::updateSlave);
     connect(&_config, &Config::disabled, this, &SlaveModel::updateSlave);
     connect(&_config, &Config::updated, this, &SlaveModel::updateSlave);
+    connect(&_config, &Config::processStateChanged, this, &SlaveModel::updateSlave);
 }
 
 Qt::ItemFlags SlaveModel::flags(QModelIndex const &index) const
@@ -82,6 +84,7 @@ QVariant SlaveModel::data(QModelIndex const &index, int role) const
         case Qt::ToolTipRole:
         case Qt::DisplayRole: return slave(index).name();
         case Qt::DecorationRole: return _plugins.plugin(slave(index).type())->pixmap();
+        case Qt::BackgroundRole: return dataBackground(index);
         case RoleItemId: return item(index).id();
         case RoleItemType: return _config.slave(item(index).id()).type();
         default: return {};
@@ -153,4 +156,21 @@ void SlaveModel::updateSlave(QUuid const &slave)
     auto const indexes = match(index(0, ColumnCaption), SlaveModel::RoleItemId, slave, 1, Qt::MatchRecursive);
     Q_ASSERT(!indexes.isEmpty());
     emit dataChanged(indexes.first(), indexes.first());
+}
+
+QVariant SlaveModel::dataBackground(QModelIndex const &index) const
+{
+    auto const slave = this->slave(index);
+    if (!_plugins.plugin(slave.type())->hasProcess() || slave.disabled())
+        return {};
+
+    switch(slave.processState())
+    {
+        case QProcess::ProcessState::NotRunning: return QColor{ 255, 150, 150 };
+        case QProcess::ProcessState::Starting : return QColor{ 150, 250, 150 };
+        case QProcess::ProcessState::Running: return {};
+    }
+
+    Q_ASSERT(false);
+    return {};
 }

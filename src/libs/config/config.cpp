@@ -249,6 +249,19 @@ void Config::update(QUuid const &id, QVariantHash const &params, QSet<QUuid> con
     emit updated(id);
 }
 
+void Config::update(QUuid const &id, QProcess::ProcessState state)
+{
+    if (!_slaves.contains(id))
+    {
+        qWarning() << "Failed to update slave" << id << "due to one doesn't exist.";
+        return;
+    }
+
+    auto &slave = _slaves[id];
+    slave.setProcessState(state);
+    emit processStateChanged(id);
+}
+
 void Config::disableFromBottom(QUuid const &id)
 {
     for(auto const &child : _children[id])

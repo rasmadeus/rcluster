@@ -43,7 +43,7 @@ bool SlaveModelCheck::setData(QModelIndex const &index, QVariant const &value, i
 
     auto &item = this->item(index);
     item.toggleCheckState();
-    emit updateSlave(item.id());
+    updateSlave(item.id());
     return true;
 }
 

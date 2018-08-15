@@ -15,9 +15,14 @@ public:
     explicit Supervisor(Plugin* plugin, QUuid const &id, QString const &host, QString const &port, QObject &parent);
     ~Supervisor() override;
 
+public:
+    void start();
+
+signals:
+    void processStateChanged(QUuid const &id, QProcess::ProcessState state);
+
 private:
     QString toString() const { return QStringLiteral("%1:%2").arg(_plugin->process()).arg(_id.toString()); }
-    void start();
     void stop();
     void restart(QProcess::ProcessState state);
     void processError(QProcess::ProcessError er);

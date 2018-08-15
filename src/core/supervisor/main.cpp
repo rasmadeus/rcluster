@@ -32,10 +32,17 @@ int main(int argc, char *argv[])
     plugins.load();
 
     Corebus corebus{ QUuid::createUuid() };
-    Supervisors processes{ config, plugins };
+    Supervisors supervisors{ config, plugins };
 
-    QObject::connect(&corebus, &Corebus::connected, [&processes, &corebus]{
-        processes.setCoreAddress(corebus.host(), QString::number(corebus.port()));
+    QObject::connect(&corebus, &Corebus::connected, [&supervisors, &corebus]{
+        supervisors.setCoreAddress(corebus.host(), QString::number(corebus.port()));
+    });
+
+    QObject::connect(&supervisors, &Supervisors::processStateChanged, [&corebus](QUuid const &id, QProcess::ProcessState state){
+        corebus.send(QStringLiteral("PROCESS"), QStringLiteral("core"), {
+            { QStringLiteral("slave"), id },
+            { QStringLiteral("process_state"), state },
+        });
     });
 
     QObject::connect(&corebus, &Corebus::ready, [&configWatcher, &app](Message const &message){

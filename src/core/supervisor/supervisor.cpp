@@ -9,7 +9,6 @@ Supervisor::Supervisor(Plugin* plugin, QUuid const &id, QString const &host, QSt
     , _host{ host }
     , _port{ port }
 {
-    start();
 }
 
 Supervisor::~Supervisor()
@@ -20,6 +19,7 @@ Supervisor::~Supervisor()
 void Supervisor::start()
 {
     _process = new QProcess{ this };
+    connect(_process, &QProcess::stateChanged, [this](QProcess::ProcessState state){ emit processStateChanged(_id, state); });
     connect(_process, &QProcess::stateChanged, this, &Supervisor::restart);
     connect(_process, &QProcess::errorOccurred, this, &Supervisor::processError);
     _process->start(QStringLiteral("slave"), { _plugin->type(), _id.toString(), _host, _port });

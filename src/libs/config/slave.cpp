@@ -12,6 +12,7 @@ QJsonObject Slave::toJson() const
         { QStringLiteral("enabled"), _enabled },
         { QStringLiteral("params"), QJsonObject::fromVariantHash(_params) },
         { QStringLiteral("listeners"), _listeners.toArray() },
+        { QStringLiteral("process_state"), _processState },
     };
 }
 
@@ -24,4 +25,5 @@ void Slave::fromJson(QJsonObject const &json)
     _enabled = json.value(QStringLiteral("enabled")).toBool();
     _params = json.value(QStringLiteral("params")).toObject().toVariantHash();
     _listeners.fromArray(json.value(QStringLiteral("listeners")).toArray());
+    _processState = json.value(QStringLiteral("process_state")).toVariant().value<QProcess::ProcessState>();
 }

@@ -36,6 +36,7 @@ public:
     void disable(QUuid const &id);
     void rename(QUuid const &id, QString const &name);
     void update(QUuid const &id, QVariantHash const &params, QSet<QUuid> const &events);
+    void update(QUuid const &id, QProcess::ProcessState state);
 
 signals:
     void reseted();
@@ -48,6 +49,7 @@ signals:
     void disableFinished(QUuid const &id);
     void renamed(QUuid const &id);
     void updated(QUuid const &id);
+    void processStateChanged(QUuid const &id);
 
 private:
     bool appendSlave(Slave const &slave);

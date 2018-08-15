@@ -41,6 +41,7 @@ private:
     void onConfigSlaveEnabled(QUuid const &slave);
     void onConfigSlaveDisabled(QUuid const &slave);
     void onConfigSlaveUpdated(QUuid const &slave);
+    void onConfigProcessStateChanged(QUuid const &slave);
 
 private:
     Config &_config;

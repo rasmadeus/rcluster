@@ -37,7 +37,10 @@ void Supervisors::start(QUuid const &id)
     if (!plugin->hasProcess())
         return;
 
-    _processes[id] = std::make_shared<Supervisor>(plugin, id, _host, _port, *this);
+    auto supervisor = std::make_shared<Supervisor>(plugin, id, _host, _port, *this);
+    _processes[id] = supervisor;
+    connect(supervisor.get(), &Supervisor::processStateChanged, this, &Supervisors::processStateChanged);
+    supervisor->start();
 }
 
 void Supervisors::onReseted()

@@ -18,8 +18,11 @@ public:
 public:
     void setCoreAddress(QString const &host, QString const &port);
 
+signals:
+    void processStateChanged(QUuid const &id, QProcess::ProcessState state);
+
 private:
-    void start(QUuid const &id);    
+    void start(QUuid const &id);
     void stop() { _processes.clear(); }
 
 private:
