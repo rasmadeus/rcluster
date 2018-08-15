@@ -22,9 +22,6 @@ HEADERS += \
 SOURCES += \
     web_camera_editor.cpp \
     main_view.cpp \
-    core \
-    widgets \
-    network
     web_camera_plugin.cpp
 
 RESOURCES += \

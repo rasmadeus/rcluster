@@ -33,7 +33,8 @@ HEADERS += \
 SOURCES += \
     translator.cpp \
     crash_handler.cpp \
-    log.cpp
+    log.cpp \
+    storable.cpp
 
 DISTFILES += \
     utils.pri
