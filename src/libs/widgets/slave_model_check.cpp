@@ -22,6 +22,9 @@ Qt::ItemFlags SlaveModelCheck::flags(QModelIndex const &index) const
 
 QVariant SlaveModelCheck::data(QModelIndex const &index, int role) const
 {
+    if (role == Qt::BackgroundRole)
+        return {};
+
     auto &item = this->item(index);
     return role == Qt::CheckStateRole && index.isValid() && item.id() != _slave
         ? item.checkState()
