@@ -39,6 +39,11 @@ int main(int argc, char *argv[])
     controller->setCorebus(corebus);
     controller->init();
 
+    QObject::connect(&config, &Config::updated, [&controller, &corebus, &config](auto const &id){
+        if (id == corebus.id())
+            controller->onSetup(config.slave(id));
+    });
+
     QObject::connect(&corebus, &Corebus::ready, [&controller, &configWatcher](auto const &message){
         if (!configWatcher.route(message))
             controller->onMessage(message);

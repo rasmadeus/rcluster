@@ -10,14 +10,11 @@ public:
     Controller();
 
 public:
-    void init() override {}
-    void onMessage(Message const &message) override { _router.route(message); }
+    void init() override;
+    void onSetup(Slave const &slave) override { Q_UNUSED(slave) }
 
 private:
     void onGetCameras(Message const &message);
-
-private:
-    MessageRouter _router;
 };
 
 #endif // CONTROLLER_H

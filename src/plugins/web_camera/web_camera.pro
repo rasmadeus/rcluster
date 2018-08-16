@@ -16,13 +16,17 @@ PRECOMPILED_HEADER = \
 HEADERS += \
     pch.h \
     web_camera_editor.h \
-    main_view.h \
-    web_camera_plugin.h
+    web_camera_plugin.h \
+    controller.h \
+    camera.h \
+    stream_executor.h
 
 SOURCES += \
     web_camera_editor.cpp \
-    main_view.cpp \
-    web_camera_plugin.cpp
+    web_camera_plugin.cpp \
+    controller.cpp \
+    camera.cpp \
+    stream_executor.cpp
 
 RESOURCES += \
     $$PWD/res.qrc
@@ -32,4 +36,5 @@ TRANSLATIONS += \
 
 include($$(PRO_ROOT)/src/libs/config/config.pri)
 include($$(PRO_ROOT)/src/libs/plugin/plugin.pri)
+include($$(PRO_ROOT)/src/common/ffmpeg.pri)
 include($$(PRO_ROOT)/src/common/install_plugin.pri)

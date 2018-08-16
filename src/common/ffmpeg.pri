@@ -6,14 +6,12 @@ LIBS += \
 
 win32 {
     LIBS += \
-        -lavdevice \
-        -lpsapi \
-        -lole32 \
-        -lstrmiids \
-        -luuid \
-        -loleaut32 \
-        -lshlwapi \
-        -lgdi32 \
-        -lm \
-        -lvfw32\
+        -lavcodec.dll \
+        -lavdevice.dll \
+        -lavfilter.dll \
+        -lavformat.dll \
+        -lavutil.dll \
+        -lpostproc.dll \
+        -lswresample.dll \
+        -lswscale.dll
 }

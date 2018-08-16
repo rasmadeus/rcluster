@@ -1,4 +1,4 @@
-#include "main_view.h"
+#include "controller.h"
 #include "web_camera_plugin.h"
 #include "web_camera_editor.h"
 
@@ -9,5 +9,5 @@ Editor *WebCameraPlugin::editor(QWidget &parent) const
 
 std::unique_ptr<SlaveController> WebCameraPlugin::controller() const
 {
-    return std::make_unique<MainView>();
+    return std::make_unique<Controller>();
 }

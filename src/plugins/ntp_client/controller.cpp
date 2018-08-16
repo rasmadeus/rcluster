@@ -17,7 +17,12 @@ void Controller::init()
 {
     connect(&_ntpClient, &NtpClient::replyReceived, this, &Controller::onReply);
     connect(_config, &Config::reseted, this, &Controller::restart);
-    connect(_config, &Config::updated, this, &Controller::tryRestart);
+}
+
+void Controller::onSetup(Slave const &slave)
+{
+    Q_UNUSED(slave)
+    restart();
 }
 
 void Controller::timerEvent(QTimerEvent *ev)
@@ -99,10 +104,4 @@ void Controller::restart()
     _timerId = startTimer(_syncTime);
 
     sendRequest();
-}
-
-void Controller::tryRestart(QUuid const &id)
-{
-    if (id == _corebus->id())
-        restart();
 }

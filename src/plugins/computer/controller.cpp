@@ -8,6 +8,10 @@
 Controller::Controller()
     : SlaveController{}
 {
+}
+
+void Controller::init()
+{
     _router.handle(QStringLiteral("GET_CAMERAS"), std::bind(&Controller::onGetCameras, this, std::placeholders::_1));
 }
 

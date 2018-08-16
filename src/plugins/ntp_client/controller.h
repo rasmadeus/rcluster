@@ -15,7 +15,7 @@ public:
 
 public:
     void init() override;
-    void onMessage(Message const &message) override { Q_UNUSED(message) }
+    void onSetup(Slave const &slave) override;
 
 protected:
     void timerEvent(QTimerEvent *ev) override;
@@ -25,7 +25,6 @@ private:
     bool correctLocalClock(qint64 offsetMs);
     void sendRequest();
     void restart();
-    void tryRestart(QUuid const &id);
 
 private:
     int _timerId{ -1 };
