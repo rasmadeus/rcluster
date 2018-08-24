@@ -30,7 +30,7 @@ void Supervisor::start()
 
     #ifdef Q_OS_UNIX
     auto env = QProcessEnvironment::systemEnvironment();
-    env.insert(QStringLiteral("LD_LIBRARY_PATH"), QCoreApplication::applicationDirPath());
+    env.insert(QStringLiteral("LIBRARY_PATH"), QCoreApplication::applicationDirPath());
     _process->setProcessEnvironment(env);
     #endif
 
