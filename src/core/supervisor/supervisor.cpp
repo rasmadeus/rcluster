@@ -2,11 +2,6 @@
 #include <QProcess>
 #include "supervisor.h"
 
-#ifdef Q_OS_UNIX
-#include <QCoreApplication>
-#include <QProcessEnvironment>
-#endif
-
 Supervisor::Supervisor(Plugin* plugin, QUuid const &id, QString const &host, QString const &port, QObject &parent)
     : QObject{ &parent }
     , _plugin{ plugin }
@@ -27,13 +22,6 @@ void Supervisor::start()
     connect(_process, &QProcess::stateChanged, [this](QProcess::ProcessState state){ emit processStateChanged(_id, state); });
     connect(_process, &QProcess::stateChanged, this, &Supervisor::restart);
     connect(_process, &QProcess::errorOccurred, this, &Supervisor::processError);
-
-    #ifdef Q_OS_UNIX
-    auto env = QProcessEnvironment::systemEnvironment();
-    env.insert(QStringLiteral("LIBRARY_PATH"), QCoreApplication::applicationDirPath());
-    _process->setProcessEnvironment(env);
-    #endif
-
     _process->start(QStringLiteral("slave"), { _plugin->type(), _id.toString(), _host, _port });
 
     qDebug() << toString() << "has been started.";
