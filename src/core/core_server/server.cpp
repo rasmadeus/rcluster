@@ -20,6 +20,7 @@ Server::Server(quint16 port, Config &config, QObject *parent)
     connect(&_config, &Config::disableFinished, this, &Server::onConfigSlaveDisabled);
     connect(&_config, &Config::updated, this, &Server::onConfigSlaveUpdated);
     connect(&_config, &Config::processStateChanged, this, &Server::onConfigProcessStateChanged);
+    connect(&_config, &Config::runtimeParamChanged, this, &Server::onConfigRuntime);
 
     connect(&_server, &QTcpServer::newConnection, this, &Server::appendClient);
     _server.listen(QHostAddress::Any, port);
@@ -183,5 +184,14 @@ void Server::onConfigProcessStateChanged(QUuid const &slave)
     send(QStringLiteral("PROCESS"), {
         { QStringLiteral("slave"), slave },
         { QStringLiteral("process_state"), _config.slave(slave).processState() },
+    });
+}
+
+void Server::onConfigRuntime(QUuid const &slave, QString const &key)
+{
+    send(QStringLiteral("RUNTIME"), {
+        { QStringLiteral("slave"), slave },
+        { QStringLiteral("key"), key },
+        { QStringLiteral("value"), _config.slave(slave).runtimeParam(key) },
     });
 }

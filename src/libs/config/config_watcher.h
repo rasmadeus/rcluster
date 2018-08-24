@@ -22,6 +22,7 @@ private:
     void onDisableSlave(Message const &message);
     void onUpdateSlave(Message const &message);
     void onProcess(Message const &message);
+    void onRuntime(Message const &message);
 
 private:
     Config &_config;

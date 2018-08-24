@@ -42,6 +42,7 @@ private:
     void onConfigSlaveDisabled(QUuid const &slave);
     void onConfigSlaveUpdated(QUuid const &slave);
     void onConfigProcessStateChanged(QUuid const &slave);
+    void onConfigRuntime(QUuid const &slave, QString const &key);
 
 private:
     Config &_config;

@@ -13,6 +13,7 @@ ConfigWatcher::ConfigWatcher(Config &config)
     handle(QStringLiteral("DISABLE"), std::bind(&ConfigWatcher::onDisableSlave, this, std::placeholders::_1));
     handle(QStringLiteral("UPDATE"), std::bind(&ConfigWatcher::onUpdateSlave, this, std::placeholders::_1));
     handle(QStringLiteral("PROCESS"), std::bind(&ConfigWatcher::onProcess, this, std::placeholders::_1));
+    handle(QStringLiteral("RUNTIME"), std::bind(&ConfigWatcher::onRuntime, this, std::placeholders::_1));
 }
 
 void ConfigWatcher::onReset(Message const &message)
@@ -72,5 +73,14 @@ void ConfigWatcher::onProcess(Message const &message)
     _config.update(
         message.param(QStringLiteral("slave")).toUuid(),
         message.param(QStringLiteral("process_state")).value<QProcess::ProcessState>()
+    );
+}
+
+void ConfigWatcher::onRuntime(Message const &message)
+{
+    _config.setRuntimeParam(
+        message.param(QStringLiteral("slave")).toUuid(),
+        message.param(QStringLiteral("key")).toString(),
+        message.param(QStringLiteral("value"))
     );
 }

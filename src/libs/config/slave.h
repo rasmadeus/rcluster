@@ -43,6 +43,9 @@ public:
     QProcess::ProcessState processState() const { return _processState; }
     void setProcessState(QProcess::ProcessState state) { _processState = state; }
 
+    void setRuntimeParam(QString const &key, QVariant const &value) { _runtimeParams[key] = value; }
+    QVariant runtimeParam(QString const &key) const { return _params.value(key); }
+
 private:
     QUuid _parent;
     QString _type{ "ROOT" };
@@ -52,6 +55,7 @@ private:
     QVariantHash _params;
     SlaveIds _listeners;
     QProcess::ProcessState _processState{ QProcess::NotRunning };
+    QVariantHash _runtimeParams;
 };
 
 #endif // SLAVE_H

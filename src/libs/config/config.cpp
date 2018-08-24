@@ -262,6 +262,18 @@ void Config::update(QUuid const &id, QProcess::ProcessState state)
     emit processStateChanged(id);
 }
 
+void Config::setRuntimeParam(QUuid const &id, QString const &key, QVariant const &param)
+{
+    if (!_slaves.contains(id))
+    {
+        qWarning() << "Failed to set runtime param for slave" << id << "due to one doesn't exist.";
+        return;
+    }
+    auto &slave = _slaves[id];
+    slave.setRuntimeParam(key, param);
+    emit runtimeParamChanged(id, key);
+}
+
 void Config::disableFromBottom(QUuid const &id)
 {
     for(auto const &child : _children[id])
