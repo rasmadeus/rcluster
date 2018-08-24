@@ -36,9 +36,10 @@ ConfigView::ConfigView(Config &config, Plugins &plugins, Corebus &corebus, QWidg
     connect(&_view, &QTreeView::customContextMenuRequested, this, &ConfigView::showMenu);
     connect(_view.selectionModel(), &QItemSelectionModel::currentChanged, this, &ConfigView::select);
     connect(&_model, &SlaveModel::rowsRemoved, this, &ConfigView::selectCurrent);
-    connect(&_model, &SlaveModel::rowsInserted, this, &ConfigView::sortSlaves);
-    connect(&_model, &SlaveModel::dataChanged, this, &ConfigView::sortSlaves);
     connect(&_model, &SlaveModel::reloaded, &_view, &QTreeView::expandAll);
+    connect(&_model, &SlaveModel::rowsInserted, this, &ConfigView::sortSlaves);
+    connect(&_model, &SlaveModel::renamed, this, &ConfigView::sortSlaves);
+    connect(&_model, &SlaveModel::reloaded, this, &ConfigView::sortSlaves);
 
     sortSlaves();
 }

@@ -51,7 +51,7 @@ void NtpClient::readPendingDatagrams()
         QHostAddress address;
         quint16 port{ 0 };
 
-        if(_corebus->readDatagram(reinterpret_cast<char*>(&packet), sizeof(packet), &address, &port) < sizeof(NtpPacket))
+        if(_corebus->readDatagram(reinterpret_cast<char*>(&packet), sizeof(packet), &address, &port) < static_cast<qint64>(sizeof(NtpPacket)))
             continue;
 
         auto const now = QDateTime::currentDateTime();

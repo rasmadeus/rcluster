@@ -39,6 +39,7 @@ public:
 
 signals:
     void reloaded();
+    void renamed(QUuid const &slave);
 
 protected:
     SlaveItem &item(QModelIndex const &index) const;

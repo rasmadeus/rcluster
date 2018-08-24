@@ -15,10 +15,12 @@ SlaveModel::SlaveModel(Config const &config, Plugins const &plugins, QObject &pa
     connect(&_config, &Config::appended, this, &SlaveModel::appendSlave);
     connect(&_config, &Config::removeFinished, this, &SlaveModel::removeSlave);
     connect(&_config, &Config::renamed, this, &SlaveModel::updateSlave);
+    connect(&_config, &Config::renamed, this, &SlaveModel::renamed);
     connect(&_config, &Config::enabled, this, &SlaveModel::updateSlave);
     connect(&_config, &Config::disabled, this, &SlaveModel::updateSlave);
     connect(&_config, &Config::updated, this, &SlaveModel::updateSlave);
     connect(&_config, &Config::processStateChanged, this, &SlaveModel::updateSlave);
+    connect(&_config, &Config::runtimeParamChanged, this, &SlaveModel::updateSlave);
 }
 
 Qt::ItemFlags SlaveModel::flags(QModelIndex const &index) const
@@ -164,13 +166,5 @@ QVariant SlaveModel::dataBackground(QModelIndex const &index) const
     if (!_plugins.plugin(slave.type())->hasProcess() || slave.disabled())
         return {};
 
-    switch(slave.processState())
-    {
-        case QProcess::ProcessState::NotRunning: return QColor{ 255, 150, 150 };
-        case QProcess::ProcessState::Starting : return QColor{ 150, 250, 150 };
-        case QProcess::ProcessState::Running: return {};
-    }
-
-    Q_ASSERT(false);
-    return {};
+    return slave.processState() == QProcess::ProcessState::Running ? QVariant{} : QColor{ 255, 150, 150 };
 }
