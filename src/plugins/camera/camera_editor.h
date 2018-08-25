@@ -1,16 +1,16 @@
-#ifndef MESSAGE_VIEWER_EDITOR_H
-#define MESSAGE_VIEWER_EDITOR_H
+#ifndef CAMERA_EDITOR_H
+#define CAMERA_EDITOR_H
 
 #include <QComboBox>
 #include <default_base_editor.h>
 #include <message_router.h>
 
-class WebCameraEditor : public DefaultBaseEditor
+class CameraEditor : public DefaultBaseEditor
 {
     Q_OBJECT
 
 public:
-    explicit WebCameraEditor(QWidget &parent);
+    explicit CameraEditor(QWidget &parent);
 
 public:
     void init() override;
@@ -26,4 +26,4 @@ private:
     MessageRouter _router;
 };
 
-#endif // MESSAGE_VIEWER_EDITOR_H
+#endif // CAMERA_EDITOR_H

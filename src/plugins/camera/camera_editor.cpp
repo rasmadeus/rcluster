@@ -3,13 +3,13 @@
 #include <config.h>
 #include <core_bus.h>
 #include <message.h>
-#include "web_camera_editor.h"
+#include "camera_editor.h"
 
-WebCameraEditor::WebCameraEditor(QWidget &parent)
+CameraEditor::CameraEditor(QWidget &parent)
     : DefaultBaseEditor{ parent }
     , _cameras{ this }
 {
-    _router.handle(QStringLiteral("CAMERAS"), std::bind(&WebCameraEditor::onCameras, this, std::placeholders::_1));
+    _router.handle(QStringLiteral("CAMERAS"), std::bind(&CameraEditor::onCameras, this, std::placeholders::_1));
 
     auto mainLayout = new QFormLayout{ this };
     mainLayout->setMargin(0);
@@ -17,31 +17,31 @@ WebCameraEditor::WebCameraEditor(QWidget &parent)
     mainLayout->addRow(tr("Cameras:"), &_cameras);
 }
 
-void WebCameraEditor::init()
+void CameraEditor::init()
 {
-    connect(_corebus, &Corebus::ready, this, &WebCameraEditor::onMessage);
+    connect(_corebus, &Corebus::ready, this, &CameraEditor::onMessage);
 }
 
-QVariantHash WebCameraEditor::params() const
+QVariantHash CameraEditor::params() const
 {
     return {
         { QStringLiteral("name"), _cameras.currentData() },
     };
 }
 
-void WebCameraEditor::setParams(QVariantHash const &params)
+void CameraEditor::setParams(QVariantHash const &params)
 {
     Q_UNUSED(params)
     auto const id = _config->parent(_id, QStringLiteral("COMPUTER"));
     _corebus->send(QStringLiteral("GET_CAMERAS"), id.toString());
 }
 
-void WebCameraEditor::onMessage(Message const &message)
+void CameraEditor::onMessage(Message const &message)
 {
     _router.route(message);
 }
 
-void WebCameraEditor::onCameras(Message const &message)
+void CameraEditor::onCameras(Message const &message)
 {
     _cameras.clear();
     _cameras.addItem(tr("Don't use"), QString{});

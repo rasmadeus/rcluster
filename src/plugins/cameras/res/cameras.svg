@@ -16,35 +16,44 @@
    version="1.1"
    id="svg8"
    inkscape:version="0.92.1 r15371"
-   sodipodi:docname="web_camera.svg"
-   inkscape:export-filename="C:\dev\projects\rcluster\src\slaves\camera\plugin\res\web_camera.png"
-   inkscape:export-xdpi="109.71429"
-   inkscape:export-ydpi="109.71429">
+   sodipodi:docname="camera.svg">
   <defs
      id="defs2">
     <linearGradient
        inkscape:collect="always"
-       id="linearGradient4594">
+       id="linearGradient4610">
+      <stop
+         style="stop-color:#ffffff;stop-opacity:1;"
+         offset="0"
+         id="stop4606" />
       <stop
          style="stop-color:#0000ff;stop-opacity:1"
-         offset="0"
-         id="stop4590" />
-      <stop
-         style="stop-color:#ffffff;stop-opacity:1"
          offset="1"
-         id="stop4592" />
+         id="stop4608" />
     </linearGradient>
     <linearGradient
        inkscape:collect="always"
-       id="linearGradient4550">
+       id="linearGradient4602">
       <stop
-         style="stop-color:#0000ff;stop-opacity:1;"
+         style="stop-color:#ffffff;stop-opacity:1;"
          offset="0"
-         id="stop4546" />
+         id="stop4598" />
       <stop
-         style="stop-color:#ffffff;stop-opacity:1"
+         style="stop-color:#0000ff;stop-opacity:1"
          offset="1"
-         id="stop4548" />
+         id="stop4600" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient4558">
+      <stop
+         style="stop-color:#ffffff;stop-opacity:1;"
+         offset="0"
+         id="stop4554" />
+      <stop
+         style="stop-color:#0000ff;stop-opacity:1"
+         offset="1"
+         id="stop4556" />
     </linearGradient>
     <marker
        inkscape:stockid="Arrow2Send"
@@ -134,22 +143,42 @@
     </marker>
     <linearGradient
        inkscape:collect="always"
-       xlink:href="#linearGradient4550"
-       id="linearGradient4552"
-       x1="3.1875"
-       y1="12.03125"
-       x2="14.09375"
-       y2="0.875"
+       xlink:href="#linearGradient4558"
+       id="linearGradient4560"
+       x1="0.25631511"
+       y1="293.56866"
+       x2="1.2154297"
+       y2="294.39548"
        gradientUnits="userSpaceOnUse" />
     <linearGradient
        inkscape:collect="always"
-       xlink:href="#linearGradient4594"
-       id="linearGradient4596"
-       x1="0.66145831"
-       y1="296.60312"
-       x2="3.8860676"
-       y2="296.82635"
-       gradientUnits="userSpaceOnUse" />
+       xlink:href="#linearGradient4602"
+       id="linearGradient4616"
+       x1="1.7859374"
+       y1="292.83279"
+       x2="3.3403645"
+       y2="294.27145"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(0.1322916,-4.3452972e-6)" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4610"
+       id="linearGradient4618"
+       gradientUnits="userSpaceOnUse"
+       x1="0.125"
+       y1="4.28125"
+       x2="15.84375"
+       y2="13.8125" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4610"
+       id="linearGradient4616-6"
+       x1="1.7859374"
+       y1="292.83279"
+       x2="3.3403645"
+       y2="294.27145"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(-1.7197916,-9.5709739e-6)" />
   </defs>
   <sodipodi:namedview
      id="base"
@@ -158,9 +187,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="32"
-     inkscape:cx="0.484375"
-     inkscape:cy="10.030698"
+     inkscape:zoom="45.254834"
+     inkscape:cx="4.5929571"
+     inkscape:cy="8.0365391"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -191,16 +220,29 @@
      id="layer1"
      transform="translate(0,-292.76665)">
     <path
-       style="opacity:1;fill:url(#linearGradient4552);fill-opacity:1;stroke:none;stroke-width:5.19364166;stroke-linecap:round;stroke-miterlimit:3.79999995;stroke-dasharray:none;stroke-opacity:1"
-       d="M 8 0 A 7 7 0 0 0 1 7 A 7 7 0 0 0 8 14 A 7 7 0 0 0 15 7 A 7 7 0 0 0 8 0 z M 8 4.5 A 2.4999999 2.4999999 0 0 1 10.5 7 A 2.4999999 2.4999999 0 0 1 8 9.5 A 2.4999999 2.4999999 0 0 1 5.5 7 A 2.4999999 2.4999999 0 0 1 8 4.5 z "
+       style="opacity:1;fill:url(#linearGradient4618);fill-opacity:1;stroke:none;stroke-width:2.25258636;stroke-linecap:round;stroke-miterlimit:3.79999995;stroke-dasharray:none;stroke-opacity:1"
+       d="M 2.8886719,7 C 1.2882274,7 0,8.2882274 0,9.8886719 V 13.111328 C 0,14.711773 1.2882274,16 2.8886719,16 H 10.111328 C 11.711773,16 13,14.711773 13,13.111328 v 0 L 16,16 V 7 l -3,2.8886719 v 0 C 13,8.2882274 11.711773,7 10.111328,7 Z"
        transform="matrix(0.26458333,0,0,0.26458333,0,292.76665)"
-       id="path4590" />
-    <rect
-       style="opacity:1;fill:url(#linearGradient4596);fill-opacity:1;stroke:none;stroke-width:0.65199417;stroke-linecap:round;stroke-miterlimit:3.79999995;stroke-dasharray:none;stroke-opacity:1"
-       id="rect4611"
-       width="2.9104166"
-       height="0.39687499"
-       x="0.66145831"
-       y="296.60312" />
+       id="rect4580"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="sssssccccccss" />
+    <ellipse
+       style="opacity:1;fill:url(#linearGradient4560);fill-opacity:1;stroke:none;stroke-width:0.53435951;stroke-linecap:round;stroke-miterlimit:3.79999995;stroke-dasharray:none;stroke-opacity:1"
+       id="path15584"
+       cx="0.79374999"
+       cy="293.95728"
+       r="0.66145831" />
+    <circle
+       style="opacity:1;fill:url(#linearGradient4616);fill-opacity:1;stroke:none;stroke-width:0.74810338;stroke-linecap:round;stroke-miterlimit:3.79999995;stroke-dasharray:none;stroke-opacity:1"
+       id="path15584-4"
+       cx="2.778125"
+       cy="293.69269"
+       r="0.92604166" />
+    <circle
+       style="opacity:1;fill:url(#linearGradient4616-6);fill-opacity:1;stroke:none;stroke-width:0.74810338;stroke-linecap:round;stroke-miterlimit:3.79999995;stroke-dasharray:none;stroke-opacity:1"
+       id="path15584-4-8"
+       cx="0.92604166"
+       cy="293.69269"
+       r="0.92604166" />
   </g>
 </svg>

@@ -1,5 +1,5 @@
 TARGET = \
-    web_camera
+    cameras
 
 TEMPLATE = \
     lib
@@ -15,20 +15,16 @@ PRECOMPILED_HEADER = \
 
 HEADERS += \
     pch.h \
-    web_camera_editor.h \
-    web_camera_plugin.h \
-    controller.h
+    cameras_plugin.h
 
 SOURCES += \
-    web_camera_editor.cpp \
-    web_camera_plugin.cpp \
-    controller.cpp
+    cameras_plugin.cpp
 
 RESOURCES += \
     $$PWD/res.qrc
 
 TRANSLATIONS += \
-    ../../../translations/plugins/web_camera_ru.ts \
+    ../../../translations/plugins/camera_ru.ts \
 
 include($$(PRO_ROOT)/src/libs/config/config.pri)
 include($$(PRO_ROOT)/src/libs/plugin/plugin.pri)

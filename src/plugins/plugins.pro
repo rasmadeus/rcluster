@@ -6,5 +6,5 @@ SUBDIRS += \
     display \
     ntp_client \
     message_viewer \
-    camera \
-    web_camera
+    cameras \
+    camera

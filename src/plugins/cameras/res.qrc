@@ -1,5 +1,5 @@
 <RCC>
     <qresource prefix="/">
-        <file>res/web_camera.svg</file>
+        <file>res/cameras.svg</file>
     </qresource>
 </RCC>
