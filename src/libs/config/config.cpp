@@ -127,7 +127,8 @@ void Config::remove(QUuid const &id)
 
 void Config::removeSlave(QUuid const &id)
 {
-    for(auto const &child : _children[id])
+    auto const children = _children[id];
+    for(auto const &child : children)
         removeSlave(child);
 
     Q_ASSERT(_children.remove(id) == 1);
