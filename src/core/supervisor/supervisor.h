@@ -36,7 +36,7 @@ private:
     QUuid const _id;
     QString const _host;
     QString const _port;
-    int _restartTimer{ -1 };
+    int _antiFluctuateTimer{ -1 };
 };
 
 #endif // SUPERVISOR_H
