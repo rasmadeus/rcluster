@@ -18,6 +18,9 @@ public:
 public:
     void start();
 
+protected:
+    void timerEvent(QTimerEvent *ev) override;
+
 signals:
     void processStateChanged(QUuid const &id, QProcess::ProcessState state);
 
@@ -33,6 +36,7 @@ private:
     QUuid const _id;
     QString const _host;
     QString const _port;
+    int _restartTimer{ -1 };
 };
 
 #endif // SUPERVISOR_H

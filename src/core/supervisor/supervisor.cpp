@@ -1,5 +1,6 @@
 #include <QDebug>
 #include <QProcess>
+#include <QTimerEvent>
 #include "supervisor.h"
 
 Supervisor::Supervisor(Plugin* plugin, QUuid const &id, QString const &host, QString const &port, QObject &parent)
@@ -25,6 +26,20 @@ void Supervisor::start()
     _process->start(QStringLiteral("slave"), { _plugin->type(), _id.toString(), _host, _port });
 
     qDebug() << toString() << "has been started.";
+}
+
+void Supervisor::timerEvent(QTimerEvent *ev)
+{
+    if (ev->timerId() == _antiFluctuateTimer)
+    {
+        killTimer(_antiFluctuateTimer);
+        _antiFluctuateTimer = -1;
+        start();
+    }
+    else
+    {
+        QObject::timerEvent(ev);
+    }
 }
 
 void Supervisor::stop()
@@ -54,7 +69,8 @@ void Supervisor::restart(QProcess::ProcessState state)
     if (state == QProcess::NotRunning)
     {
         stop();
-        start();
+        Q_ASSERT(_antiFluctuateTimer == -1);
+        _antiFluctuateTimer = startTimer(std::chrono::milliseconds(100));
     }
 }
 
