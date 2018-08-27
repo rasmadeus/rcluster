@@ -15,14 +15,16 @@ PRECOMPILED_HEADER = \
 
 HEADERS += \
     pch.h \
-    controller.h \
     camera_editor.h \
-    camera_plugin.h
+    camera_plugin.h \
+    camera_controller.h \
+    rtsp_server.h
 
 SOURCES += \
-    controller.cpp \
     camera_editor.cpp \
-    camera_plugin.cpp
+    camera_plugin.cpp \
+    camera_controller.cpp \
+    rtsp_server.cpp
 
 RESOURCES += \
     $$PWD/res.qrc
@@ -32,4 +34,5 @@ TRANSLATIONS += \
 
 include($$(PRO_ROOT)/src/libs/config/config.pri)
 include($$(PRO_ROOT)/src/libs/plugin/plugin.pri)
+include($$(PRO_ROOT)/src/common/gstreamer.pri)
 include($$(PRO_ROOT)/src/common/install_plugin.pri)

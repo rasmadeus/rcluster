@@ -1,4 +1,4 @@
-#include "controller.h"
+#include "camera_controller.h"
 #include "camera_plugin.h"
 #include "camera_editor.h"
 
