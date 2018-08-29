@@ -4,40 +4,28 @@
 extern "C"
 {
     #include <gst/gst.h>
+    #include <gst/rtsp-server/rtsp-server.h>
 }
 
-#include <atomic>
-#include <QObject>
+#include <QString>
 
-struct GstRTSPServer;
-struct GstRTSPMediaFactory;
-
-class RtspServer : public QObject
+class RtspServer
 {
-    Q_OBJECT
+public:
+    explicit RtspServer(QString const &host, QString const &mountPath, QString const &launch);
+    ~RtspServer();
 
 public:
-    explicit RtspServer(QString const &pipeline, QString const &url, QObject *parent = nullptr);
-
-public:
-    void start();
-    void stop() { _stop = true; }
+    void stop();
 
 private:
-    gboolean checkExit(GstRTSPServer *server);
-
-
-
+    void shutdown();
+    void cleanupSession();
 
 private:
-    QString const _pipeline;
-    QString const _url;
-
-    std::atomic<bool> _stop{ false };
-
-    GMainLoop *_loop;
+    QString _mountPath;
     GstRTSPServer *_server;
-    GstRTSPMediaFactory *_factory{ nullptr };
+    GstRTSPMediaFactory *_factory;
 };
 
 #endif // RTSP_SERVER_H

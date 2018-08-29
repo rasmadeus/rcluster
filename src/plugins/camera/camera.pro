@@ -18,13 +18,15 @@ HEADERS += \
     camera_editor.h \
     camera_plugin.h \
     camera_controller.h \
-    rtsp_server.h
+    rtsp_server.h \
+    rtsp_server_runner.h
 
 SOURCES += \
     camera_editor.cpp \
     camera_plugin.cpp \
     camera_controller.cpp \
-    rtsp_server.cpp
+    rtsp_server.cpp \
+    rtsp_server_runner.cpp
 
 RESOURCES += \
     $$PWD/res.qrc

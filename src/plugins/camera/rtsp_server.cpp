@@ -1,45 +1,60 @@
-extern "C"
-{
-    #include <gst/rtsp-server/rtsp-server.h>
-}
-
-#include <functional>
+#include <QDebug>
+#include <QTimerEvent>
 #include "rtsp_server.h"
 
-RtspServer::RtspServer(QString const &pipeline, QString const &url, QObject *parent)
-    : QObject{ parent }
-    , _pipeline{ pipeline }
-    , _url{ url }
-    , _loop{ g_main_loop_new(nullptr, gboolean{ 0 }) }
-    , _server{ gst_rtsp_server_new() }
+namespace
 {
+    GstRTSPFilterResult clientFilter(GstRTSPServer *server, GstRTSPClient *client, gpointer userData)
+    {
+        Q_UNUSED(server)
+        Q_UNUSED(client)
+        Q_UNUSED(userData)
+        return GST_RTSP_FILTER_REMOVE;
+    }
 }
 
-void RtspServer::start()
+RtspServer::RtspServer(QString const &host, QString const &mountPath, QString const &launch)
+    : _mountPath{ mountPath }
+    , _server{ gst_rtsp_server_new() }
+    , _factory{ gst_rtsp_media_factory_new () }
 {
-    Q_ASSERT(_factory == nullptr);
+    gst_rtsp_server_set_address(_server, host.toUtf8().constData());
+    gst_rtsp_media_factory_set_shared (_factory, TRUE);
 
     auto mounts = gst_rtsp_server_get_mount_points(_server);
-    _factory = gst_rtsp_media_factory_new();
-    gst_rtsp_media_factory_set_launch(_factory, _pipeline.toStdString().c_str());
-    gst_rtsp_media_factory_set_shared(_factory, gboolean{ 1 });
-    gst_rtsp_mount_points_add_factory(mounts, _url.toStdString().c_str(), _factory);
-    g_object_unref(mounts);
+    gst_rtsp_media_factory_set_launch (_factory, launch.toUtf8().constData());
+    gst_rtsp_mount_points_add_factory (mounts, mountPath.toUtf8().constData(), _factory);
+    g_object_unref (mounts);
 
-    gst_rtsp_server_attach(_server, nullptr);
-    g_timeout_add_seconds(2, std::bind(&RtspServer::checkExit, this, std::placeholoders::_1), _server);
-    g_main_loop_run(_loop);
+    if (gst_rtsp_server_attach (_server, nullptr))
+        qDebug() << "RTSP server was attached at" << host << mountPath << launch;
+    else
+        qCritical() << "Failed to attach RTSP server at" << host << mountPath << launch;
 }
 
-gboolean RtspServer::checkExit(GstRTSPServer *server)
+RtspServer::~RtspServer()
 {
-    if (!_stop)
-        return gboolean{ 0 };
+    Q_ASSERT(_mountPath.isEmpty());
+}
 
-    auto mounts = gst_rtsp_server_get_mount_points (server);
-    gst_rtsp_mount_points_remove_factory (mounts, _url.toStdString().c_str());
-    g_object_unref (mounts);
-    gst_rtsp_server_client_filter(server, clientFilter, nullptr);
+void RtspServer::stop()
+{
+    cleanupSession();
+    shutdown();
+}
 
-    return gboolean{ 1 };
+void RtspServer::shutdown()
+{
+    auto mounts = gst_rtsp_server_get_mount_points(_server);
+    gst_rtsp_mount_points_remove_factory(mounts, _mountPath.toUtf8().constData());
+    g_object_unref(mounts);
+    gst_rtsp_server_client_filter(_server, ::clientFilter, nullptr);
+}
+
+void RtspServer::cleanupSession()
+{
+    auto pool = gst_rtsp_server_get_session_pool(_server);
+    gst_rtsp_session_pool_cleanup(pool);
+    g_object_unref(pool);
+    _mountPath.clear();
 }

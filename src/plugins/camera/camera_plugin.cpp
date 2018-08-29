@@ -9,5 +9,5 @@ Editor *CameraPlugin::editor(QWidget &parent) const
 
 std::unique_ptr<SlaveController> CameraPlugin::controller() const
 {
-    return std::make_unique<Controller>();
+    return std::make_unique<CameraController>();
 }
