@@ -2,9 +2,9 @@
 #define MAIN_VIEW_H
 
 #include <QPlainTextEdit>
-#include <main_view_controller.h>
+#include <controller_with_activity.h>
 
-class MainView : public MainViewController
+class MainView : public ControllerWithActivity
 {
     Q_OBJECT
 

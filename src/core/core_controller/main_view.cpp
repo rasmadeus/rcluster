@@ -5,7 +5,7 @@
 #include <core_bus.h>
 #include "main_view.h"
 
-MainViewController::MainViewController(Config &config, Plugins &plugins, Corebus &corebus)
+ControllerWithActivity::ControllerWithActivity(Config &config, Plugins &plugins, Corebus &corebus)
     : QMainWindow{}
     , _corebus{ corebus }
     , _coreActions{ corebus, *this }
@@ -33,16 +33,16 @@ MainViewController::MainViewController(Config &config, Plugins &plugins, Corebus
 
     setCentralWidget(&_splitter);
 
-    connect(qApp, &QApplication::aboutToQuit, this, &MainViewController::storeSettings);
-    connect(&corebus, &Corebus::connected, this, &MainViewController::onCoreConnected);
-    connect(&corebus, &Corebus::disconnected, this, &MainViewController::onCoreDisconnected);
+    connect(qApp, &QApplication::aboutToQuit, this, &ControllerWithActivity::storeSettings);
+    connect(&corebus, &Corebus::connected, this, &ControllerWithActivity::onCoreConnected);
+    connect(&corebus, &Corebus::disconnected, this, &ControllerWithActivity::onCoreDisconnected);
     connect(&_configView, &ConfigView::selected, &_slaveParamsView, &SlaveParamsView::select);
 
     resize(800, 600);
     restoreSettings();
 }
 
-void MainViewController::storeSettings()
+void ControllerWithActivity::storeSettings()
 {
     QSettings settings;
     settings.beginGroup(QStringLiteral("main_view"));
@@ -53,7 +53,7 @@ void MainViewController::storeSettings()
     settings.endGroup();
 }
 
-void MainViewController::restoreSettings()
+void ControllerWithActivity::restoreSettings()
 {
     QSettings settings;
     settings.beginGroup(QStringLiteral("main_view"));
@@ -64,12 +64,12 @@ void MainViewController::restoreSettings()
     settings.endGroup();
 }
 
-void MainViewController::onCoreConnected()
+void ControllerWithActivity::onCoreConnected()
 {
     _splitter.setEnabled(true);
 }
 
-void MainViewController::onCoreDisconnected()
+void ControllerWithActivity::onCoreDisconnected()
 {
     _splitter.setEnabled(false);
 }

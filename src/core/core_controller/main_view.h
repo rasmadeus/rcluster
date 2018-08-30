@@ -10,12 +10,12 @@
 class Corebus;
 class Plugins;
 
-class MainViewController : public QMainWindow
+class ControllerWithActivity : public QMainWindow
 {
     Q_OBJECT
 
 public:
-    explicit MainViewController(Config &config, Plugins &plugins, Corebus &corebus);
+    explicit ControllerWithActivity(Config &config, Plugins &plugins, Corebus &corebus);
 
 private:
     void storeSettings();

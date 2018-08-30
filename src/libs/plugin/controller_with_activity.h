@@ -1,21 +1,20 @@
-#ifndef MAIN_VIEW_CONTROLLER_H
-#define MAIN_VIEW_CONTROLLER_H
+#ifndef CONTROLLER_WITH_ACTIVITY_H
+#define CONTROLLER_WITH_ACTIVITY_H
 
-#include <QPlainTextEdit>
 #include <QMainWindow>
 #include "slave_controller.h"
 
 class QSettings;
 
-class PLUGIN_SHARED_EXPORT MainViewController : public QMainWindow, public SlaveController
+class PLUGIN_SHARED_EXPORT ControllerWithActivity : public QMainWindow, public SlaveController
 {
     Q_OBJECT
 
 public:
-    explicit MainViewController();
+    explicit ControllerWithActivity();
 
 public:
-    void init() override;
+    void onInit() override;
 
 protected:
     virtual void storeSettings(QSettings &settings) { Q_UNUSED(settings); }
@@ -26,4 +25,4 @@ private:
     void restoreSettings();
 };
 
-#endif // MAIN_VIEW_CONTROLLER_H
+#endif // CONTROLLER_WITH_ACTIVITY_H

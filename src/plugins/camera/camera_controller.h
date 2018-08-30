@@ -2,24 +2,24 @@
 #define CAMERA_CONTROLLER_H
 
 #include <QObject>
-#include <slave_controller.h>
+#include <controller_without_activity.h>
 #include <memory>
 #include "rtsp_server_runner.h"
 
-class CameraController : public QObject, public SlaveController
+class CameraController : public ControllerWithoutActivity
 {
     Q_OBJECT
 
 public:
     explicit CameraController();
-    ~CameraController() override { stop(); }
+    ~CameraController() override;
 
 public:
-    void init() override {}
     void onSetup(Slave const &slave) override;
 
 private:
     void stop();
+    void start(Slave const &slave);
 
 private:
     std::unique_ptr<RtspServerRunner> _runner;

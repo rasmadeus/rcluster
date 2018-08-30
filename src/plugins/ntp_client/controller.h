@@ -14,7 +14,7 @@ public:
     explicit Controller();
 
 public:
-    void init() override;
+    void onInit() override;
     void onSetup(Slave const &slave) override;
 
 protected:

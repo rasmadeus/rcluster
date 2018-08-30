@@ -1,6 +1,6 @@
 #include "computer_plugin.h"
 #include "computer_editor.h"
-#include "controller.h"
+#include "computer_controller.h"
 
 QVariantHash ComputerPlugin::defaultParams() const
 {
@@ -16,5 +16,5 @@ Editor *ComputerPlugin::editor(QWidget &parent) const
 
 std::unique_ptr<SlaveController> ComputerPlugin::controller() const
 {
-    return std::make_unique<Controller>();
+    return std::make_unique<ComputerController>();
 }

@@ -1,8 +1,5 @@
-QT += \
-    multimedia
-
 TARGET = \
-    computer
+    fake_camera
 
 TEMPLATE = \
     lib
@@ -18,21 +15,24 @@ PRECOMPILED_HEADER = \
 
 HEADERS += \
     pch.h \
-    computer_editor.h \
-    computer_plugin.h \
-    computer_controller.h
+    rtsp_server.h \
+    rtsp_server_runner.h \
+    fake_camera_controller.h \
+    fake_camera_plugin.h
 
 SOURCES += \
-    computer_editor.cpp \
-    computer_plugin.cpp \
-    computer_controller.cpp
+    rtsp_server.cpp \
+    rtsp_server_runner.cpp \
+    fake_camera_controller.cpp \
+    fake_camera_plugin.cpp
 
 RESOURCES += \
     $$PWD/res.qrc
 
 TRANSLATIONS += \
-    ../../../translations/plugins/computer_ru.ts \
+    ../../../translations/plugins/fake_camera_ru.ts \
 
 include($$(PRO_ROOT)/src/libs/config/config.pri)
 include($$(PRO_ROOT)/src/libs/plugin/plugin.pri)
+include($$(PRO_ROOT)/src/common/gstreamer.pri)
 include($$(PRO_ROOT)/src/common/install_plugin.pri)

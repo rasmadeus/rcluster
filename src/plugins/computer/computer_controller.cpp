@@ -3,19 +3,19 @@
 #include <QJsonObject>
 #include <core_bus.h>
 #include <message.h>
-#include "controller.h"
+#include "computer_controller.h"
 
-Controller::Controller()
-    : SlaveController{}
+ComputerController::ComputerController()
+    : ControllerWithoutActivity{}
 {
 }
 
-void Controller::init()
+void ComputerController::onInit()
 {
-    _router.handle(QStringLiteral("GET_CAMERAS"), std::bind(&Controller::onGetCameras, this, std::placeholders::_1));
+    _router.handle(QStringLiteral("GET_CAMERAS"), std::bind(&ComputerController::onGetCameras, this, std::placeholders::_1));
 }
 
-void Controller::onGetCameras(Message const &message)
+void ComputerController::onGetCameras(Message const &message)
 {
     QJsonArray cameras;
     for(auto const &camera : QCameraInfo::availableCameras())

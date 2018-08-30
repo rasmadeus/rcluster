@@ -4,25 +4,25 @@
 #include <core_bus.h>
 #include <globals.h>
 #include <message.h>
-#include "main_view_controller.h"
+#include "controller_with_activity.h"
 #include "plugin.h"
 
-MainViewController::MainViewController()
+ControllerWithActivity::ControllerWithActivity()
     : QMainWindow{ nullptr, Qt::WindowTitleHint | Qt::WindowMinMaxButtonsHint }
     , SlaveController{}
 {
     setContentsMargins(rcluster::layoutGap(), rcluster::layoutGap(), rcluster::layoutGap(), rcluster::layoutGap());
-    connect(qApp, &QApplication::aboutToQuit, this, static_cast<void(MainViewController::*)()>(&MainViewController::storeSettings));
+    connect(qApp, &QApplication::aboutToQuit, this, static_cast<void(ControllerWithActivity::*)()>(&ControllerWithActivity::storeSettings));
 }
 
-void MainViewController::init()
+void ControllerWithActivity::onInit()
 {
     setWindowIcon(_plugin->pixmap({ 32, 32}));
     restoreSettings();
     show();
 }
 
-void MainViewController::storeSettings()
+void ControllerWithActivity::storeSettings()
 {
     QSettings settings;
     settings.beginGroup(QStringLiteral("main_view"));
@@ -32,7 +32,7 @@ void MainViewController::storeSettings()
     settings.endGroup();
 }
 
-void MainViewController::restoreSettings()
+void ControllerWithActivity::restoreSettings()
 {
     QSettings settings;
     settings.beginGroup(QStringLiteral("main_view"));

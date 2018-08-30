@@ -32,7 +32,7 @@ RESOURCES += \
     $$PWD/res.qrc
 
 TRANSLATIONS += \
-    ../../../translations/plugins/web_camera_ru.ts \
+    ../../../translations/plugins/camera_ru.ts \
 
 include($$(PRO_ROOT)/src/libs/config/config.pri)
 include($$(PRO_ROOT)/src/libs/plugin/plugin.pri)

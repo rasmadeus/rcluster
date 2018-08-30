@@ -17,9 +17,9 @@ public:
     virtual ~SlaveController() = default;
 
 public:
-    virtual void init() = 0;
-    virtual void onMessage(Message const &message) { _router.route(message); }
+    virtual void onInit() = 0;
     virtual void onSetup(Slave const &slave) = 0;
+    virtual void onMessage(Message const &message) { _router.route(message); }
 
 public:
 

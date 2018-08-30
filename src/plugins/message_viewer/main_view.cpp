@@ -6,7 +6,7 @@
 #include "main_view.h"
 
 MainView::MainView()
-    : MainViewController{}
+    : ControllerWithActivity{}
     , _log{ this }
 {
     setWindowTitle(tr("Message Viewer"));

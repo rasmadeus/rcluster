@@ -37,7 +37,7 @@ int main(int argc, char *argv[])
             app.quit();
     });
 
-    MainViewController mainView{ config, plugins, socket };
+    ControllerWithActivity mainView{ config, plugins, socket };
     mainView.show();
 
     return app.exec();

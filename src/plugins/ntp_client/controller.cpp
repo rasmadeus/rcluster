@@ -13,7 +13,7 @@ Controller::Controller()
 {
 }
 
-void Controller::init()
+void Controller::onInit()
 {
     connect(&_ntpClient, &NtpClient::replyReceived, this, &Controller::onReply);
     connect(_config, &Config::reseted, this, &Controller::restart);

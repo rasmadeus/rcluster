@@ -23,9 +23,6 @@ win32 {
         $$GSTREAMER_HOME/include/glib-2.0 \
         $$GSTREAMER_HOME/lib/glib-2.0/include
 
-    HEADERS += \
-        gstreamer_test.h
-
     LIBS += \
         -L$$GSTREAMER_HOME/lib \
         -lgstreamer-1.0 \

@@ -23,7 +23,8 @@ HEADERS += \
     editor.h \
     default_base_editor.h \
     slave_controller.h \
-    main_view_controller.h
+    controller_with_activity.h \
+    controller_without_activity.h
     pch.h
 
 SOURCES += \
@@ -33,7 +34,8 @@ SOURCES += \
     editor.cpp \
     default_base_editor.cpp \
     slave_controller.cpp \
-    main_view_controller.cpp
+    controller_with_activity.cpp \
+    controller_without_activity.cpp
 
 DISTFILES += \
     plugin.pri

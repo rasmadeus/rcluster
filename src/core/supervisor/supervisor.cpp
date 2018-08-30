@@ -52,6 +52,7 @@ void Supervisor::stop()
     static int const waitWhileProcessQuitMs = 1000;
     if (!_process->waitForFinished(waitWhileProcessQuitMs))
     {
+        qWarning() << "Failed to stop process" << _id << "The one will be killed.";
         _process->kill();
         _process->waitForFinished();
     }

@@ -1,8 +1,5 @@
-QT += \
-    multimedia
-
 TARGET = \
-    computer
+    cameras
 
 TEMPLATE = \
     lib
@@ -18,20 +15,16 @@ PRECOMPILED_HEADER = \
 
 HEADERS += \
     pch.h \
-    computer_editor.h \
-    computer_plugin.h \
-    computer_controller.h
+    cameras_plugin.h
 
 SOURCES += \
-    computer_editor.cpp \
-    computer_plugin.cpp \
-    computer_controller.cpp
+    cameras_plugin.cpp
 
 RESOURCES += \
     $$PWD/res.qrc
 
 TRANSLATIONS += \
-    ../../../translations/plugins/computer_ru.ts \
+    ../../../translations/plugins/camera_ru.ts \
 
 include($$(PRO_ROOT)/src/libs/config/config.pri)
 include($$(PRO_ROOT)/src/libs/plugin/plugin.pri)

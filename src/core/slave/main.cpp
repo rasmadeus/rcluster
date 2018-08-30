@@ -1,4 +1,5 @@
 #include <QApplication>
+#include <QLabel>
 #include <config.h>
 #include <config_watcher.h>
 #include <core_bus.h>
@@ -37,7 +38,7 @@ int main(int argc, char *argv[])
     controller->setConfig(config);
     controller->setPlugin(*plugin);
     controller->setCorebus(corebus);
-    controller->init();
+    controller->onInit();
 
     QObject::connect(&config, &Config::reseted, [&controller, &corebus, &config](){
         controller->onSetup(config.slave(corebus.id()));
