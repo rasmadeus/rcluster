@@ -15,6 +15,7 @@ public:
     void load();
     std::vector<Plugin*> children(QString const &type) const;
     Plugin* plugin(QString const &type) const { return _plugins[type]; }
+    bool contains(QString const &type) const { return _plugins.contains(type); }
 
 private:
     void clear();

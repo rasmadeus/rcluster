@@ -3,6 +3,7 @@
 #include <config.h>
 #include <log.h>
 #include <message.h>
+#include <plugins.h>
 #include <crash_handler.h>
 #include <translator.h>
 #include "config_storage.h"
@@ -20,8 +21,11 @@ int main(int argc, char *argv[])
     Translator{};
     qRegisterMetaType<Message>("Message");
 
+    Plugins plugins;
+    plugins.load();
+
     Config config;
-    ConfigStorage configStorage{ config };
+    ConfigStorage configStorage{ config, plugins };
     Server server{ rcluster::corePort(), config };
 
     TrayIcon trayIcon;

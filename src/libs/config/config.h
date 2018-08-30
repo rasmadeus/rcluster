@@ -22,6 +22,7 @@ public:
     QSet<QUuid> children(QUuid const &id) const { return _children.value(id); }
     QSet<QUuid> descendants(QUuid const &id) const;
     QSet<QUuid> slaves(QString const &type) const { return _types.value(type); }
+    QList<QUuid> slaves() const { return _slaves.keys(); }
     QSet<QUuid> events(QUuid const &id) const;
     Slave slave(QUuid const &id) const { return _slaves.value(id); }
     bool hasSlave(QUuid const &id) const { return _slaves.contains(id); }
