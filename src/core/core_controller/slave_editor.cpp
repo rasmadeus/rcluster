@@ -5,7 +5,7 @@
 #include <core_bus.h>
 #include <editor.h>
 #include <plugins.h>
-#include <slave_ids.h>
+#include <slave_as_params.h>
 #include "slave_editor.h"
 
 SlaveEditor::SlaveEditor(Config &config, Plugins &plugins, Corebus &corebus, QWidget &parent)
@@ -85,7 +85,7 @@ void SlaveEditor::apply()
     _corebus.send(QStringLiteral("UPDATE"), QStringLiteral("core"), {
         { QStringLiteral("slave"), _id },
         { QStringLiteral("params"), _editor->params() },
-        { QStringLiteral("events"), SlaveIds{ _editor->events() }.toArray() },
+        { QStringLiteral("slave_as_params"), SlaveAsParams{ _editor->slaveAsParams() }.toJson() },
     });
 }
 
@@ -95,7 +95,7 @@ void SlaveEditor::cancel()
 
     auto const slave = _config.slave(_id);
     _editor->setParams(slave.params());
-    _editor->setEvents(_config.events(_id));
+    _editor->setSlaveAsParams(slave.slaveAsParams());
 }
 
 void SlaveEditor::reserve()
@@ -104,5 +104,5 @@ void SlaveEditor::reserve()
 
     auto const slave = _config.slave(_id);
     _editor->setParams(_plugins.plugin(slave.type())->defaultParams());
-    _editor->setEvents({});
+    _editor->setSlaveAsParams({});
 }

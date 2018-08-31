@@ -11,14 +11,14 @@ void DefaultBaseEditor::init()
 {
 }
 
-QSet<QUuid> DefaultBaseEditor::events() const
+SlaveAsParams DefaultBaseEditor::slaveAsParams() const
 {
     return {};
 }
 
-void DefaultBaseEditor::setEvents(QSet<QUuid> const &events)
+void DefaultBaseEditor::setSlaveAsParams(SlaveAsParams const &slaveAsParams)
 {
-    Q_UNUSED(events)
+    Q_UNUSED(slaveAsParams)
 }
 
 QVariantHash DefaultBaseEditor::params() const

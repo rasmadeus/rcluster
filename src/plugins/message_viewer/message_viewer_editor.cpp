@@ -2,6 +2,7 @@
 #include <QLabel>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
+#include <config.h>
 #include <globals.h>
 #include <slave_proxy_check_model.h>
 #include "message_viewer_editor.h"
@@ -19,6 +20,7 @@ void MessageViewerEditor::init()
 {
     _slaveModel = new SlaveModelCheck{ *_config, *_plugins, *this };
     _slaveModel->setSlave(_id);
+    _slaveModel->setChecked(_config->slave(_id).slaveAsParams().slaves(QStringLiteral("slaves")));
 
     _slaveProxyModel = new SlaveProxyCheckModel{ *this };
     _slaveProxyModel->setSourceModel(_slaveModel);
@@ -64,8 +66,8 @@ void MessageViewerEditor::onConfigChanged()
     _slaveProxyModel->invalidate();
 }
 
-void MessageViewerEditor::setEvents(QSet<QUuid> const &events)
+void MessageViewerEditor::setSlaveAsParams(SlaveAsParams const &slaveAsParams)
 {
-    _slaveModel->setChecked(events);
+    _slaveModel->setChecked(slaveAsParams.slaves(QStringLiteral("slaves")));
     _treeView.expandAll();
 }

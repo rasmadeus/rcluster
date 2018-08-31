@@ -48,7 +48,7 @@ void ConfigViewMenu::appendSlave(QUuid const &parent, QString const &type)
     slave.setId(QUuid::createUuid());
     slave.setType(type);
     slave.setName(name);
-    slave.update(plugin->defaultParams());
+    slave.setParams(plugin->defaultParams());
 
     _corebus.send(QStringLiteral("APPEND"), QStringLiteral("core"), {
         { QStringLiteral("slave"), slave.toJson() },

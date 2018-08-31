@@ -4,7 +4,7 @@
 #include <QProcess>
 #include <QVariantHash>
 #include <storable.h>
-#include <slave_ids.h>
+#include <slave_as_params.h>
 
 class CONFIG_SHARED_EXPORT Slave : public Storable
 {
@@ -32,13 +32,12 @@ public:
 
     QVariantHash const &params() const { return _params; }
     QVariant param(QString const &key) const { return _params.value(key); }
-    void update(QVariantHash const &params) { _params = params; }
+    void setParams(QVariantHash const &params) { _params = params; }
 
-    void setListeners(SlaveIds const &listeners) { _listeners = listeners; }
-    void appendListener(QUuid const &id) { return _listeners.append(id); }
-    bool removeListener(QUuid const &id) { return _listeners.remove(id); }
-    bool isListener(QUuid const &id) const { return _listeners.contains(id); }
-    SlaveIds const &listeners() const { return _listeners; }
+    SlaveAsParams const &slaveAsParams() const { return _slaveAsParams; }
+    void setSlaveAsParams(SlaveAsParams const &slaveAsParams) { _slaveAsParams = slaveAsParams; }
+    bool removeSlaveParam(QUuid const &id) { return _slaveAsParams.remove(id); }
+    bool containsSlaveParams(QUuid const &id) const { return _slaveAsParams.contains(id); }
 
     QProcess::ProcessState processState() const { return _processState; }
     void setProcessState(QProcess::ProcessState state) { _processState = state; }
@@ -53,7 +52,7 @@ private:
     QString _name;
     bool _enabled{ true };
     QVariantHash _params;
-    SlaveIds _listeners;
+    SlaveAsParams _slaveAsParams;
     QProcess::ProcessState _processState{ QProcess::NotRunning };
     QVariantHash _runtimeParams;
 };

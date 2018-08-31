@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QUuid>
+#include <slave_as_params.h>
 #include "plugin_global.h"
 
 class Config;
@@ -19,8 +20,8 @@ public:
 public:
     virtual void init() = 0;
 
-    virtual QSet<QUuid> events() const = 0;
-    virtual void setEvents(QSet<QUuid> const &events) = 0;
+    virtual SlaveAsParams slaveAsParams() const = 0;
+    virtual void setSlaveAsParams(SlaveAsParams const &slaveAsParams) = 0;
 
     virtual QVariantHash params() const = 0;
     virtual void setParams(QVariantHash const &params) = 0;

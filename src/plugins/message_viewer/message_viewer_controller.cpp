@@ -3,9 +3,9 @@
 #include <QSettings>
 #include <core_bus.h>
 #include <message.h>
-#include "main_view.h"
+#include "message_viewer_controller.h"
 
-MainView::MainView()
+MessageViewerController::MessageViewerController()
     : ControllerWithActivity{}
     , _log{ this }
 {
@@ -15,7 +15,7 @@ MainView::MainView()
     resize(800, 600);
 }
 
-void MainView::onMessage(Message const &message)
+void MessageViewerController::onMessage(Message const &message)
 {
     ++_count;
     if (_count > 1000)

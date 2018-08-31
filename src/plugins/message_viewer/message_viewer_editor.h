@@ -18,8 +18,8 @@ public:
 
 public:
     void init() override;
-    QSet<QUuid> events() const override { return _slaveModel->checked(); }
-    void setEvents(QSet<QUuid> const &events) override;
+    SlaveAsParams slaveAsParams() const override { return { QStringLiteral("slaves"), _slaveModel->checked() } ; }
+    void setSlaveAsParams(SlaveAsParams const &slaveAsParams) override;
 
 private:
     void onTreeViewClicked(QModelIndex const &index);

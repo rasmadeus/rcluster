@@ -11,8 +11,8 @@ public:
 public:
     void init() override;
 
-    QSet<QUuid> events() const override;
-    void setEvents(QSet<QUuid> const &events) override;
+    SlaveAsParams slaveAsParams() const override;
+    void setSlaveAsParams(SlaveAsParams const &slaveAsParams) override;
 
     QVariantHash params() const override;
     void setParams(QVariantHash const &params) override;

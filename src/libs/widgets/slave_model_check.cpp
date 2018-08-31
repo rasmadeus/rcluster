@@ -9,7 +9,6 @@ SlaveModelCheck::SlaveModelCheck(Config const &config, Plugins const &plugins, Q
 void SlaveModelCheck::setSlave(QUuid const &slave)
 {
     _slave = slave;
-    setChecked(_config.events(_slave));
 }
 
 Qt::ItemFlags SlaveModelCheck::flags(QModelIndex const &index) const

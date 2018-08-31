@@ -16,13 +16,13 @@ PRECOMPILED_HEADER = \
 HEADERS += \
     pch.h \
     message_viewer_editor.h \
-    main_view.h \
-    message_viewer_plugin.h
+    message_viewer_plugin.h \
+    message_viewer_controller.h
 
 SOURCES += \
     message_viewer_editor.cpp \
-    main_view.cpp \
-    message_viewer_plugin.cpp
+    message_viewer_plugin.cpp \
+    message_viewer_controller.cpp
 
 RESOURCES += \
     $$PWD/res.qrc

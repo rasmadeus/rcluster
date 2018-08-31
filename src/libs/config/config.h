@@ -23,12 +23,12 @@ public:
     QSet<QUuid> descendants(QUuid const &id) const;
     QSet<QUuid> slaves(QString const &type) const { return _types.value(type); }
     QList<QUuid> slaves() const { return _slaves.keys(); }
-    QSet<QUuid> events(QUuid const &id) const;
     Slave slave(QUuid const &id) const { return _slaves.value(id); }
     bool hasSlave(QUuid const &id) const { return _slaves.contains(id); }
     QSet<QUuid> localComputers() const;
     bool isLocal(QUuid const &id) const;
     QUuid parent(QUuid const &id, QString const &parentType) const;
+    QVector<QUuid> listeners(QUuid const &id) const;
 
 public:
     void append(Slave const &slave);
@@ -36,8 +36,8 @@ public:
     void enable(QUuid const &id);
     void disable(QUuid const &id);
     void rename(QUuid const &id, QString const &name);
-    void update(QUuid const &id, QVariantHash const &params, QSet<QUuid> const &events);
-    void update(QUuid const &id, QProcess::ProcessState state);
+    void update(QUuid const &id, QVariantHash const &params, SlaveAsParams const &slaveAsParams);
+    void setProcessState(QUuid const &id, QProcess::ProcessState state);
     void setRuntimeParam(QUuid const &id, QString const &key, QVariant const &param);
 
 signals:

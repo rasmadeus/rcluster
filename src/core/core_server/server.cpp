@@ -119,7 +119,7 @@ void Server::notifyListeners(Message const &message)
     if (!_config.hasSlave(slave))
         return;
 
-    for(auto const &id : _config.slave(slave).listeners().ids())
+    for(auto const &id : _config.listeners(slave))
     {
         auto it = _registeredClients.find(id);
         if (it != _registeredClients.end())
@@ -172,10 +172,12 @@ void Server::onConfigSlaveDisabled(QUuid const &slave)
 
 void Server::onConfigSlaveUpdated(QUuid const &slave)
 {
+    auto const slaveObject = _config.slave(slave);
+
     send(QStringLiteral("UPDATE"), {
         { QStringLiteral("slave"), slave },
-        { QStringLiteral("params"), _config.slave(slave).params() },
-        { QStringLiteral("events"), SlaveIds{ _config.events(slave) }.toArray() },
+        { QStringLiteral("params"), slaveObject.params() },
+        { QStringLiteral("slave_as_params"), slaveObject.slaveAsParams().toJson() },
     });
 }
 

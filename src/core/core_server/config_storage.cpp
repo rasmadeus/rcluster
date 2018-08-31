@@ -25,7 +25,7 @@ void ConfigStorage::clean()
     for(auto const &id : _config.slaves())
     {
         if (_plugins.contains(_config.slave(id).type()))
-            _config.update(id, QProcess::NotRunning);
+            _config.setProcessState(id, QProcess::NotRunning);
         else
             _config.remove(id);
     }

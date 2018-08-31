@@ -4,12 +4,12 @@
 #include <QPlainTextEdit>
 #include <controller_with_activity.h>
 
-class MainView : public ControllerWithActivity
+class MessageViewerController : public ControllerWithActivity
 {
     Q_OBJECT
 
 public:
-    explicit MainView();
+    explicit MessageViewerController();
 
 public:
     void onMessage(Message const &message) override;

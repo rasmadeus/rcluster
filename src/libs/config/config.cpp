@@ -1,4 +1,5 @@
 #include <QDebug>
+#include <QJsonArray>
 #include <QNetworkInterface>
 #include "config.h"
 
@@ -45,15 +46,6 @@ QSet<QUuid> Config::descendants(QUuid const &id) const
     return res;
 }
 
-QSet<QUuid> Config::events(QUuid const &id) const
-{
-    QSet<QUuid> res;
-    for(auto const &slave : _slaves)
-        if (slave.isListener(id))
-            res << slave.id();
-    return res;
-}
-
 QSet<QUuid> Config::localComputers() const
 {
     QSet<QUuid> res;
@@ -91,6 +83,20 @@ QUuid Config::parent(QUuid const &id, QString const &parentType) const
         return parent.id();
 
     return this->parent(parent.id(), parentType);
+}
+
+QVector<QUuid> Config::listeners(QUuid const &id) const
+{
+    QVector<QUuid> res;
+    for(auto const &slave : _slaves)
+    {
+        if (slave.id() == id)
+            continue;
+
+        if (slave.containsSlaveParams(id))
+            res << slave.id();
+    }
+    return  res;
 }
 
 void Config::append(Slave const &slave)
@@ -137,7 +143,10 @@ void Config::removeSlave(QUuid const &id)
     Q_ASSERT(_slaves.remove(id) == 1);
 
     for(auto &slave : _slaves)
-        slave.removeListener(id);
+    {
+        if (slave.removeSlaveParam(id))
+            emit updated(slave.id());
+    }
 
     emit removed(id);
 }
@@ -225,7 +234,7 @@ void Config::rename(QUuid const &id, QString const &name)
     emit renamed(id);
 }
 
-void Config::update(QUuid const &id, QVariantHash const &params, QSet<QUuid> const &events)
+void Config::update(QUuid const &id, QVariantHash const &params, SlaveAsParams const &slaveAsParams)
 {
     if (!_slaves.contains(id))
     {
@@ -234,23 +243,13 @@ void Config::update(QUuid const &id, QVariantHash const &params, QSet<QUuid> con
     }
 
     auto &slave = _slaves[id];
-    slave.update(params);
-
-    for(auto &slave : _slaves)
-    {
-        if (slave.id() == id)
-            continue;
-
-        if (events.contains(slave.id()))
-            slave.appendListener(id);
-        else
-            slave.removeListener(id);
-    }
+    slave.setParams(params);
+    slave.setSlaveAsParams(slaveAsParams);
 
     emit updated(id);
 }
 
-void Config::update(QUuid const &id, QProcess::ProcessState state)
+void Config::setProcessState(QUuid const &id, QProcess::ProcessState state)
 {
     if (!_slaves.contains(id))
     {

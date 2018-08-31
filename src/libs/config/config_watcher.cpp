@@ -64,13 +64,13 @@ void ConfigWatcher::onUpdateSlave(Message const &message)
     _config.update(
         message.param(QStringLiteral("slave")).toUuid(),
         message.param(QStringLiteral("params")).value<QVariantHash>(),
-        SlaveIds{ message.param(QStringLiteral("events")).toJsonArray() }.ids()
+        SlaveAsParams{ message.param(QStringLiteral("slave_as_params")).toJsonObject() }
     );
 }
 
 void ConfigWatcher::onProcess(Message const &message)
 {
-    _config.update(
+    _config.setProcessState(
         message.param(QStringLiteral("slave")).toUuid(),
         message.param(QStringLiteral("process_state")).value<QProcess::ProcessState>()
     );
