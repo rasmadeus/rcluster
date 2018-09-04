@@ -1,4 +1,3 @@
-#include <rtsp_server.h>
 #include <QFormLayout>
 #include <globals.h>
 #include <config.h>
@@ -53,7 +52,7 @@ void CameraEditor::setParams(QVariantHash const &params)
 
 void CameraEditor::updateUrlLabel()
 {
-    _urlLabel.setText(RtspServer::url(host(), port(), mountPath()));
+    _urlLabel.setText("dsf");
 }
 
 QString CameraEditor::host() const
@@ -69,7 +68,7 @@ QString CameraEditor::port() const
 
 QString CameraEditor::mountPath() const
 {
-    return RtspServer::mountPath(_id);
+    return {};
 }
 
 QString CameraEditor::launch() const

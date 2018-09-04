@@ -19,6 +19,7 @@ public:
 signals:
     void started();
     void stopped();
+    void error();
 };
 
 #endif // DEVICE_H

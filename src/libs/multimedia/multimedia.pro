@@ -1,7 +1,8 @@
 QT  += \
     core \
     gui \
-    widgets
+    widgets \
+    multimedia
 
 TARGET = \
     multimedia
@@ -10,7 +11,8 @@ TEMPLATE = \
     lib
 
 DEFINES += \
-    MULTIMEDIA_LIBRARY
+    MULTIMEDIA_LIBRARY \
+    __STDC_CONSTANT_MACROS
 
 CONFIG += \
     c++14 \
@@ -22,13 +24,11 @@ PRECOMPILED_HEADER = \
 
 HEADERS += \
     multimedia_global.h \
-    rtsp_server.h \
-    gloop.h
+    video_source.h
     pch.h
 
 SOURCES += \
-    rtsp_server.cpp \
-    gloop.cpp
+    video_source.cpp
 
 DISTFILES += \
     multimedia.pri
@@ -36,6 +36,6 @@ DISTFILES += \
 TRANSLATIONS += \
     ../../translations/libs/multimedia_ru.ts \
 
-include($$(PRO_ROOT)/src/common/gstreamer.pri)
+include($$(PRO_ROOT)/src/common/ffmpeg.pri)
 include($$(PRO_ROOT)/src/libs/utils/utils.pri)
 include($$(PRO_ROOT)/src/common/install_lib.pri)

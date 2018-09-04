@@ -7,7 +7,7 @@
 class CameraPlugin : public QObject, public DefaultBasePlugin
 {
     Q_OBJECT
-    Q_PLUGIN_METADATA(IID "rcluster.plugin.web_camera")
+    Q_PLUGIN_METADATA(IID "rcluster.plugin.camera")
     Q_INTERFACES(Plugin)
 
 public:

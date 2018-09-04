@@ -1,38 +1,43 @@
-extern "C"
-{
-    #include <gst/gst.h>
-}
-
 #include <config.h>
 #include <core_bus.h>
 #include "camera_controller.h"
+#include <QCameraInfo>
+#include <video_source.h>
 
 CameraController::CameraController()
     : ControllerWithoutActivity{}
 {
-    gst_init(nullptr, nullptr);
-    _gloop = std::make_unique<Gloop>();
-    _server = std::make_unique<RtspServer>();
 }
 
 CameraController::~CameraController()
 {
-    stop();
 }
 
 void CameraController::onSetup(Slave const &slave)
 {
-    stop();
-    start(slave);
+    auto cam = QCameraInfo::availableCameras().first();
+    auto const params = QVariantHash{ { QStringLiteral("device_desc"), cam.description() }, };
+
+    _videoSource = std::make_unique<VideoSource>();
+    _thread = std::make_unique<QThread>();
+    _videoSource->moveToThread(_thread.get());
+    connect(this, &CameraController::started, _videoSource.get(), &VideoSource::start);
+    connect(_videoSource.get(), &VideoSource::ready, this, &CameraController::onCamReady);
+    _thread->start();
+    emit started(params);
 }
 
-void CameraController::stop()
+void CameraController::onCamStarted()
 {
-    if (_server->isStarted())
-        _server->stop();
+    qDebug() << "Camera started";
 }
 
-void CameraController::start(Slave const &slave)
+void CameraController::onCamStopped()
 {
-    _server->start(slave.params());
+    qDebug() << "Camera stopped";
+}
+
+void CameraController::onCamReady()
+{
+    qDebug() << "Camera ready";
 }

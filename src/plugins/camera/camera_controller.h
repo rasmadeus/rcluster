@@ -1,12 +1,11 @@
 #ifndef CAMERA_CONTROLLER_H
 #define CAMERA_CONTROLLER_H
 
-#include <rtsp_server.h>
-#include <gloop.h>
-
+#include <memory>
+#include <QThread>
 #include <QObject>
 #include <controller_without_activity.h>
-#include <memory>
+#include <video_source.h>
 
 class CameraController : public ControllerWithoutActivity
 {
@@ -20,13 +19,16 @@ public:
     void onSetup(Slave const &slave) override;
 
 private:
-    void stop();
-    void start(Slave const &slave);
+    void onCamStarted();
+    void onCamStopped();
+    void onCamReady();
+
+signals:
+    void started(QVariantHash const &params);
 
 private:
-    std::unique_ptr<Gloop> _gloop;
-    std::unique_ptr<RtspServer> _server;
-
+    std::unique_ptr<QThread> _thread;
+    std::unique_ptr<VideoSource> _videoSource;
 };
 
 #endif // CAMERA_CONTROLLER_H

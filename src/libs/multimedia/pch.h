@@ -1,8 +1,11 @@
 #ifndef PCH_H
 #define PCH_H
 
-#include <gst/gst.h>
-#include <gst/rtsp-server/rtsp-server.h>
+extern "C"
+{
+    #include <libavdevice/avdevice.h>
+    #include <libavformat/avformat.h>
+}
 
 #if defined __cplusplus
     #include <QtCore>
