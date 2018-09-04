@@ -2,7 +2,9 @@
 #define CAMERA_EDITOR_H
 
 #include <QComboBox>
+#include <QLabel>
 #include <default_base_editor.h>
+#include <port_spin_box.h>
 #include <message_router.h>
 
 class CameraEditor : public DefaultBaseEditor
@@ -18,12 +20,17 @@ public:
     void setParams(QVariantHash const &params) override;
 
 private:
-    void onMessage(Message const &message);
-    void onCameras(Message const &message);
+    void updateUrlLabel();
+    QString host() const;
+    QString port() const;
+    QString mountPath() const;
+    QString launch() const;
 
 private:
-    QComboBox _cameras;
-    MessageRouter _router;
+    QComboBox _typesComboBox;
+    PortSpinBox _portSpinBox;
+    QLabel _urlLabel;
+
 };
 
 #endif // CAMERA_EDITOR_H

@@ -6,8 +6,10 @@ SUBDIRS += \
     config \
     plugin \
     widgets \
-    utils
+    utils \
+    multimedia
 
 config.depends = transport
 transport.depends = utils
 plugin.depends = utils
+multimedia.depends = utils

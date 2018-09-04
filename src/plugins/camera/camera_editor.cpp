@@ -1,57 +1,81 @@
+#include <rtsp_server.h>
 #include <QFormLayout>
 #include <globals.h>
 #include <config.h>
 #include <core_bus.h>
 #include <message.h>
 #include "camera_editor.h"
+#include "video_source_type.h"
 
 CameraEditor::CameraEditor(QWidget &parent)
     : DefaultBaseEditor{ parent }
-    , _cameras{ this }
+    , _typesComboBox{ this }
+    , _portSpinBox{ this }
+    , _urlLabel{ this }
 {
-    _router.handle(QStringLiteral("CAMERAS"), std::bind(&CameraEditor::onCameras, this, std::placeholders::_1));
+    _typesComboBox.addItem(tr("Fake camera"), QVariant::fromValue(VideoSourceType::Fake));
 
     auto mainLayout = new QFormLayout{ this };
-    mainLayout->setMargin(0);
     mainLayout->setSpacing(rcluster::layoutGap());
-    mainLayout->addRow(tr("Cameras:"), &_cameras);
+    mainLayout->setMargin(0);
+
+    mainLayout->addRow(tr("Camera type:"), &_typesComboBox);
+    mainLayout->addRow(tr("Server port:"), &_portSpinBox);
+    mainLayout->addRow(tr("Server url:"), &_urlLabel);
 }
 
 void CameraEditor::init()
 {
-    connect(_corebus, &Corebus::ready, this, &CameraEditor::onMessage);
+    connect(&_portSpinBox, static_cast<void(PortSpinBox::*)(int)>(&PortSpinBox::valueChanged), this, &CameraEditor::updateUrlLabel);
 }
 
 QVariantHash CameraEditor::params() const
 {
     return {
-        { QStringLiteral("name"), _cameras.currentData() },
+        { QStringLiteral("type"), _typesComboBox.currentData() },
+        { QStringLiteral("host"), host() },
+        { QStringLiteral("port"), port() },
+        { QStringLiteral("mount_path"), mountPath() },
+        { QStringLiteral("launch"), launch() },
     };
 }
 
 void CameraEditor::setParams(QVariantHash const &params)
 {
-    Q_UNUSED(params)
-    auto const id = _config->parent(_id, QStringLiteral("COMPUTER"));
-    _corebus->send(QStringLiteral("GET_CAMERAS"), id.toString());
+    auto const type = params.value(QStringLiteral("type"));
+    _typesComboBox.setCurrentIndex(std::max(0, _typesComboBox.findData(type)));
+
+    auto const port = params.value(QStringLiteral("port"));
+    _portSpinBox.setValue(params.value(QStringLiteral("port")).toInt());
+
+    updateUrlLabel();
 }
 
-void CameraEditor::onMessage(Message const &message)
+void CameraEditor::updateUrlLabel()
 {
-    _router.route(message);
+    _urlLabel.setText(RtspServer::url(host(), port(), mountPath()));
 }
 
-void CameraEditor::onCameras(Message const &message)
+QString CameraEditor::host() const
 {
-    _cameras.clear();
-    _cameras.addItem(tr("Don't use"), QString{});
+    auto const computerId = _config->parent(_id, QStringLiteral("COMPUTER"));
+    return _config->slave(computerId).param(QStringLiteral("ip")).toString();
+}
 
-    for(auto const value : message.param(QStringLiteral("cameras")).toJsonArray())
+QString CameraEditor::port() const
+{
+    return QString::number(_portSpinBox.value());
+}
+
+QString CameraEditor::mountPath() const
+{
+    return RtspServer::mountPath(_id);
+}
+
+QString CameraEditor::launch() const
+{
+    switch (_typesComboBox.currentData().value<VideoSourceType>())
     {
-        auto const camera = value.toObject();
-        _cameras.addItem(camera.value(QStringLiteral("desc")).toString(), camera.value(QStringLiteral("name")).toString());
+        case VideoSourceType::Fake: return QStringLiteral("( videotestsrc is-live=1 ! x264enc ! rtph264pay name=pay0 pt=96 )");
     }
-
-    auto const name = _config->slave(_id).param(QStringLiteral("name"));
-    _cameras.setCurrentIndex(std::max(0, _cameras.findData(name)));
 }

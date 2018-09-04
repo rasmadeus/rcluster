@@ -14,6 +14,7 @@ public:
     QString parent() const override { return QStringLiteral("CAMERAS"); }
     QString type() const override { return QStringLiteral("CAMERA"); }
     QString defaultName() const override { return tr("Camera"); }
+    QVariantHash defaultParams() const override;
     bool hasProcess() const override { return true; }
     bool hasEditor() const override { return true; }
     Editor *editor(QWidget &parent) const override;

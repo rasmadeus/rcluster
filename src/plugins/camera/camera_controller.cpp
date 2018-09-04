@@ -11,6 +11,8 @@ CameraController::CameraController()
     : ControllerWithoutActivity{}
 {
     gst_init(nullptr, nullptr);
+    _gloop = std::make_unique<Gloop>();
+    _server = std::make_unique<RtspServer>();
 }
 
 CameraController::~CameraController()
@@ -26,24 +28,11 @@ void CameraController::onSetup(Slave const &slave)
 
 void CameraController::stop()
 {
-    if (_runner != nullptr)
-    {
-        _runner->stop();
-        _runner->wait();
-        _runner.reset();
-    }
+    if (_server->isStarted())
+        _server->stop();
 }
 
 void CameraController::start(Slave const &slave)
 {
-    Q_ASSERT(_runner == nullptr);
-
-    auto const computer = _config->parent(slave.id(), QStringLiteral("COMPUTER"));
-    auto const ip = _config->slave(computer).param(QStringLiteral("ip")).toString();
-    auto mountPath = slave.id().toString();
-    mountPath.replace(QStringLiteral("{"), QString{});
-    mountPath.replace(QStringLiteral("}"), QString{});
-
-    _runner = std::make_unique<RtspServerRunner>(ip, QStringLiteral("/%1").arg(mountPath), "( videotestsrc is-live=1 ! x264enc ! rtph264pay name=pay0 pt=96 )");
-    _runner->start();
+    _server->start(slave.params());
 }

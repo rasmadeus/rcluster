@@ -27,17 +27,22 @@ HEADERS += \
     globals.h \
     qt_types_hash.h \
     storable.h \
-    svg.h
+    svg.h \
+    device.h
     pch.h
 
 SOURCES += \
     translator.cpp \
     crash_handler.cpp \
     log.cpp \
-    storable.cpp
+    storable.cpp \
+    device.cpp
 
 DISTFILES += \
     utils.pri
+
+TRANSLATIONS += \
+    ../../translations/libs/utils_ru.ts \
 
 include($$(PRO_ROOT)/src/common/boost.pri)
 include($$(PRO_ROOT)/src/common/install_lib.pri)

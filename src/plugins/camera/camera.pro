@@ -18,15 +18,13 @@ HEADERS += \
     camera_editor.h \
     camera_plugin.h \
     camera_controller.h \
-    rtsp_server.h \
-    rtsp_server_runner.h
+    video_source_type.h
 
 SOURCES += \
     camera_editor.cpp \
     camera_plugin.cpp \
     camera_controller.cpp \
-    rtsp_server.cpp \
-    rtsp_server_runner.cpp
+    video_source_type.cpp
 
 RESOURCES += \
     $$PWD/res.qrc
@@ -36,5 +34,6 @@ TRANSLATIONS += \
 
 include($$(PRO_ROOT)/src/libs/config/config.pri)
 include($$(PRO_ROOT)/src/libs/plugin/plugin.pri)
-include($$(PRO_ROOT)/src/common/gstreamer.pri)
+include($$(PRO_ROOT)/src/libs/widgets/widgets.pri)
+include($$(PRO_ROOT)/src/libs/multimedia/multimedia.pri)
 include($$(PRO_ROOT)/src/common/install_plugin.pri)
