@@ -7,23 +7,16 @@
 CameraController::CameraController()
     : ControllerWithoutActivity{}
 {
-}
-
-CameraController::~CameraController()
-{
+    connect(&_videoSource, &VideoSource::started, this, &CameraController::onCamStarted);
+    connect(&_videoSource, &VideoSource::stopped, this, &CameraController::onCamStopped);
+    connect(&_videoSource, &VideoSource::ready, this, &CameraController::onCamReady);
 }
 
 void CameraController::onSetup(Slave const &slave)
 {
     auto cam = QCameraInfo::availableCameras().first();
     auto const params = QVariantHash{ { QStringLiteral("device_desc"), cam.description() }, };
-
-    _videoSource = std::make_unique<VideoSource>();
-    _thread = std::make_unique<QThread>();
-    _videoSource->moveToThread(_thread.get());
-    connect(this, &CameraController::started, _videoSource.get(), &VideoSource::start);
-    connect(_videoSource.get(), &VideoSource::ready, this, &CameraController::onCamReady);
-    _thread->start();
+    _videoSource.start(params);
     emit started(params);
 }
 

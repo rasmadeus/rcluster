@@ -99,6 +99,15 @@ QVector<QUuid> Config::listeners(QUuid const &id) const
     return  res;
 }
 
+QVector<QUuid> Config::siblings(QUuid const &id) const
+{
+    QVector<QUuid> res;
+    for(auto &&siblingId : children(parent(id, QStringLiteral("COMPUTER"))))
+        if (id != siblingId)
+            res << std::move(siblingId);
+    return res;
+}
+
 void Config::append(Slave const &slave)
 {
     if (appendSlave(slave))

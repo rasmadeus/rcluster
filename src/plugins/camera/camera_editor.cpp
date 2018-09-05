@@ -1,4 +1,7 @@
 #include <QFormLayout>
+#include <QJsonArray>
+#include <QJsonObject>
+#include <QJsonValue>
 #include <globals.h>
 #include <config.h>
 #include <core_bus.h>
@@ -8,73 +11,77 @@
 
 CameraEditor::CameraEditor(QWidget &parent)
     : DefaultBaseEditor{ parent }
-    , _typesComboBox{ this }
-    , _portSpinBox{ this }
-    , _urlLabel{ this }
+    , _cameras{ this }
 {
-    _typesComboBox.addItem(tr("Fake camera"), QVariant::fromValue(VideoSourceType::Fake));
+    _cameras.addItem(tr("No data"));
+    _cameras.setEnabled(false);
+
+    _router.handle(QStringLiteral("CAMERAS"), std::bind(&CameraEditor::onCameras, this, std::placeholders::_1));
 
     auto mainLayout = new QFormLayout{ this };
     mainLayout->setSpacing(rcluster::layoutGap());
     mainLayout->setMargin(0);
-
-    mainLayout->addRow(tr("Camera type:"), &_typesComboBox);
-    mainLayout->addRow(tr("Server port:"), &_portSpinBox);
-    mainLayout->addRow(tr("Server url:"), &_urlLabel);
+    mainLayout->addRow(tr("Cameras:"), &_cameras);
 }
 
 void CameraEditor::init()
 {
-    connect(&_portSpinBox, static_cast<void(PortSpinBox::*)(int)>(&PortSpinBox::valueChanged), this, &CameraEditor::updateUrlLabel);
+    connect(_corebus, &Corebus::ready, this, &CameraEditor::onMessage);
+
+    auto computer = _config->parent(_id, QStringLiteral("COMPUTER"));
+    _corebus->send(QStringLiteral("GET_CAMERAS"), computer.toString());
 }
 
 QVariantHash CameraEditor::params() const
 {
     return {
-        { QStringLiteral("type"), _typesComboBox.currentData() },
-        { QStringLiteral("host"), host() },
-        { QStringLiteral("port"), port() },
-        { QStringLiteral("mount_path"), mountPath() },
-        { QStringLiteral("launch"), launch() },
+        { QStringLiteral("device_desc"), _cameras.currentData() },
     };
 }
 
 void CameraEditor::setParams(QVariantHash const &params)
 {
-    auto const type = params.value(QStringLiteral("type"));
-    _typesComboBox.setCurrentIndex(std::max(0, _typesComboBox.findData(type)));
-
-    auto const port = params.value(QStringLiteral("port"));
-    _portSpinBox.setValue(params.value(QStringLiteral("port")).toInt());
-
-    updateUrlLabel();
+    Q_UNUSED(params)
 }
 
-void CameraEditor::updateUrlLabel()
+void CameraEditor::onMessage(Message const &message)
 {
-    _urlLabel.setText("dsf");
+    _router.route(message);
 }
 
-QString CameraEditor::host() const
+void CameraEditor::onCameras(Message const &message)
 {
-    auto const computerId = _config->parent(_id, QStringLiteral("COMPUTER"));
-    return _config->slave(computerId).param(QStringLiteral("ip")).toString();
-}
+    _cameras.clear();
+    _cameras.addItem(tr("Don't use"));
 
-QString CameraEditor::port() const
-{
-    return QString::number(_portSpinBox.value());
-}
-
-QString CameraEditor::mountPath() const
-{
-    return {};
-}
-
-QString CameraEditor::launch() const
-{
-    switch (_typesComboBox.currentData().value<VideoSourceType>())
+    for(auto value : message.param(QStringLiteral("cameras")).toJsonArray())
     {
-        case VideoSourceType::Fake: return QStringLiteral("( videotestsrc is-live=1 ! x264enc ! rtph264pay name=pay0 pt=96 )");
+        auto const object = value.toObject();
+        auto const desc = object.value(QStringLiteral("desc"));
+        _cameras.addItem(desc.toString(), desc);
     }
+
+    _cameras.setEnabled(_cameras.count() > 1);
+
+    auto deviceDesc = _config->slave(_id).param(QStringLiteral("device_desc"));
+    _cameras.setCurrentIndex(std::max(0, _cameras.findData(deviceDesc)));
+}
+
+QStringList CameraEditor::errors() const
+{
+    QStringList errors;
+    for(auto const &id : _config->siblings(_id))
+    {
+        auto const slave = _config->slave(id);
+        auto const deviceDesc = slave.param(QStringLiteral("device_desc"));
+        if (!deviceDesc.isValid())
+            continue;
+
+        if (deviceDesc == _cameras.currentData())
+        {
+            errors << tr("Camera \"%1\" has been already selected at \"%2\".").arg(deviceDesc.toString()).arg(slave.name());
+            break;
+        }
+    }
+    return errors;
 }

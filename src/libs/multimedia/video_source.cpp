@@ -51,24 +51,8 @@ private:
 };
 
 VideoSource::VideoSource(QObject *parent)
-    : Device{ parent }
+    : ActiveDevice{ parent }
 {
-}
-
-VideoSource::~VideoSource()
-{
-    stop();
-}
-
-void VideoSource::start(QVariantHash const &params)
-{
-    stop();
-    run(params);
-}
-
-void VideoSource::stop()
-{
-    _doStop = true;
 }
 
 void VideoSource::run(QVariantHash const &params)
@@ -79,13 +63,12 @@ void VideoSource::run(QVariantHash const &params)
     auto const deviceDesc = QStringLiteral("video=%1").arg(params.value(QStringLiteral("device_desc")).toString());
 
     auto formatContext = avformat_alloc_context();
+    AVFormatContextGuard const formatContextGuard{ formatContext };
     if (!formatContext)
     {
         qCritical() << "Failed to create avformat_alloc_context for" << format << deviceDesc;
         return;
     }
-
-    AVFormatContextGuard const formatContextGuard{ formatContext };
 
     auto formatInput = av_find_input_format(format.toStdString().c_str());
     if (!formatInput)
@@ -109,7 +92,7 @@ void VideoSource::run(QVariantHash const &params)
     int videoStream = -1;
     for(std::size_t i = 0; i < formatContext->nb_streams; ++i)
     {
-        if(formatContext->streams[i]->codec->coder_type == AVMEDIA_TYPE_VIDEO)
+        if(formatContext->streams[i]->codecpar->codec_type == AVMEDIA_TYPE_VIDEO)
         {
             videoStream = static_cast<int>(i);
             break;
@@ -123,17 +106,16 @@ void VideoSource::run(QVariantHash const &params)
     }
 
     auto stream = formatContext->streams[videoStream];
-
-    auto codecContext = stream->codec;
-    AVCodecContextGuard const codecContextGuard{ codecContext };
-
-    auto codec = avcodec_find_decoder(codecContext->codec_id);
+    auto codec = avcodec_find_decoder(stream->codecpar->codec_id);
 
     if (codec == nullptr)
     {
         qCritical() << "Failed to avcodec_find_decoder for" << format << deviceDesc;
         return;
     }
+
+    auto codecContext = stream->codec;
+    AVCodecContextGuard const codecContextGuard{ codecContext };
 
     if (avcodec_open2(codecContext, codec, nullptr) < 0)
     {
@@ -151,7 +133,7 @@ void VideoSource::run(QVariantHash const &params)
 
     emit started();
 
-    while(!_doStop)
+    while(!doStop())
     {
         if (av_read_frame(formatContext, &packet) < 0)
             break;
@@ -161,4 +143,5 @@ void VideoSource::run(QVariantHash const &params)
     }
 
     emit stopped();
+
 }

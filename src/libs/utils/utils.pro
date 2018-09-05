@@ -28,7 +28,8 @@ HEADERS += \
     qt_types_hash.h \
     storable.h \
     svg.h \
-    device.h
+    device.h \
+    active_device.h
     pch.h
 
 SOURCES += \
@@ -36,7 +37,8 @@ SOURCES += \
     crash_handler.cpp \
     log.cpp \
     storable.cpp \
-    device.cpp
+    device.cpp \
+    active_device.cpp
 
 DISTFILES += \
     utils.pri

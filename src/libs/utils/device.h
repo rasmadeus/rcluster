@@ -16,10 +16,13 @@ public:
     virtual void start(QVariantHash const &params) = 0;
     virtual void stop() = 0;
 
+protected:
+    void logError(QString const &what);
+
 signals:
     void started();
     void stopped();
-    void error();
+    void error(QString const &what);
 };
 
 #endif // DEVICE_H

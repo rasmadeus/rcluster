@@ -1,29 +1,21 @@
 #ifndef VIDEO_SOURCE_H
 #define VIDEO_SOURCE_H
 
-#include <QObject>
-#include <device.h>
+#include <active_device.h>
+#include <multimedia_global.h>
 
-class VideoSource : public Device
+class MULTIMEDIA_SHARED_EXPORT VideoSource : public ActiveDevice
 {
     Q_OBJECT
 
 public:
     explicit VideoSource(QObject *parent = nullptr);
-    ~VideoSource() override;
 
-public:
-    void start(QVariantHash const &params) override;
-    void stop() override;
+protected:
+    void run(QVariantHash const &params) override;
 
-private:
-    void run(QVariantHash const &params);
-
-Q_SIGNALS:
+signals:
     void ready();
-
-private:
-    bool _doStop{ false };
 };
 
 #endif // VIDEO_SOURCE_H
