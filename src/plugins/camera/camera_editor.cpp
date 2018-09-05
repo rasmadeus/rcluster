@@ -70,7 +70,8 @@ void CameraEditor::onCameras(Message const &message)
 QStringList CameraEditor::errors() const
 {
     QStringList errors;
-    for(auto const &id : _config->siblings(_id))
+    auto const computerId = _config->parent(_id, QStringLiteral("COMPUTER"));
+    for(auto const &id : _config->descendants(computerId, QStringLiteral("CAMERA")))
     {
         auto const slave = _config->slave(id);
         auto const deviceDesc = slave.param(QStringLiteral("device_desc"));
@@ -79,7 +80,7 @@ QStringList CameraEditor::errors() const
 
         if (deviceDesc == _cameras.currentData())
         {
-            errors << tr("Camera \"%1\" has been already selected at \"%2\".").arg(deviceDesc.toString()).arg(slave.name());
+            errors << tr("Camera \"%1\" has been already selected.").arg(deviceDesc.toString());
             break;
         }
     }

@@ -40,8 +40,23 @@ QSet<QUuid> Config::descendants(QUuid const &id) const
     for(auto const &child : children(id))
     {
         res << child;
-        for(auto const &descendant : descendants(child))
-            res << descendant;
+        for(auto &&descendant : descendants(child))
+            res << std::move(descendant);
+    }
+    return res;
+}
+
+QVector<QUuid> Config::descendants(QUuid const &id, QString const &type) const
+{
+    QVector<QUuid> res;
+    for(auto const &child : children(id))
+    {
+        auto const slave = this->slave(child);
+        if (slave.id() != id && slave.type() == type)
+            res << child;
+
+        for(auto &&descendant : descendants(child))
+            res << std::move(descendant);
     }
     return res;
 }
@@ -97,15 +112,6 @@ QVector<QUuid> Config::listeners(QUuid const &id) const
             res << slave.id();
     }
     return  res;
-}
-
-QVector<QUuid> Config::siblings(QUuid const &id) const
-{
-    QVector<QUuid> res;
-    for(auto &&siblingId : children(parent(id, QStringLiteral("COMPUTER"))))
-        if (id != siblingId)
-            res << std::move(siblingId);
-    return res;
 }
 
 void Config::append(Slave const &slave)

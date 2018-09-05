@@ -19,9 +19,6 @@ private:
     void onCamStopped();
     void onCamReady();
 
-signals:
-    void started(QVariantHash const &params);
-
 private:
     VideoSource _videoSource;
 };

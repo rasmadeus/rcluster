@@ -14,10 +14,7 @@ CameraController::CameraController()
 
 void CameraController::onSetup(Slave const &slave)
 {
-    auto cam = QCameraInfo::availableCameras().first();
-    auto const params = QVariantHash{ { QStringLiteral("device_desc"), cam.description() }, };
-    _videoSource.start(params);
-    emit started(params);
+    _videoSource.start(slave.params());
 }
 
 void CameraController::onCamStarted()

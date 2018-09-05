@@ -57,10 +57,12 @@ VideoSource::VideoSource(QObject *parent)
 
 void VideoSource::run(QVariantHash const &params)
 {
-    avdevice_register_all();
+    static auto const format = QStringLiteral("dshow");
+    auto const deviceDesc = params.value(QStringLiteral("device_desc")).toString();
+    if (deviceDesc.isEmpty())
+        return;
 
-    auto const format = QStringLiteral("dshow");
-    auto const deviceDesc = QStringLiteral("video=%1").arg(params.value(QStringLiteral("device_desc")).toString());
+    avdevice_register_all();
 
     auto formatContext = avformat_alloc_context();
     AVFormatContextGuard const formatContextGuard{ formatContext };

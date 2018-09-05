@@ -20,7 +20,9 @@ public:
 public:
     QSet<QUuid> rootChildren() const { return children(QUuid{}); }
     QSet<QUuid> children(QUuid const &id) const { return _children.value(id); }
+    QVector<QUuid> children(QUuid const &id, QString const &type) const;
     QSet<QUuid> descendants(QUuid const &id) const;
+    QVector<QUuid> descendants(QUuid const &id, QString const &type) const;
     QSet<QUuid> slaves(QString const &type) const { return _types.value(type); }
     QList<QUuid> slaves() const { return _slaves.keys(); }
     Slave slave(QUuid const &id) const { return _slaves.value(id); }
@@ -29,7 +31,6 @@ public:
     bool isLocal(QUuid const &id) const;
     QUuid parent(QUuid const &id, QString const &parentType) const;
     QVector<QUuid> listeners(QUuid const &id) const;
-    QVector<QUuid> siblings(QUuid const &id) const;
 
 public:
     void append(Slave const &slave);
