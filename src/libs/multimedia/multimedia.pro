@@ -22,10 +22,12 @@ PRECOMPILED_HEADER = \
     pch.h
 
 HEADERS += \
-    multimedia_global.h
+    multimedia_global.h \
+    video_source_type.h
     pch.h
 
-SOURCES +=
+SOURCES += \
+    video_source_type.cpp
 
 DISTFILES += \
     multimedia.pri

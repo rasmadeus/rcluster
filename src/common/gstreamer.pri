@@ -1,11 +1,9 @@
 unix {
-    GSTREAMER_HOME_INCLUDE = /usr/include/gstreamer-1.0
-
     CONFIG += \
         link_pkgconfig
 
     INCLUDEPATH += \
-        $$GSTREAMER_HOME_INCLUDE
+        $$GSTREAMER_HOME/include/gstreamer-1.0
 
     PKGCONFIG += \
         gstreamer-1.0 \
@@ -16,8 +14,6 @@ unix {
 }
 
 win32 {
-    GSTREAMER_HOME = C:/gstreamer/1.0/x86
-
     INCLUDEPATH += \
         $$GSTREAMER_HOME/include/gstreamer-1.0 \
         $$GSTREAMER_HOME/include/glib-2.0 \

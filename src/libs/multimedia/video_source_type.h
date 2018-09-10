@@ -2,8 +2,9 @@
 #define VIDEO_SOURCE_TYPE_H
 
 #include <QMetaType>
+#include "multimedia_global.h"
 
-enum class VideoSourceType
+enum class MULTIMEDIA_SHARED_EXPORT VideoSourceType
 {
     Fake,
     WebCamera,

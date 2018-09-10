@@ -2,10 +2,14 @@
 #define EDITOR_H
 
 #include <QWidget>
+#include <QUuid>
 #include <editor_data.h>
 #include <slave_as_params.h>
 #include "plugin_global.h"
 
+class Config;
+class Plugins;
+class Corebus;
 
 class PLUGIN_SHARED_EXPORT Editor : public QWidget
 {
@@ -24,7 +28,10 @@ public:
     virtual QStringList errors() const = 0;
 
 protected:
-    EditorData _data;
+    QUuid const _id;
+    Config const &_config;
+    Plugins const &_plugins;
+    Corebus &_corebus;
 };
 
 #endif // EDITOR_H

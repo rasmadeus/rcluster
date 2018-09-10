@@ -3,8 +3,8 @@
 #include <globals.h>
 #include <config.h>
 #include <core_bus.h>
+#include <video_source_type.h>
 #include "camera_editor.h"
-#include "video_source_type.h"
 
 CameraEditor::CameraEditor(EditorData const &data, QWidget &parent)
     : DefaultBaseEditor{ data, parent }
@@ -34,10 +34,10 @@ CameraEditor::CameraEditor(EditorData const &data, QWidget &parent)
     connect(&_portSpinBox, static_cast<void(PortSpinBox::*)(int)>(&PortSpinBox::valueChanged), this, &CameraEditor::buildRtspUrl);
 
     _router.handle(QStringLiteral("CAMERAS"), std::bind(&WebCameraEditor::fill, &_webCameraEditor, std::placeholders::_1));
-    connect(&_data.corebus, &Corebus::ready, this, &CameraEditor::onMessage);
+    connect(&_corebus, &Corebus::ready, this, &CameraEditor::onMessage);
 
-    auto computer = _data.config.parent(_data.id, QStringLiteral("COMPUTER"));
-    _data.corebus.send(QStringLiteral("GET_CAMERAS"), computer.toString());
+    auto computer = _config.parent(_id, QStringLiteral("COMPUTER"));
+    _corebus.send(QStringLiteral("GET_CAMERAS"), computer.toString());
 }
 
 QVariantHash CameraEditor::params() const
@@ -58,7 +58,7 @@ void CameraEditor::setParams(QVariantHash const &params)
 QStringList CameraEditor::errors() const
 {
     auto errors = static_cast<Editor*>(_paramsWidgets.currentWidget())->errors();
-    auto id = _data.config.findLocalParam(_data.id, QStringLiteral("port"), _portSpinBox.value());
+    auto id = _config.findLocalParam(_id, QStringLiteral("port"), _portSpinBox.value());
     if (!id.isNull())
         errors << tr("Port %1 is already in use.").arg(_portSpinBox.value());
     return errors;
@@ -81,8 +81,8 @@ void CameraEditor::onTypeChanged()
 
 void CameraEditor::buildRtspUrl()
 {
-    auto const computerId = _data.config.parent(_data.id, QStringLiteral("COMPUTER"));
-    auto const computerIp = _data.config.slave(computerId).param(QStringLiteral("ip")).toString();
-    auto const mountPath = _data.id.toString();
+    auto const computerId = _config.parent(_id, QStringLiteral("COMPUTER"));
+    auto const computerIp = _config.slave(computerId).param(QStringLiteral("ip")).toString();
+    auto const mountPath = _id.toString();
     _rtspServerLabel.setText(QStringLiteral("rtsp://%1:%2/%3").arg(computerIp).arg(_portSpinBox.value()).arg(mountPath));
 }

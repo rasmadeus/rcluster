@@ -2,6 +2,9 @@
 
 Editor::Editor(EditorData const &data, QWidget &parent)
     : QWidget{ &parent }
-    , _data{ data }
+    , _id{ data.id }
+    , _config{ data.config }
+    , _plugins{ data.plugins }
+    , _corebus{ data.corebus }
 {
 }

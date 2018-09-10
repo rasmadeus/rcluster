@@ -18,14 +18,12 @@ HEADERS += \
     camera_editor.h \
     camera_plugin.h \
     camera_controller.h \
-    video_source_type.h \
     web_camera_editor.h
 
 SOURCES += \
     camera_editor.cpp \
     camera_plugin.cpp \
     camera_controller.cpp \
-    video_source_type.cpp \
     web_camera_editor.cpp
 
 RESOURCES += \

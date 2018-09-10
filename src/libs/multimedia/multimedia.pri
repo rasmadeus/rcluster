@@ -23,4 +23,4 @@ DEFINES += \
 LIBS += \
     -lmultimedia
 
-include($$(PRO_ROOT)/src/common/ffmpeg.pri)
+include($$(PRO_ROOT)/src/common/gstreamer.pri)
