@@ -2,16 +2,9 @@
 #include "computer_editor.h"
 #include "computer_controller.h"
 
-QVariantHash ComputerPlugin::defaultParams() const
+Editor *ComputerPlugin::editor(EditorData const &data, QWidget &parent) const
 {
-    return {
-        { QStringLiteral("ip"), QStringLiteral("127.0.0.1") },
-    };
-}
-
-Editor *ComputerPlugin::editor(QWidget &parent) const
-{
-    return new ComputerEditor{ parent };
+    return new ComputerEditor{ data, parent };
 }
 
 std::unique_ptr<SlaveController> ComputerPlugin::controller() const

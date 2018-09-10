@@ -6,6 +6,7 @@
 enum class VideoSourceType
 {
     Fake,
+    WebCamera,
 };
 
 Q_DECLARE_METATYPE(VideoSourceType)

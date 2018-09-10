@@ -2,7 +2,6 @@
 #define CAMERA_CONTROLLER_H
 
 #include <controller_without_activity.h>
-#include <video_source.h>
 
 class CameraController : public ControllerWithoutActivity
 {
@@ -13,14 +12,6 @@ public:
 
 public:
     void onSetup(Slave const &slave) override;
-
-private:
-    void onCamStarted();
-    void onCamStopped();
-    void onCamReady();
-
-private:
-    VideoSource _videoSource;
 };
 
 #endif // CAMERA_CONTROLLER_H

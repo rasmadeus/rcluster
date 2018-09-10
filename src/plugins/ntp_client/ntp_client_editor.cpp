@@ -3,8 +3,8 @@
 #include <globals.h>
 #include "ntp_client_editor.h"
 
-NtpClientEditor::NtpClientEditor(QWidget &parent)
-    : DefaultBaseEditor{ parent }
+NtpClientEditor::NtpClientEditor(EditorData const &data, QWidget &parent)
+    : DefaultBaseEditor{ data, parent }
 {
     _port.setRange(1, 65535);
     _updateInterval.setRange(1, std::numeric_limits<int>::max());

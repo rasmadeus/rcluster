@@ -3,8 +3,8 @@
 
 extern "C"
 {
-    #include <libavdevice/avdevice.h>
-    #include <libavformat/avformat.h>
+    #include <gst/gst.h>
+    #include <gst/rtsp-server/rtsp-server.h>
 }
 
 #if defined __cplusplus

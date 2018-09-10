@@ -24,8 +24,9 @@ QString DefaultBasePlugin::process() const
     return hasProcess() ? type().toLower() : QString{};
 }
 
-Editor *DefaultBasePlugin::editor(QWidget &parent) const
+Editor *DefaultBasePlugin::editor(EditorData const &data, QWidget &parent) const
 {
+    Q_UNUSED(data)
     Q_UNUSED(parent)
     return nullptr;
 }

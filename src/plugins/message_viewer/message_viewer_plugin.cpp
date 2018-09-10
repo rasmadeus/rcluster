@@ -2,9 +2,9 @@
 #include "message_viewer_plugin.h"
 #include "message_viewer_editor.h"
 
-Editor *MessageViewerPlugin::editor(QWidget &parent) const
+Editor *MessageViewerPlugin::editor(EditorData const &data, QWidget &parent) const
 {
-    return new MessageViewerEditor{ parent };
+    return new MessageViewerEditor{ data, parent };
 }
 
 std::unique_ptr<SlaveController> MessageViewerPlugin::controller() const

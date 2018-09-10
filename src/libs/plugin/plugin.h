@@ -7,10 +7,8 @@
 #include "plugin_global.h"
 #include "slave_controller.h"
 
-class Config;
 class Editor;
-class Plugins;
-class Corebus;
+class EditorData;
 
 class PLUGIN_SHARED_EXPORT Plugin
 {
@@ -26,7 +24,7 @@ public:
     virtual bool hasProcess() const = 0;
     virtual QString process() const = 0;
     virtual bool hasEditor() const = 0;
-    virtual Editor* editor(QWidget &parent) const = 0;
+    virtual Editor* editor(EditorData const &data, QWidget &parent) const = 0;
     virtual std::unique_ptr<SlaveController> controller() const = 0;
 };
 

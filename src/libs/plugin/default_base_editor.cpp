@@ -2,12 +2,8 @@
 #include <QUuid>
 #include "default_base_editor.h"
 
-DefaultBaseEditor::DefaultBaseEditor(QWidget &parent)
-    : Editor{ parent }
-{
-}
-
-void DefaultBaseEditor::init()
+DefaultBaseEditor::DefaultBaseEditor(const EditorData &data, QWidget &parent)
+    : Editor{ data, parent }
 {
 }
 

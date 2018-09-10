@@ -1,7 +1,10 @@
 #include <QApplication>
+#include <QDesktopServices>
 #include <QMenuBar>
 #include <QSettings>
 #include <QStatusBar>
+#include <QUrl>
+#include <globals.h>
 #include <core_bus.h>
 #include "main_view.h"
 
@@ -16,7 +19,7 @@ ControllerWithActivity::ControllerWithActivity(Config &config, Plugins &plugins,
     setWindowIcon(QIcon{ QStringLiteral(":/res/icon.ico") });
     setWindowTitle(tr("RCluster Core Controller"));
 
-    auto coreMenu = menuBar()->addMenu(tr("Core actions"));
+    auto coreMenu = menuBar()->addMenu(tr("Core"));
     coreMenu->setObjectName(QStringLiteral("core_actions_menu"));
    _coreActions.install(*coreMenu);
 
@@ -26,6 +29,9 @@ ControllerWithActivity::ControllerWithActivity(Config &config, Plugins &plugins,
 
     auto viewMenu = menuBar()->addMenu(tr("View"));
     viewMenu->addAction(coreToolBar->toggleViewAction());
+
+    auto helpMenu = menuBar()->addMenu(tr("Help"));
+    helpMenu->addAction(tr("Open the application folder"), []{ QDesktopServices::openUrl(QUrl::fromLocalFile(rcluster::writableLocation())); });
 
     _splitter.addWidget(&_configView);
     _splitter.addWidget(&_slaveParamsView);

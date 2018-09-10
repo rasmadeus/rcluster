@@ -31,6 +31,7 @@ public:
     bool isLocal(QUuid const &id) const;
     QUuid parent(QUuid const &id, QString const &parentType) const;
     QVector<QUuid> listeners(QUuid const &id) const;
+    QUuid findLocalParam(QUuid const &id, QString const &key, QVariant const &param) const;
 
 public:
     void append(Slave const &slave);

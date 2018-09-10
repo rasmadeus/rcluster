@@ -23,7 +23,8 @@ HEADERS += \
     slave_sort_model.h \
     slave_proxy_check_model.h \
     actions.h \
-    port_spin_box.h
+    port_spin_box.h \
+    data_combo_box.h
     pch.h
 
 SOURCES += \
@@ -33,7 +34,8 @@ SOURCES += \
     slave_sort_model.cpp \
     slave_proxy_check_model.cpp \
     actions.cpp \
-    port_spin_box.cpp
+    port_spin_box.cpp \
+    data_comb_obox.cpp
 
 DISTFILES += \
     widgets.pri

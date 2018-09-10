@@ -14,10 +14,9 @@ class MessageViewerEditor : public DefaultBaseEditor
     Q_OBJECT
 
 public:
-    explicit MessageViewerEditor(QWidget &parent);
+    explicit MessageViewerEditor(EditorData const &data, QWidget &parent);
 
 public:
-    void init() override;
     SlaveAsParams slaveAsParams() const override { return { QStringLiteral("slaves"), _slaveModel->checked() } ; }
     void setSlaveAsParams(SlaveAsParams const &slaveAsParams) override;
 

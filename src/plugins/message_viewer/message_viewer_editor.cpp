@@ -7,24 +7,20 @@
 #include <slave_proxy_check_model.h>
 #include "message_viewer_editor.h"
 
-MessageViewerEditor::MessageViewerEditor(QWidget &parent)
-    : DefaultBaseEditor{ parent }
+MessageViewerEditor::MessageViewerEditor(EditorData const &data, QWidget &parent)
+    : DefaultBaseEditor{ data, parent }
     , _captionLabel{ tr("Watch objects:")}
     , _treeView{ this }
     , _selectAll{ tr("Select all"), this }
     , _deselectAll{ tr("Deselect all"), this }
 {
-}
-
-void MessageViewerEditor::init()
-{
-    _slaveModel = new SlaveModelCheck{ *_config, *_plugins, *this };
-    _slaveModel->setSlave(_id);
-    _slaveModel->setChecked(_config->slave(_id).slaveAsParams().slaves(QStringLiteral("slaves")));
+    _slaveModel = new SlaveModelCheck{ data.config, data.plugins, *this };
+    _slaveModel->setSlave(data.id);
+    _slaveModel->setChecked(data.config.slave(data.id).slaveAsParams().slaves(QStringLiteral("slaves")));
 
     _slaveProxyModel = new SlaveProxyCheckModel{ *this };
     _slaveProxyModel->setSourceModel(_slaveModel);
-    _slaveProxyModel->setSlaveId(_id);
+    _slaveProxyModel->setSlaveId(data.id);
 
     _treeView.header()->hide();
     _treeView.setSelectionBehavior(QAbstractItemView::SelectRows);

@@ -114,6 +114,26 @@ QVector<QUuid> Config::listeners(QUuid const &id) const
     return  res;
 }
 
+QUuid Config::findLocalParam(QUuid const &id, QString const &key, QVariant const &param) const
+{
+    auto const object = slave(id);
+    auto const computerId = parent(id, QStringLiteral("COMPUTER"));
+    for(auto const &descendantId : descendants(computerId, object.type()))
+    {
+        if (id == descendantId)
+            continue;
+
+        auto const slave = this->slave(descendantId);
+        auto const slaveParam = slave.param(key);
+        if (!slaveParam.isValid())
+            continue;
+
+        if (slaveParam == param)
+            return descendantId;
+    }
+    return {};
+}
+
 void Config::append(Slave const &slave)
 {
     if (appendSlave(slave))

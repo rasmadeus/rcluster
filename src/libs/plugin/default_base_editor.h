@@ -6,11 +6,9 @@
 class PLUGIN_SHARED_EXPORT DefaultBaseEditor : public Editor
 {
 public:
-    explicit DefaultBaseEditor(QWidget &parent);
+    explicit DefaultBaseEditor(EditorData const &data, QWidget &parent);
 
 public:
-    void init() override;
-
     SlaveAsParams slaveAsParams() const override;
     void setSlaveAsParams(SlaveAsParams const &slaveAsParams) override;
 

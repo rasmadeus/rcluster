@@ -11,9 +11,9 @@ QVariantHash NtpClientPlugin::defaultParams() const
     };
 }
 
-Editor *NtpClientPlugin::editor(QWidget &parent) const
+Editor *NtpClientPlugin::editor(EditorData const &data, QWidget &parent) const
 {
-    return new NtpClientEditor{ parent };
+    return new NtpClientEditor{ data, parent };
 }
 
 std::unique_ptr<SlaveController> NtpClientPlugin::controller() const

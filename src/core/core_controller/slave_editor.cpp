@@ -47,14 +47,8 @@ void SlaveEditor::select(QUuid const &id)
     clear();
 
     _id = id;
-    _editor = _plugins.plugin(slave.type())->editor(*this);
-    _editor->setId(_id);
-    _editor->setConfig(_config);
-    _editor->setPlugins(_plugins);
-    _editor->setCorebus(_corebus);
-    _editor->setId(id);
+    _editor = _plugins.plugin(slave.type())->editor({ id, _config, _plugins, _corebus }, *this);
     _editorLayout.addWidget(_editor);
-    _editor->init();
 
     cancel();
 }

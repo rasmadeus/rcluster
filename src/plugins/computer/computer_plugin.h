@@ -14,10 +14,9 @@ public:
     QString parent() const override { return QStringLiteral("ROOT"); }
     QString type() const override { return QStringLiteral("COMPUTER"); }
     QString defaultName() const override { return tr("Computer"); }
-    QVariantHash defaultParams() const override;
     bool hasProcess() const override { return true; }
     bool hasEditor() const override { return true; }
-    Editor *editor(QWidget &parent) const override;
+    Editor *editor(EditorData const &data, QWidget &parent) const override;
     std::unique_ptr<SlaveController> controller() const override;
 };
 

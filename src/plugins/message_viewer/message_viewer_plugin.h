@@ -16,7 +16,7 @@ public:
     QString defaultName() const override { return tr("Message Viewer"); }
     bool hasProcess() const override { return true; }
     bool hasEditor() const override { return true; }
-    Editor *editor(QWidget &parent) const override;
+    Editor *editor(EditorData const &data, QWidget &parent) const override;
     std::unique_ptr<SlaveController> controller() const override;
 };
 

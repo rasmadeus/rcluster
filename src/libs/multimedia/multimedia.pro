@@ -11,8 +11,7 @@ TEMPLATE = \
     lib
 
 DEFINES += \
-    MULTIMEDIA_LIBRARY \
-    __STDC_CONSTANT_MACROS
+    MULTIMEDIA_LIBRARY
 
 CONFIG += \
     c++14 \
@@ -23,12 +22,10 @@ PRECOMPILED_HEADER = \
     pch.h
 
 HEADERS += \
-    multimedia_global.h \
-    video_source.h
+    multimedia_global.h
     pch.h
 
-SOURCES += \
-    video_source.cpp
+SOURCES +=
 
 DISTFILES += \
     multimedia.pri
@@ -36,6 +33,6 @@ DISTFILES += \
 TRANSLATIONS += \
     ../../translations/libs/multimedia_ru.ts \
 
-include($$(PRO_ROOT)/src/common/ffmpeg.pri)
+include($$(PRO_ROOT)/src/common/gstreamer.pri)
 include($$(PRO_ROOT)/src/libs/utils/utils.pri)
 include($$(PRO_ROOT)/src/common/install_lib.pri)

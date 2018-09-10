@@ -13,7 +13,7 @@ public:
     QString process() const override;
     bool hasEditor() const override { return false; }
     bool hasProcess() const override { return false; }
-    Editor *editor(QWidget &parent) const override;
+    Editor *editor(EditorData const &data, QWidget &parent) const override;
     std::unique_ptr<SlaveController> controller() const override;
 };
 

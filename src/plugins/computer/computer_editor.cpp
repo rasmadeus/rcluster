@@ -3,8 +3,8 @@
 #include <globals.h>
 #include "computer_editor.h"
 
-ComputerEditor::ComputerEditor(QWidget &parent)
-    : DefaultBaseEditor{ parent }
+ComputerEditor::ComputerEditor(EditorData const &data, QWidget &parent)
+    : DefaultBaseEditor{ data, parent }
 {
     auto mainLayout = new QFormLayout{ this };
     mainLayout->setMargin(0);
