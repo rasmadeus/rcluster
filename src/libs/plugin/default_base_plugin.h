@@ -14,7 +14,7 @@ public:
     bool hasEditor() const override { return false; }
     bool hasProcess() const override { return false; }
     Editor *editor(EditorData const &data, QWidget &parent) const override;
-    std::unique_ptr<SlaveController> controller() const override;
+    std::unique_ptr<SlaveController> controller(Config const &config, Plugin const &plugin, Corebus &corebus) const override;
 };
 
 #endif // DEFAULT_BASE_PLUGIN_H

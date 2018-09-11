@@ -24,3 +24,4 @@ LIBS += \
     -lmultimedia
 
 include($$(PRO_ROOT)/src/common/gstreamer.pri)
+include($$(PRO_ROOT)/src/libs/config/config.pri)

@@ -26,7 +26,6 @@ private:
 
 private:
     void onTypeChanged();
-    void buildRtspUrl();
 
 private:
     DataComboBox _typeComboBox;

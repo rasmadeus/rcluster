@@ -25,7 +25,7 @@ public:
     virtual QString process() const = 0;
     virtual bool hasEditor() const = 0;
     virtual Editor* editor(EditorData const &data, QWidget &parent) const = 0;
-    virtual std::unique_ptr<SlaveController> controller() const = 0;
+    virtual std::unique_ptr<SlaveController> controller(Config const &config, Plugin const &plugin, Corebus &corebus) const = 0;
 };
 
 Q_DECLARE_INTERFACE(Plugin, "rcluster.plugin")

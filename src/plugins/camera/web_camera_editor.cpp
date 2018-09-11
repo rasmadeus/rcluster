@@ -23,7 +23,7 @@ WebCameraEditor::WebCameraEditor(EditorData const &data, QWidget &parent)
 QVariantHash WebCameraEditor::params() const
 {
     return {
-        { QStringLiteral("device_desc"), _camerasComboBox.currentData() },
+        { QStringLiteral("params"), QVariantHash{ { QStringLiteral("device_index"), _camerasComboBox.currentData() }, } }
     };
 }
 
@@ -50,11 +50,12 @@ void WebCameraEditor::fill(Message const &message)
     {
         auto const object = value.toObject();
         auto const desc = object.value(QStringLiteral("desc"));
-        _camerasComboBox.addItem(desc.toString(), desc);
+        auto const index = object.value(QStringLiteral("device_index"));
+        _camerasComboBox.addItem(desc.toString(), index);
     }
 
     _camerasComboBox.setEnabled(_camerasComboBox.count() > 1);
 
-    auto deviceDesc = _config.slave(_id).param(QStringLiteral("device_desc"));
-    _camerasComboBox.setIndex(deviceDesc);
+    auto deviceIndex = _config.slave(_id).param(QStringLiteral("device_index"));
+    _camerasComboBox.setIndex(deviceIndex);
 }

@@ -14,23 +14,17 @@ class Slave;
 class PLUGIN_SHARED_EXPORT SlaveController
 {
 public:
+    SlaveController(Config const &config, Plugin const &plugin, Corebus &corebus);
     virtual ~SlaveController() = default;
 
 public:
-    virtual void onInit() = 0;
     virtual void onSetup(Slave const &slave) = 0;
     virtual void onMessage(Message const &message) { _router.route(message); }
 
-public:
-
-    void setConfig(Config const &config) { _config = &config; }
-    void setPlugin(Plugin const &plugin) { _plugin = &plugin; }
-    void setCorebus(Corebus &corebus) { _corebus = &corebus; }
-
 protected:
-    Config const *_config{ nullptr };
-    Plugin const *_plugin{ nullptr };
-    Corebus *_corebus{ nullptr };
+    Config const &_config;
+    Plugin const &_plugin;
+    Corebus &_corebus;
     MessageRouter _router;
 };
 

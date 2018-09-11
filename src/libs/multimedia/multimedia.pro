@@ -23,11 +23,15 @@ PRECOMPILED_HEADER = \
 
 HEADERS += \
     multimedia_global.h \
-    video_source_type.h
+    video_source_type.h \
+    gloop.h \
+    rtsp_server.h
     pch.h
 
 SOURCES += \
-    video_source_type.cpp
+    video_source_type.cpp \
+    gloop.cpp \
+    rtsp_server.cpp
 
 DISTFILES += \
     multimedia.pri
@@ -36,5 +40,6 @@ TRANSLATIONS += \
     ../../translations/libs/multimedia_ru.ts \
 
 include($$(PRO_ROOT)/src/common/gstreamer.pri)
+include($$(PRO_ROOT)/src/libs/config/config.pri)
 include($$(PRO_ROOT)/src/libs/utils/utils.pri)
 include($$(PRO_ROOT)/src/common/install_lib.pri)

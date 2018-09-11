@@ -9,7 +9,7 @@ class MessageViewerController : public ControllerWithActivity
     Q_OBJECT
 
 public:
-    explicit MessageViewerController();
+    explicit MessageViewerController(Config const &config, Plugin const &plugin, Corebus &corebus);
 
 public:
     void onMessage(Message const &message) override;

@@ -32,13 +32,8 @@ int main(int argc, char *argv[])
     ConfigWatcher configWatcher{ config };
     Corebus corebus{ args.id };
 
-    auto controller = plugin->controller();
+    auto controller = plugin->controller(config, *plugin, corebus);
     Q_ASSERT(controller != nullptr);
-
-    controller->setConfig(config);
-    controller->setPlugin(*plugin);
-    controller->setCorebus(corebus);
-    controller->onInit();
 
     QObject::connect(&config, &Config::reseted, [&controller, &corebus, &config](){
         controller->onSetup(config.slave(corebus.id()));

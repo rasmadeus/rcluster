@@ -11,10 +11,9 @@ class Controller : public QObject, public SlaveController
     Q_OBJECT
 
 public:
-    explicit Controller();
+    explicit Controller(Config const &config, Plugin const &plugin, Corebus &corebus);
 
 public:
-    void onInit() override;
     void onSetup(Slave const &slave) override;
 
 protected:

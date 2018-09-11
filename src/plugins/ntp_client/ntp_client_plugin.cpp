@@ -16,7 +16,7 @@ Editor *NtpClientPlugin::editor(EditorData const &data, QWidget &parent) const
     return new NtpClientEditor{ data, parent };
 }
 
-std::unique_ptr<SlaveController> NtpClientPlugin::controller() const
+std::unique_ptr<SlaveController> NtpClientPlugin::controller(Config const &config, Plugin const &plugin, Corebus &corebus) const
 {
-    return std::make_unique<Controller>();
+    return std::make_unique<Controller>(config, plugin, corebus);
 }

@@ -5,8 +5,8 @@
 #include <message.h>
 #include "message_viewer_controller.h"
 
-MessageViewerController::MessageViewerController()
-    : ControllerWithActivity{}
+MessageViewerController::MessageViewerController(Config const &config, Plugin const &plugin, Corebus &corebus)
+    : ControllerWithActivity{ config, plugin, corebus }
     , _log{ this }
 {
     setWindowTitle(tr("Message Viewer"));

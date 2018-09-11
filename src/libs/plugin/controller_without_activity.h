@@ -9,10 +9,7 @@ class PLUGIN_SHARED_EXPORT ControllerWithoutActivity : public QWidget, public Sl
     Q_OBJECT
 
 public:
-    explicit ControllerWithoutActivity();
-
-public:
-    void onInit() override {}
+    explicit ControllerWithoutActivity(Config const &config, Plugin const &plugin, Corebus &corebus);
 
 private:
     void catchWmExitGeneratedBySupervistor();

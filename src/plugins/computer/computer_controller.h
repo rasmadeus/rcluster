@@ -10,10 +10,9 @@ class ComputerController : public ControllerWithoutActivity
     Q_OBJECT
 
 public:
-    ComputerController();
+    ComputerController(Config const &config, Plugin const &plugin, Corebus &corebus);
 
 public:
-    void onInit() override;
     void onSetup(Slave const &slave) override { Q_UNUSED(slave) }
 
 private:

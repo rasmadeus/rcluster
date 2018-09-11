@@ -31,7 +31,6 @@ CameraEditor::CameraEditor(EditorData const &data, QWidget &parent)
     mainLayout->addWidget(&_paramsWidgets);
 
     connect(&_typeComboBox, static_cast<void(DataComboBox::*)(int)>(&DataComboBox::currentIndexChanged), this, &CameraEditor::onTypeChanged);
-    connect(&_portSpinBox, static_cast<void(PortSpinBox::*)(int)>(&PortSpinBox::valueChanged), this, &CameraEditor::buildRtspUrl);
 
     _router.handle(QStringLiteral("CAMERAS"), std::bind(&WebCameraEditor::fill, &_webCameraEditor, std::placeholders::_1));
     connect(&_corebus, &Corebus::ready, this, &CameraEditor::onMessage);
@@ -77,12 +76,4 @@ void CameraEditor::onTypeChanged()
         case VideoSourceType::Fake: _paramsWidgets.setCurrentWidget(&_fakeCameraEditor); break;
         case VideoSourceType::WebCamera: _paramsWidgets.setCurrentWidget(&_webCameraEditor); break;
     }
-}
-
-void CameraEditor::buildRtspUrl()
-{
-    auto const computerId = _config.parent(_id, QStringLiteral("COMPUTER"));
-    auto const computerIp = _config.slave(computerId).param(QStringLiteral("ip")).toString();
-    auto const mountPath = _id.toString();
-    _rtspServerLabel.setText(QStringLiteral("rtsp://%1:%2/%3").arg(computerIp).arg(_portSpinBox.value()).arg(mountPath));
 }

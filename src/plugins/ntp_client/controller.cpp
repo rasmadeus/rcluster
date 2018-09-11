@@ -6,17 +6,13 @@
 #include "core_bus.h"
 #include "ntp_reply.h"
 
-Controller::Controller()
+Controller::Controller(Config const &config, Plugin const &plugin, Corebus &corebus)
     : QObject{}
-    , SlaveController{}
+    , SlaveController{ config, plugin, corebus }
     , _ntpClient{ *this }
 {
-}
-
-void Controller::onInit()
-{
     connect(&_ntpClient, &NtpClient::replyReceived, this, &Controller::onReply);
-    connect(_config, &Config::reseted, this, &Controller::restart);
+    connect(&_config, &Config::reseted, this, &Controller::restart);
 }
 
 void Controller::onSetup(Slave const &slave)
@@ -41,12 +37,12 @@ void Controller::onReply(QHostAddress const &address, quint16 port, NtpReply con
     if (correctLocalClock(offsetMs))
     {
         qDebug() << "System clock corrected with:" << offsetMs << "ms.";
-        _corebus->send(QStringLiteral("SYSTEM_CLOCK_CORRECTED"), QStringLiteral("core"), { { QStringLiteral("offset"), offsetMs } });
+        _corebus.send(QStringLiteral("SYSTEM_CLOCK_CORRECTED"), QStringLiteral("core"), { { QStringLiteral("offset"), offsetMs } });
     }
     else
     {
         qDebug() << "Failed to corrected system clock.";
-        _corebus->send(QStringLiteral("FAILED_CORRECT_SYSTEM_CLOCK"), QStringLiteral("core"), { { QStringLiteral("offset"), offsetMs } });
+        _corebus.send(QStringLiteral("FAILED_CORRECT_SYSTEM_CLOCK"), QStringLiteral("core"), { { QStringLiteral("offset"), offsetMs } });
     }
 }
 
@@ -97,7 +93,7 @@ void Controller::restart()
     if (_timerId != -1)
         killTimer(_timerId);
 
-    auto const slave = _config->slave(_corebus->id());
+    auto const slave = _config.slave(_corebus.id());
     _host = QHostInfo::fromName(slave.param(QStringLiteral("host")).toString()).addresses().value(0);
     _port = static_cast<quint16>(slave.param(QStringLiteral("port")).toInt());
     _syncTime = std::chrono::seconds(slave.param(QStringLiteral("sync_time_sec")).toInt());

@@ -7,17 +7,14 @@
 #include "controller_with_activity.h"
 #include "plugin.h"
 
-ControllerWithActivity::ControllerWithActivity()
+ControllerWithActivity::ControllerWithActivity(Config const &config, Plugin const &plugin, Corebus &corebus)
     : QMainWindow{ nullptr, Qt::WindowTitleHint | Qt::WindowMinMaxButtonsHint }
-    , SlaveController{}
+    , SlaveController{ config, plugin, corebus }
 {
     setContentsMargins(rcluster::layoutGap(), rcluster::layoutGap(), rcluster::layoutGap(), rcluster::layoutGap());
     connect(qApp, &QApplication::aboutToQuit, this, static_cast<void(ControllerWithActivity::*)()>(&ControllerWithActivity::storeSettings));
-}
 
-void ControllerWithActivity::onInit()
-{
-    setWindowIcon(_plugin->pixmap({ 32, 32}));
+    setWindowIcon(_plugin.pixmap({ 32, 32}));
     restoreSettings();
     show();
 }

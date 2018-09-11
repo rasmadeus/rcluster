@@ -8,9 +8,9 @@ Editor *CameraPlugin::editor(EditorData const &data, QWidget &parent) const
     return new CameraEditor{ data, parent };
 }
 
-std::unique_ptr<SlaveController> CameraPlugin::controller() const
+std::unique_ptr<SlaveController> CameraPlugin::controller(Config const &config, Plugin const &plugin, Corebus &corebus) const
 {
-    return std::make_unique<CameraController>();
+    return std::make_unique<CameraController>(config, plugin, corebus);
 }
 
 QVariantHash CameraPlugin::defaultParams() const

@@ -31,7 +31,10 @@ Editor *DefaultBasePlugin::editor(EditorData const &data, QWidget &parent) const
     return nullptr;
 }
 
-std::unique_ptr<SlaveController> DefaultBasePlugin::controller() const
+std::unique_ptr<SlaveController> DefaultBasePlugin::controller(Config const &config, Plugin const &plugin, Corebus &corebus) const
 {
+    Q_UNUSED(config)
+    Q_UNUSED(plugin)
+    Q_UNUSED(corebus)
     return nullptr;
 }

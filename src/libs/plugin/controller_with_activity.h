@@ -11,10 +11,7 @@ class PLUGIN_SHARED_EXPORT ControllerWithActivity : public QMainWindow, public S
     Q_OBJECT
 
 public:
-    explicit ControllerWithActivity();
-
-public:
-    void onInit() override;
+    explicit ControllerWithActivity(Config const &config, Plugin const &plugin, Corebus &corebus);
 
 protected:
     virtual void storeSettings(QSettings &settings) { Q_UNUSED(settings); }

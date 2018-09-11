@@ -7,7 +7,7 @@ Editor *MessageViewerPlugin::editor(EditorData const &data, QWidget &parent) con
     return new MessageViewerEditor{ data, parent };
 }
 
-std::unique_ptr<SlaveController> MessageViewerPlugin::controller() const
+std::unique_ptr<SlaveController> MessageViewerPlugin::controller(Config const &config, Plugin const &plugin, Corebus &corebus) const
 {
-    return std::make_unique<MessageViewerController>();
+    return std::make_unique<MessageViewerController>(config, plugin, corebus);
 }

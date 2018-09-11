@@ -1,8 +1,8 @@
 #include "controller_without_activity.h"
 
-ControllerWithoutActivity::ControllerWithoutActivity()
+ControllerWithoutActivity::ControllerWithoutActivity(Config const &config, Plugin const &plugin, Corebus &corebus)
     : QWidget{}
-    , SlaveController{}
+    , SlaveController{ config, plugin, corebus }
 {
     catchWmExitGeneratedBySupervistor();
 }
