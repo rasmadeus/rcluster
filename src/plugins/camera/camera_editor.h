@@ -1,7 +1,6 @@
 #ifndef CAMERA_EDITOR_H
 #define CAMERA_EDITOR_H
 
-#include <QLabel>
 #include <QStackedWidget>
 #include <default_base_editor.h>
 #include <data_combo_box.h>
@@ -30,7 +29,6 @@ private:
 private:
     DataComboBox _typeComboBox;
     PortSpinBox _portSpinBox;
-    QLabel _rtspServerLabel;
     QStackedWidget _paramsWidgets;
     DefaultBaseEditor _fakeCameraEditor;
     WebCameraEditor _webCameraEditor;

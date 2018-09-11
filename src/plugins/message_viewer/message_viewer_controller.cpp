@@ -12,7 +12,6 @@ MessageViewerController::MessageViewerController(Config const &config, Plugin co
     setWindowTitle(tr("Message Viewer"));
     _log.setReadOnly(true);
     setCentralWidget(&_log);
-    resize(800, 600);
 }
 
 void MessageViewerController::onMessage(Message const &message)

@@ -26,6 +26,9 @@ int main(int argc, char *argv[])
     auto plugin = Plugins::load(args.type);
     Q_ASSERT(plugin);
 
+    QApplication::setOrganizationName(rcluster::organizationName());
+    QApplication::setApplicationName(plugin->type().toLower());
+
     qRegisterMetaType<Message>("Message");
 
     Config config;

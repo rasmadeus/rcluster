@@ -14,7 +14,7 @@ ControllerWithActivity::ControllerWithActivity(Config const &config, Plugin cons
     setContentsMargins(rcluster::layoutGap(), rcluster::layoutGap(), rcluster::layoutGap(), rcluster::layoutGap());
     connect(qApp, &QApplication::aboutToQuit, this, static_cast<void(ControllerWithActivity::*)()>(&ControllerWithActivity::storeSettings));
 
-    setWindowIcon(_plugin.pixmap({ 32, 32}));
+    setWindowIcon(_plugin.pixmap({ 32, 32 }));
     restoreSettings();
     show();
 }

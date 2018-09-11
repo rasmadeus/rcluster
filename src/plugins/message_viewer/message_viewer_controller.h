@@ -1,5 +1,5 @@
-#ifndef MAIN_VIEW_H
-#define MAIN_VIEW_H
+#ifndef MESSAGE_VIEWER_CONTROLLER_H
+#define MESSAGE_VIEWER_CONTROLLER_H
 
 #include <QPlainTextEdit>
 #include <controller_with_activity.h>
@@ -20,4 +20,4 @@ private:
     QPlainTextEdit _log;
 };
 
-#endif // MAIN_VIEW_H
+#endif // MESSAGE_VIEWER_CONTROLLER_H

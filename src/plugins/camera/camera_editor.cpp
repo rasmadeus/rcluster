@@ -22,7 +22,6 @@ CameraEditor::CameraEditor(EditorData const &data, QWidget &parent)
     commonLayout->setSpacing(rcluster::layoutGap());
     commonLayout->addRow(tr("Video source:"), &_typeComboBox);
     commonLayout->addRow(tr("Rtsp server port:"), &_portSpinBox);
-    commonLayout->addRow(tr("Rtsp url:"), &_rtspServerLabel);
 
     auto mainLayout = new QVBoxLayout{ this };
     mainLayout->setMargin(0);

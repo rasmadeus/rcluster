@@ -7,4 +7,5 @@ SUBDIRS += \
     ntp_client \
     message_viewer \
     cameras \
-    camera
+    camera \
+    experiment_center

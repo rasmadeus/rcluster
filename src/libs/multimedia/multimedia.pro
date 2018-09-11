@@ -25,13 +25,15 @@ HEADERS += \
     multimedia_global.h \
     video_source_type.h \
     gloop.h \
-    rtsp_server.h
+    rtsp_server.h \
+    rtsp_client.h
     pch.h
 
 SOURCES += \
     video_source_type.cpp \
     gloop.cpp \
-    rtsp_server.cpp
+    rtsp_server.cpp \
+    rtsp_client.cpp
 
 DISTFILES += \
     multimedia.pri
