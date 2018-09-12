@@ -1,7 +1,7 @@
 #include <QJsonArray>
 #include <QJsonObject>
 #include <QJsonValue>
-#include <QFormLayout>
+#include <QGridLayout>
 #include <config.h>
 #include <editor_data.h>
 #include <globals.h>
@@ -14,10 +14,13 @@ WebCameraEditor::WebCameraEditor(EditorData const &data, QWidget &parent)
     _camerasComboBox.addItem(tr("No data"));
     _camerasComboBox.setEnabled(false);
 
-    auto mainLayout = new QFormLayout{ this };
+    auto mainLayout = new QGridLayout{ this };
     mainLayout->setMargin(0);
     mainLayout->setSpacing(rcluster::layoutGap());
-    mainLayout->addRow(tr("Cameras:"), &_camerasComboBox);
+    mainLayout->addWidget(new QLabel{ tr("Cameras:"), this }, 0, 0);
+    mainLayout->addWidget(&_camerasComboBox, 0, 1);
+    mainLayout->setColumnStretch(0, 1);
+    mainLayout->setColumnStretch(1, 3);
 }
 
 QVariantHash WebCameraEditor::params() const

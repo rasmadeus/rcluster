@@ -1,5 +1,6 @@
-#include <QFormLayout>
+#include <QGridLayout>
 #include <QVBoxLayout>
+#include <QLabel>
 #include <globals.h>
 #include <config.h>
 #include <core_bus.h>
@@ -17,17 +18,16 @@ CameraEditor::CameraEditor(EditorData const &data, QWidget &parent)
     _paramsWidgets.addWidget(&_fakeCameraEditor);
     _paramsWidgets.addWidget(&_webCameraEditor);
 
-    auto commonLayout = new QFormLayout{};
+    auto commonLayout = new QGridLayout{ this };
     commonLayout->setMargin(0);
     commonLayout->setSpacing(rcluster::layoutGap());
-    commonLayout->addRow(tr("Video source:"), &_typeComboBox);
-    commonLayout->addRow(tr("Rtsp server port:"), &_portSpinBox);
-
-    auto mainLayout = new QVBoxLayout{ this };
-    mainLayout->setMargin(0);
-    mainLayout->setSpacing(rcluster::layoutGap());
-    mainLayout->addLayout(commonLayout);
-    mainLayout->addWidget(&_paramsWidgets);
+    commonLayout->addWidget(new QLabel{ tr("Video source:"), this }, 0, 0);
+    commonLayout->addWidget(&_typeComboBox, 0, 1);
+    commonLayout->addWidget(new QLabel{ tr("Rtsp server port:"), this }, 1, 0);
+    commonLayout->addWidget(&_portSpinBox, 1, 1);
+    commonLayout->addWidget(&_paramsWidgets, 2, 0, 2, 0);
+    commonLayout->setColumnStretch(0, 1);
+    commonLayout->setColumnStretch(1, 3);
 
     connect(&_typeComboBox, static_cast<void(DataComboBox::*)(int)>(&DataComboBox::currentIndexChanged), this, &CameraEditor::onTypeChanged);
 
