@@ -12,22 +12,29 @@ CameraEditor::CameraEditor(EditorData const &data, QWidget &parent)
     , _fakeCameraEditor{ data, _paramsWidgets }
     , _webCameraEditor{ data, _paramsWidgets }
 {
-    _typeComboBox.addItem(tr("Fake camera"), QVariant::fromValue(VideoSourceType::Fake));
+    _typeComboBox.addItem(tr("Fake camera"), QVariant::fromValue(VideoSourceType::FakeCamera));
     _typeComboBox.addItem(tr("Web camera"), QVariant::fromValue(VideoSourceType::WebCamera));
 
     _paramsWidgets.addWidget(&_fakeCameraEditor);
     _paramsWidgets.addWidget(&_webCameraEditor);
 
-    auto commonLayout = new QGridLayout{ this };
-    commonLayout->setMargin(0);
-    commonLayout->setSpacing(rcluster::layoutGap());
-    commonLayout->addWidget(new QLabel{ tr("Video source:"), this }, 0, 0);
-    commonLayout->addWidget(&_typeComboBox, 0, 1);
-    commonLayout->addWidget(new QLabel{ tr("Rtsp server port:"), this }, 1, 0);
-    commonLayout->addWidget(&_portSpinBox, 1, 1);
-    commonLayout->addWidget(&_paramsWidgets, 2, 0, 2, 0);
-    commonLayout->setColumnStretch(0, 1);
-    commonLayout->setColumnStretch(1, 3);
+    auto mainLayout = new QVBoxLayout{ this };
+    mainLayout->setSpacing(0);
+    mainLayout->setMargin(0);
+
+    auto controlsLayout = new QGridLayout{};
+    controlsLayout->setMargin(0);
+    controlsLayout->setSpacing(rcluster::layoutGap());
+    controlsLayout->addWidget(new QLabel{ tr("Video source:"), this }, 0, 0);
+    controlsLayout->addWidget(&_typeComboBox, 0, 1);
+    controlsLayout->addWidget(new QLabel{ tr("Rtsp server port:"), this }, 1, 0);
+    controlsLayout->addWidget(&_portSpinBox, 1, 1);
+    controlsLayout->addWidget(&_paramsWidgets, 2, 0, 2, 0);
+    controlsLayout->setColumnStretch(0, 1);
+    controlsLayout->setColumnStretch(1, 3);
+
+    mainLayout->addLayout(controlsLayout);
+    mainLayout->addSpacerItem(new QSpacerItem{ 0, 0, QSizePolicy::Expanding, QSizePolicy::Expanding });
 
     connect(&_typeComboBox, static_cast<void(DataComboBox::*)(int)>(&DataComboBox::currentIndexChanged), this, &CameraEditor::onTypeChanged);
 
@@ -72,7 +79,7 @@ void CameraEditor::onTypeChanged()
     auto const type = _typeComboBox.currentData().value<VideoSourceType>();
     switch(type)
     {
-        case VideoSourceType::Fake: _paramsWidgets.setCurrentWidget(&_fakeCameraEditor); break;
+        case VideoSourceType::FakeCamera: _paramsWidgets.setCurrentWidget(&_fakeCameraEditor); break;
         case VideoSourceType::WebCamera: _paramsWidgets.setCurrentWidget(&_webCameraEditor); break;
     }
 }

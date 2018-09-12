@@ -22,7 +22,7 @@ QString RtspServer::launch(VideoSourceType type, QVariantHash const &params)
 {
     switch(type)
     {
-        case VideoSourceType::Fake: return QStringLiteral("( videotestsrc is-live=1 ! x264enc ! rtph264pay name=pay0 pt=96 )");
+        case VideoSourceType::FakeCamera: return QStringLiteral("( videotestsrc is-live=1 ! x264enc ! rtph264pay name=pay0 pt=96 )");
         case VideoSourceType::WebCamera: return QStringLiteral("( videotestsrc is-live=1 ! x264enc ! rtph264pay name=pay0 pt=96 )");
     }
 }

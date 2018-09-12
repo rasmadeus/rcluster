@@ -16,7 +16,7 @@ std::unique_ptr<SlaveController> CameraPlugin::controller(Config const &config, 
 QVariantHash CameraPlugin::defaultParams() const
 {
     return {
-        { QStringLiteral("type"), QVariant::fromValue(VideoSourceType::Fake) },
+        { QStringLiteral("type"), QVariant::fromValue(VideoSourceType::FakeCamera) },
         { QStringLiteral("port"), 5000 },
     };
 }

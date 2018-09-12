@@ -5,7 +5,7 @@
 
 enum class VideoSourceType
 {
-    Fake,
+    FakeCamera,
     WebCamera,
 };
 

@@ -32,7 +32,7 @@ SlaveEditor::SlaveEditor(Config &config, Plugins &plugins, Corebus &corebus, QWi
     mainLayout->setMargin(0);
     mainLayout->setSpacing(rcluster::layoutGap());
     mainLayout->addLayout(&_editorLayout);
-    mainLayout->addSpacerItem(new QSpacerItem{ 0, 0, QSizePolicy::Minimum, QSizePolicy::MinimumExpanding});
+    mainLayout->addSpacerItem(new QSpacerItem{ 0, 0, QSizePolicy::Minimum, QSizePolicy::Minimum });
     mainLayout->addLayout(buttonsLayout);
 
     connect(&_apply, &QPushButton::clicked, this, &SlaveEditor::apply);
