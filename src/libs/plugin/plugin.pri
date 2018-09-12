@@ -1,4 +1,4 @@
-include($$(PRO_ROOT)/src/libs/utils/utils.pri)
+include($$(PRO_ROOT)/src/libs/config/config.pri)
 
 INCLUDEPATH += \
     $$PWD

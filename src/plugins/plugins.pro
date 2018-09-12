@@ -8,4 +8,6 @@ SUBDIRS += \
     message_viewer \
     cameras \
     camera \
-    experiment_center
+    experiment_center \
+    respondent_place \
+    respondent_places
