@@ -12,13 +12,14 @@
 #include "client.h"
 
 class Config;
+class Plugins;
 
 class Server : public QObject
 {
     Q_OBJECT
 
 public:
-    explicit Server(quint16 port, Config &config, QObject *parent = nullptr);
+    explicit Server(quint16 port, Config &config, Plugins &plugins, QObject *parent = nullptr);
 
 private:
     void appendClient();
@@ -30,7 +31,6 @@ private:
     void onMessage(Message const &message);
     void onRegister(Message const &message);
     void onExit(Message const &message);
-    void notifyListeners(Message const &message);
 
 private:
     void onConfigReseted();
@@ -46,6 +46,7 @@ private:
 
 private:
     Config &_config;
+    Plugins &_plugins;
     QTcpServer _server;
     std::vector<std::unique_ptr<Client>> _clients;
     std::unordered_map<QUuid, Client*, QUuidHash> _registeredClients;

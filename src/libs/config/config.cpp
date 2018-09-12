@@ -100,20 +100,6 @@ QUuid Config::parent(QUuid const &id, QString const &parentType) const
     return this->parent(parent.id(), parentType);
 }
 
-QVector<QUuid> Config::listeners(QUuid const &id) const
-{
-    QVector<QUuid> res;
-    for(auto const &slave : _slaves)
-    {
-        if (slave.id() == id)
-            continue;
-
-        if (slave.containsSlaveParams(id))
-            res << slave.id();
-    }
-    return  res;
-}
-
 QUuid Config::findLocalParam(QUuid const &id, QString const &key, QVariant const &param) const
 {
     auto const object = slave(id);
@@ -176,12 +162,6 @@ void Config::removeSlave(QUuid const &id)
     Q_ASSERT(_children[_slaves[id].parent()].remove(id));
     Q_ASSERT(_types[_slaves[id].type()].remove(id));
     Q_ASSERT(_slaves.remove(id) == 1);
-
-    for(auto &slave : _slaves)
-    {
-        if (slave.removeSlaveParam(id))
-            emit updated(slave.id());
-    }
 
     emit removed(id);
 }
@@ -269,7 +249,7 @@ void Config::rename(QUuid const &id, QString const &name)
     emit renamed(id);
 }
 
-void Config::update(QUuid const &id, QVariantHash const &params, SlaveAsParams const &slaveAsParams)
+void Config::update(QUuid const &id, QVariantHash const &params)
 {
     if (!_slaves.contains(id))
     {
@@ -279,7 +259,6 @@ void Config::update(QUuid const &id, QVariantHash const &params, SlaveAsParams c
 
     auto &slave = _slaves[id];
     slave.setParams(params);
-    slave.setSlaveAsParams(slaveAsParams);
 
     emit updated(id);
 }

@@ -18,6 +18,8 @@ public:
     bool hasEditor() const override { return true; }
     Editor *editor(EditorData const &data, QWidget &parent) const override;
     std::unique_ptr<SlaveController> controller(Config const &config, Plugin const &plugin, Corebus &corebus) const override;
+    QStringList paramKeyContainsSlave() const override { return { QStringLiteral("slaves"), }; }
+    bool isListener(Config &config, QUuid const &messageSource, QUuid const &thisTypeSlave) const override;
 };
 
 #endif // MESSAGE_VIEWER_PLUGIN_H

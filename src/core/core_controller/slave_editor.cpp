@@ -79,7 +79,6 @@ void SlaveEditor::apply()
     _corebus.send(QStringLiteral("UPDATE"), QStringLiteral("core"), {
         { QStringLiteral("slave"), _id },
         { QStringLiteral("params"), _editor->params() },
-        { QStringLiteral("slave_as_params"), SlaveAsParams{ _editor->slaveAsParams() }.toJson() },
     });
 }
 
@@ -89,7 +88,6 @@ void SlaveEditor::cancel()
 
     auto const slave = _config.slave(_id);
     _editor->setParams(slave.params());
-    _editor->setSlaveAsParams(slave.slaveAsParams());
 }
 
 void SlaveEditor::reserve()
@@ -98,5 +96,4 @@ void SlaveEditor::reserve()
 
     auto const slave = _config.slave(_id);
     _editor->setParams(_plugins.plugin(slave.type())->defaultParams());
-    _editor->setSlaveAsParams({});
 }

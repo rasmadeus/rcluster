@@ -1,11 +1,13 @@
 #include <QApplication>
 #include <QTcpSocket>
 #include <config.h>
+#include <plugins.h>
 #include "server.h"
 
-Server::Server(quint16 port, Config &config, QObject *parent)
+Server::Server(quint16 port, Config &config, Plugins &plugins, QObject *parent)
     : QObject{ parent }
     , _config{ config }
+    , _plugins{ plugins }
     , _messageRouter{ config }
 {
     _messageRouter.handle(QStringLiteral("REGISTER"), std::bind(&Server::onRegister, this, std::placeholders::_1));
@@ -57,12 +59,7 @@ void Server::removeClient()
 
 void Server::sendConfig(Client &client)
 {
-    client.send({
-        QStringLiteral("CONFIG"),
-        client.id().toString(),
-        QStringLiteral("core"),
-        { { QStringLiteral("config"), _config.toJson() } },
-    });
+    client.send({ QStringLiteral("CONFIG"), client.id().toString(), QStringLiteral("core"), { { QStringLiteral("config"), _config.toJson() } }, });
 }
 
 void Server::send(QString const &action, QVariantHash const &params)
@@ -75,8 +72,7 @@ void Server::onMessage(Message const &message)
 {
     if (message.to() == QStringLiteral("core"))
     {
-        if (!_messageRouter.route(message))
-            notifyListeners(message);
+        _messageRouter.route(message);
     }
     else
     {
@@ -85,8 +81,21 @@ void Server::onMessage(Message const &message)
             qCritical() << "Failed to delivery message to unknown slave.";
         else
             it->second->send(message);
+    }
 
-        notifyListeners(message);
+    auto const messageSource = message.fromId();
+    for(auto const &type : _config.types())
+    {
+        auto const *plugin = _plugins.plugin(type);
+        for(auto const &id : _config.slaves(type))
+        {
+            if (plugin->isListener(_config, messageSource, id))
+            {
+                auto it = _registeredClients.find(id);
+                if (it != _registeredClients.end())
+                    it->second->send(message);
+            }
+        }
     }
 }
 
@@ -111,20 +120,6 @@ void Server::onExit(Message const &message)
     Q_UNUSED(message)
     send(QStringLiteral("EXIT"));
     qApp->quit();
-}
-
-void Server::notifyListeners(Message const &message)
-{
-    auto const slave = message.fromId();
-    if (!_config.hasSlave(slave))
-        return;
-
-    for(auto const &id : _config.listeners(slave))
-    {
-        auto it = _registeredClients.find(id);
-        if (it != _registeredClients.end())
-            it->second->send(message);
-    }
 }
 
 void Server::onConfigReseted()
@@ -177,7 +172,6 @@ void Server::onConfigSlaveUpdated(QUuid const &slave)
     send(QStringLiteral("UPDATE"), {
         { QStringLiteral("slave"), slave },
         { QStringLiteral("params"), slaveObject.params() },
-        { QStringLiteral("slave_as_params"), slaveObject.slaveAsParams().toJson() },
     });
 }
 

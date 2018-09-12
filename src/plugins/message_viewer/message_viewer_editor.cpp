@@ -4,7 +4,7 @@
 #include <QVBoxLayout>
 #include <config.h>
 #include <globals.h>
-#include <slave_proxy_check_model.h>
+#include <slave_sort_model.h>
 #include "message_viewer_editor.h"
 
 MessageViewerEditor::MessageViewerEditor(EditorData const &data, QWidget &parent)
@@ -14,18 +14,15 @@ MessageViewerEditor::MessageViewerEditor(EditorData const &data, QWidget &parent
     , _selectAll{ tr("Select all"), this }
     , _deselectAll{ tr("Deselect all"), this }
 {
-    _slaveModel = new SlaveModelCheck{ data.config, data.plugins, *this };
-    _slaveModel->setSlave(data.id);
-    _slaveModel->setChecked(data.config.slave(data.id).slaveAsParams().slaves(QStringLiteral("slaves")));
+    _slaveModel = new SlaveModelCheck{ _config, _plugins, *this };
 
-    _slaveProxyModel = new SlaveProxyCheckModel{ *this };
-    _slaveProxyModel->setSourceModel(_slaveModel);
-    _slaveProxyModel->setSlaveId(data.id);
+    _slaveSortModel = new SlaveSortModel{ *this };
+    _slaveSortModel->setSourceModel(_slaveModel);
 
     _treeView.header()->hide();
     _treeView.setSelectionBehavior(QAbstractItemView::SelectRows);
     _treeView.setSelectionMode(QAbstractItemView::SingleSelection);
-    _treeView.setModel(_slaveProxyModel);
+    _treeView.setModel(_slaveSortModel);
 
     auto buttonsLayout = new QHBoxLayout{};
     buttonsLayout->setMargin(0);
@@ -53,17 +50,32 @@ MessageViewerEditor::MessageViewerEditor(EditorData const &data, QWidget &parent
 
 void MessageViewerEditor::onTreeViewClicked(QModelIndex const &index)
 {
-    _slaveModel->setData(_slaveProxyModel->mapToSource(index), {}, SlaveModelCheck::RoleToggleCheckState);
+    _slaveModel->setData(_slaveSortModel->mapToSource(index), {}, SlaveModelCheck::RoleToggleCheckState);
 }
 
 void MessageViewerEditor::onConfigChanged()
 {
-    _slaveProxyModel->sort(SlaveModel::ColumnCaption);
-    _slaveProxyModel->invalidate();
+    _slaveSortModel->sort(SlaveModel::ColumnCaption);
+    _slaveSortModel->invalidate();
 }
 
-void MessageViewerEditor::setSlaveAsParams(SlaveAsParams const &slaveAsParams)
+QVariantHash MessageViewerEditor::params() const
 {
-    _slaveModel->setChecked(slaveAsParams.slaves(QStringLiteral("slaves")));
+    QVariantList slaves;
+    for(auto &&id : _slaveModel->checked())
+        slaves << std::move(id);
+
+    return {
+        { QStringLiteral("slaves"), slaves },
+    };
+}
+
+void MessageViewerEditor::setParams(QVariantHash const &params)
+{
+    QSet<QUuid> slaves;
+    for(auto const &id : params.value(QStringLiteral("slaves")).toList())
+        slaves << id.toUuid();
+
+    _slaveModel->setChecked(slaves);
     _treeView.expandAll();
 }

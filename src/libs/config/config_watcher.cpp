@@ -63,8 +63,7 @@ void ConfigWatcher::onUpdateSlave(Message const &message)
 {
     _config.update(
         message.param(QStringLiteral("slave")).toUuid(),
-        message.param(QStringLiteral("params")).value<QVariantHash>(),
-        SlaveAsParams{ message.param(QStringLiteral("slave_as_params")).toJsonObject() }
+        message.param(QStringLiteral("params")).value<QVariantHash>()
     );
 }
 

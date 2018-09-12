@@ -1,6 +1,7 @@
 #include <QHash>
 #include <QPainter>
 #include <QSvgRenderer>
+#include <config.h>
 #include <svg.h>
 #include "default_base_plugin.h"
 
@@ -37,4 +38,53 @@ std::unique_ptr<SlaveController> DefaultBasePlugin::controller(Config const &con
     Q_UNUSED(plugin)
     Q_UNUSED(corebus)
     return nullptr;
+}
+
+QStringList DefaultBasePlugin::paramKeyContainsSlave() const
+{
+    return {};
+}
+
+void DefaultBasePlugin::clearParams(Config &config, QUuid const &removedSlave, QUuid const &thisTypeSlave) const
+{
+    auto const slave = config.slave(thisTypeSlave);
+    Q_ASSERT(slave.type() == type());
+    auto params = slave.params();
+    bool paramsChanged = false;
+
+    for(auto const &key : paramKeyContainsSlave())
+    {
+        {
+            auto slaveId = params.value(key).toUuid();
+            if (slaveId == removedSlave)
+            {
+                params[key] = QUuid{};
+                paramsChanged = true;
+                continue;
+            }
+        }
+        {
+            auto slaveIds = params.value(key).toList();
+            auto it = std::remove_if(slaveIds.begin(), slaveIds.end(), [&removedSlave](auto const &id){
+                return removedSlave == id.toUuid();
+            });
+            if (it != slaveIds.end())
+            {
+                slaveIds.erase(it, slaveIds.end());
+                params[key] = slaveIds;
+                paramsChanged = true;
+            }
+        }
+    }
+
+    if (paramsChanged)
+        config.update(thisTypeSlave, params);
+}
+
+bool DefaultBasePlugin::isListener(Config &config, QUuid const &messageSource, QUuid const &thisTypeSlave) const
+{
+    Q_UNUSED(config)
+    Q_UNUSED(messageSource)
+    Q_UNUSED(thisTypeSlave)
+    return false;
 }

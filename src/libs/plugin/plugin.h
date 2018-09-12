@@ -7,6 +7,7 @@
 #include "plugin_global.h"
 #include "slave_controller.h"
 
+class Config;
 class Editor;
 class EditorData;
 
@@ -26,6 +27,9 @@ public:
     virtual bool hasEditor() const = 0;
     virtual Editor* editor(EditorData const &data, QWidget &parent) const = 0;
     virtual std::unique_ptr<SlaveController> controller(Config const &config, Plugin const &plugin, Corebus &corebus) const = 0;
+    virtual QStringList paramKeyContainsSlave() const = 0;
+    virtual void clearParams(Config &config, QUuid const &removedSlave, QUuid const &thisTypeSlave) const = 0;
+    virtual bool isListener(Config &config, QUuid const &messageSource, QUuid const &thisTypeSlave) const = 0;
 };
 
 Q_DECLARE_INTERFACE(Plugin, "rcluster.plugin")

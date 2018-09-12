@@ -22,16 +22,14 @@ HEADERS += \
     slave.h \
     config_global.h \
     file_storable.h \
-    config_watcher.h \
-    slave_as_params.h
+    config_watcher.h
 
 SOURCES += \
     storage.cpp \
     config.cpp \
     slave.cpp \
     file_storable.cpp \
-    config_watcher.cpp \
-    slave_as_params.cpp
+    config_watcher.cpp
 
 DISTFILES += \
     config.pri

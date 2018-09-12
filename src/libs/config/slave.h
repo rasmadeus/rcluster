@@ -34,11 +34,6 @@ public:
     QVariant param(QString const &key) const { return _params.value(key); }
     void setParams(QVariantHash const &params) { _params = params; }
 
-    SlaveAsParams const &slaveAsParams() const { return _slaveAsParams; }
-    void setSlaveAsParams(SlaveAsParams const &slaveAsParams) { _slaveAsParams = slaveAsParams; }
-    bool removeSlaveParam(QUuid const &id) { return _slaveAsParams.remove(id); }
-    bool containsSlaveParams(QUuid const &id) const { return _slaveAsParams.contains(id); }
-
     QProcess::ProcessState processState() const { return _processState; }
     void setProcessState(QProcess::ProcessState state) { _processState = state; }
 
@@ -52,7 +47,6 @@ private:
     QString _name;
     bool _enabled{ true };
     QVariantHash _params;
-    SlaveAsParams _slaveAsParams;
     QProcess::ProcessState _processState{ QProcess::NotRunning };
     QVariantHash _runtimeParams;
 };

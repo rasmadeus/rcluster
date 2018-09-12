@@ -7,16 +7,6 @@ DefaultBaseEditor::DefaultBaseEditor(const EditorData &data, QWidget &parent)
 {
 }
 
-SlaveAsParams DefaultBaseEditor::slaveAsParams() const
-{
-    return {};
-}
-
-void DefaultBaseEditor::setSlaveAsParams(SlaveAsParams const &slaveAsParams)
-{
-    Q_UNUSED(slaveAsParams)
-}
-
 QVariantHash DefaultBaseEditor::params() const
 {
     return {};

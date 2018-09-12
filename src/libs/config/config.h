@@ -30,8 +30,8 @@ public:
     QSet<QUuid> localComputers() const;
     bool isLocal(QUuid const &id) const;
     QUuid parent(QUuid const &id, QString const &parentType) const;
-    QVector<QUuid> listeners(QUuid const &id) const;
     QUuid findLocalParam(QUuid const &id, QString const &key, QVariant const &param) const;
+    QStringList types() const { return _types.keys(); }
 
 public:
     void append(Slave const &slave);
@@ -39,7 +39,7 @@ public:
     void enable(QUuid const &id);
     void disable(QUuid const &id);
     void rename(QUuid const &id, QString const &name);
-    void update(QUuid const &id, QVariantHash const &params, SlaveAsParams const &slaveAsParams);
+    void update(QUuid const &id, QVariantHash const &params);
     void setProcessState(QUuid const &id, QProcess::ProcessState state);
     void setRuntimeParam(QUuid const &id, QString const &key, QVariant const &param);
 

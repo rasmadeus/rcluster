@@ -9,9 +9,6 @@ public:
     explicit DefaultBaseEditor(EditorData const &data, QWidget &parent);
 
 public:
-    SlaveAsParams slaveAsParams() const override;
-    void setSlaveAsParams(SlaveAsParams const &slaveAsParams) override;
-
     QVariantHash params() const override;
     void setParams(QVariantHash const &params) override;
 

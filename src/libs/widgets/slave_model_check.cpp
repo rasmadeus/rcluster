@@ -6,17 +6,9 @@ SlaveModelCheck::SlaveModelCheck(Config const &config, Plugins const &plugins, Q
 {
 }
 
-void SlaveModelCheck::setSlave(QUuid const &slave)
-{
-    _slave = slave;
-}
-
 Qt::ItemFlags SlaveModelCheck::flags(QModelIndex const &index) const
 {
-    auto flags = SlaveModel::flags(index);
-    if (!_slave.isNull() && item(index).id() != _slave)
-        flags |= Qt::ItemIsUserCheckable;
-    return flags;
+    return SlaveModel::flags(index) | Qt::ItemIsUserCheckable;
 }
 
 QVariant SlaveModelCheck::data(QModelIndex const &index, int role) const
@@ -25,9 +17,7 @@ QVariant SlaveModelCheck::data(QModelIndex const &index, int role) const
         return {};
 
     auto &item = this->item(index);
-    return role == Qt::CheckStateRole && index.isValid() && item.id() != _slave
-        ? item.checkState()
-        : SlaveModel::data(index, role);
+    return role == Qt::CheckStateRole && index.isValid() ? item.checkState() : SlaveModel::data(index, role);
 }
 
 bool SlaveModelCheck::setData(QModelIndex const &index, QVariant const &value, int role)
@@ -38,9 +28,6 @@ bool SlaveModelCheck::setData(QModelIndex const &index, QVariant const &value, i
         return false;
 
     if (role != RoleToggleCheckState)
-        return false;
-
-    if (_slave.isNull())
         return false;
 
     auto &item = this->item(index);
@@ -54,9 +41,6 @@ void SlaveModelCheck::setChecked(QSet<QUuid> const &slaves, SlaveItem &slaveItem
     for(int i = 0; i < slaveItem.childCount(); ++i)
     {
         auto &child = slaveItem.child(i);
-
-        if (child.id() == _slave)
-            continue;
 
         child.setCheckState(slaves.contains(child.id()) ? Qt::Checked : Qt::Unchecked);
         updateSlave(child.id());

@@ -8,7 +8,7 @@ DEFINES += \
     PLUGIN_LIBRARY
 
 CONFIG += \
-    c++11 \
+    c++14 \
     precompile_header \
     warn_on
 

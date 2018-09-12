@@ -7,7 +7,7 @@
 #include <default_base_editor.h>
 #include <slave_model_check.h>
 
-class SlaveProxyCheckModel;
+class SlaveSortModel;
 
 class MessageViewerEditor : public DefaultBaseEditor
 {
@@ -17,8 +17,8 @@ public:
     explicit MessageViewerEditor(EditorData const &data, QWidget &parent);
 
 public:
-    SlaveAsParams slaveAsParams() const override { return { QStringLiteral("slaves"), _slaveModel->checked() } ; }
-    void setSlaveAsParams(SlaveAsParams const &slaveAsParams) override;
+    QVariantHash params() const override;
+    void setParams(QVariantHash const &params) override;
 
 private:
     void onTreeViewClicked(QModelIndex const &index);
@@ -30,7 +30,7 @@ private:
     QPushButton _selectAll;
     QPushButton _deselectAll;
     SlaveModelCheck *_slaveModel{ nullptr };
-    SlaveProxyCheckModel *_slaveProxyModel{ nullptr };
+    SlaveSortModel *_slaveSortModel{ nullptr };
 };
 
 #endif // MESSAGE_VIEWER_EDITOR_H

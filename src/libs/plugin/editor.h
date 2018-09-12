@@ -19,9 +19,6 @@ public:
     explicit Editor(EditorData const &data, QWidget &parent);
 
 public:
-    virtual SlaveAsParams slaveAsParams() const = 0;
-    virtual void setSlaveAsParams(SlaveAsParams const &slaveAsParams) = 0;
-
     virtual QVariantHash params() const = 0;
     virtual void setParams(QVariantHash const &params) = 0;
 
