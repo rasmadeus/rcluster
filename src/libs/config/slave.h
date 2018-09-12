@@ -4,7 +4,7 @@
 #include <QProcess>
 #include <QVariantHash>
 #include <storable.h>
-#include <slave_as_params.h>
+#include "config_global.h"
 
 class CONFIG_SHARED_EXPORT Slave : public Storable
 {

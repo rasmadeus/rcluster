@@ -5,7 +5,6 @@
 #include <core_bus.h>
 #include <editor.h>
 #include <plugins.h>
-#include <slave_as_params.h>
 #include "slave_editor.h"
 
 SlaveEditor::SlaveEditor(Config &config, Plugins &plugins, Corebus &corebus, QWidget &parent)

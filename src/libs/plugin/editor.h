@@ -4,7 +4,6 @@
 #include <QWidget>
 #include <QUuid>
 #include <editor_data.h>
-#include <slave_as_params.h>
 #include "plugin_global.h"
 
 class Config;
