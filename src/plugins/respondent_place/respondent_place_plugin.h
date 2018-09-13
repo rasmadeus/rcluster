@@ -15,6 +15,7 @@ public:
     QString defaultName() const override { return tr("Respondent place"); }
     bool hasEditor() const override { return true; }
     Editor *editor(EditorData const &data, QWidget &parent) const override;
+    QStringList watchedSlaveKeys() const override { return { QStringLiteral("devices"), }; }
 };
 
 #endif // RESPONDENT_PLACE_PLUGIN_H

@@ -7,10 +7,10 @@ RespondentPlaceEditor::RespondentPlaceEditor(EditorData const &data, QWidget &pa
     : DefaultBaseEditor{ data, parent }
     , _deviceViewLabel{ tr("Select devices:"), this }
     , _model{ _config, _plugins, *this }
-    , _sortModel{ *this }
+    , _proxyModel{ { QStringLiteral("COMPUTER"), QStringLiteral("CAMERAS"), }, { QStringLiteral("CAMERA"), }, *this }
 {
-    _sortModel.setSourceModel(&_model);
-    _deviceView.setModel(&_sortModel);
+    _proxyModel.setSourceModel(&_model);
+    _deviceView.setModel(&_proxyModel);
     _deviceView.header()->hide();
 
     auto mainLayout = new QVBoxLayout{ this };
@@ -21,27 +21,31 @@ RespondentPlaceEditor::RespondentPlaceEditor(EditorData const &data, QWidget &pa
 
     onConfigChanged();
 
-    connect(&_model, &DeviceModel::rowsInserted, this, &RespondentPlaceEditor::onConfigChanged);
-    connect(&_model, &DeviceModel::dataChanged, this, &RespondentPlaceEditor::onConfigChanged);
-     connect(&_deviceView, &QTreeView::clicked, this, &RespondentPlaceEditor::onTreeViewClicked);
+    connect(&_model, &SlaveCheckModel::rowsInserted, this, &RespondentPlaceEditor::onConfigChanged);
+    connect(&_model, &SlaveCheckModel::dataChanged, this, &RespondentPlaceEditor::onConfigChanged);
+    connect(&_deviceView, &QTreeView::clicked, this, &RespondentPlaceEditor::onTreeViewClicked);
 }
 
 QVariantHash RespondentPlaceEditor::params() const
 {
-    return {};
+    return {
+        { QStringLiteral("devices"), _model.checked() },
+    };
 }
 
 void RespondentPlaceEditor::setParams(QVariantHash const &params)
 {
-
+    _model.setChecked(params.value(QStringLiteral("devices")).toList());
+    _deviceView.expandAll();
 }
 
 void RespondentPlaceEditor::onTreeViewClicked(QModelIndex const &index)
 {
-    _model.setData(_sortModel.mapToSource(index), {}, SlaveModelCheck::RoleToggleCheckState);
+    _model.setData(_proxyModel.mapToSource(index), {}, SlaveCheckModel::RoleToggleCheckState);
 }
 
 void RespondentPlaceEditor::onConfigChanged()
 {
-    _model.sort(SlaveModel::ColumnCaption);
+    _proxyModel.sort(SlaveModel::ColumnCaption);
+    _proxyModel.invalidate();
 }

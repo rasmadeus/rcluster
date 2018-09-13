@@ -19,9 +19,7 @@ public:
     void onSetup(Slave const &slave) override;
 
 private:
-    QWidget _widget;
     std::unique_ptr<Gloop> _gloop;
-    std::unique_ptr<RtspClient> _client;
 };
 
 #endif // EXPERIMENT_CENTER_CONTROLLER_H

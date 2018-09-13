@@ -14,6 +14,7 @@ public:
 public:
     QVariantHash params() const override;
     void setParams(QVariantHash const &params) override;
+    QStringList errors() const override;
 
 private:
     QLineEdit _ip;

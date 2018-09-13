@@ -1,17 +1,17 @@
 #include <config.h>
-#include "slave_model_check.h"
+#include "slave_check_model.h"
 
-SlaveModelCheck::SlaveModelCheck(Config const &config, Plugins const &plugins, QObject &parent)
+SlaveCheckModel::SlaveCheckModel(Config const &config, Plugins const &plugins, QObject &parent)
     : SlaveModel{ config, plugins, parent }
 {
 }
 
-Qt::ItemFlags SlaveModelCheck::flags(QModelIndex const &index) const
+Qt::ItemFlags SlaveCheckModel::flags(QModelIndex const &index) const
 {
     return SlaveModel::flags(index) | Qt::ItemIsUserCheckable;
 }
 
-QVariant SlaveModelCheck::data(QModelIndex const &index, int role) const
+QVariant SlaveCheckModel::data(QModelIndex const &index, int role) const
 {
     if (role == Qt::BackgroundRole)
         return {};
@@ -20,7 +20,7 @@ QVariant SlaveModelCheck::data(QModelIndex const &index, int role) const
     return role == Qt::CheckStateRole && index.isValid() ? item.checkState() : SlaveModel::data(index, role);
 }
 
-bool SlaveModelCheck::setData(QModelIndex const &index, QVariant const &value, int role)
+bool SlaveCheckModel::setData(QModelIndex const &index, QVariant const &value, int role)
 {
     Q_UNUSED(value)
 
@@ -36,7 +36,7 @@ bool SlaveModelCheck::setData(QModelIndex const &index, QVariant const &value, i
     return true;
 }
 
-void SlaveModelCheck::setChecked(QSet<QUuid> const &slaves, SlaveItem &slaveItem)
+void SlaveCheckModel::setChecked(QVariantList const &slaves, SlaveItem &slaveItem)
 {
     for(int i = 0; i < slaveItem.childCount(); ++i)
     {
@@ -48,22 +48,22 @@ void SlaveModelCheck::setChecked(QSet<QUuid> const &slaves, SlaveItem &slaveItem
     }
 }
 
-QSet<QUuid> SlaveModelCheck::checked(SlaveItem const &item) const
+QVariantList SlaveCheckModel::checked(SlaveItem const &item) const
 {
-    QSet<QUuid> res;
+    QVariantList res;
     for(int i = 0; i < item.childCount(); ++i)
     {
         auto const &child = item.child(i);
         if (child.checkState() == Qt::Checked)
-            res.insert(child.id());
+            res << child.id();
 
         for(auto &&slave : checked(child))
-            res.insert(std::move(slave));
+            res << std::move(slave);
     }
     return res;
 }
 
-void SlaveModelCheck::setCheckedState(SlaveItem &item, Qt::CheckState state)
+void SlaveCheckModel::setCheckedState(SlaveItem &item, Qt::CheckState state)
 {
     for(int i = 0; i < item.childCount(); ++i)
     {

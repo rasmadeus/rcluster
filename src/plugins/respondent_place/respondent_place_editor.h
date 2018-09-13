@@ -4,8 +4,8 @@
 #include <QLabel>
 #include <QTreeView>
 #include <default_base_editor.h>
-#include <slave_sort_model.h>
-#include "device_model.h"
+#include <slave_check_model.h>
+#include <slave_type_proxy_model.h>
 
 class RespondentPlaceEditor : public DefaultBaseEditor
 {
@@ -25,8 +25,8 @@ private:
 private:
     QLabel _deviceViewLabel;
     QTreeView _deviceView;
-    DeviceModel _model;
-    SlaveSortModel _sortModel;
+    SlaveCheckModel _model;
+    SlaveTypeProxyModel _proxyModel;
 };
 
 #endif // RESPONDENT_PLACE_EDITOR_H

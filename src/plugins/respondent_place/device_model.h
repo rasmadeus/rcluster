@@ -1,9 +1,9 @@
 #ifndef DEVICE_MODEL_H
 #define DEVICE_MODEL_H
 
-#include <slave_model_check.h>
+#include <slave_check_model.h>
 
-class DeviceModel : public SlaveModelCheck
+class DeviceModel : public SlaveCheckModel
 {
     Q_OBJECT
 

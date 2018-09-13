@@ -23,3 +23,12 @@ void ComputerEditor::setParams(QVariantHash const &params)
 {
     _ip.setText(params.value(QStringLiteral("ip")).toString());
 }
+
+QStringList ComputerEditor::errors() const
+{
+    QStringList errors;
+    auto id = _config.findLocalParam(_id, QStringLiteral("ip"), _ip.text());
+    if (!id.isNull())
+        errors << tr("IP %1 is already in use.").arg(_ip.text());
+    return errors;
+}

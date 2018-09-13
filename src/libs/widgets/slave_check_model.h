@@ -1,9 +1,9 @@
-#ifndef SLAVE_MODEL_CHECK_H
-#define SLAVE_MODEL_CHECK_H
+#ifndef SLAVE_CHECK_MODEL_H
+#define SLAVE_CHECK_MODEL_H
 
 #include "slave_model.h"
 
-class WIDGETS_SHARED_EXPORT SlaveModelCheck : public SlaveModel
+class WIDGETS_SHARED_EXPORT SlaveCheckModel : public SlaveModel
 {
     Q_OBJECT
 
@@ -14,11 +14,11 @@ public:
     };
 
 public:
-    explicit SlaveModelCheck(Config const &config, Plugins const &plugins, QObject &parent);
+    explicit SlaveCheckModel(Config const &config, Plugins const &plugins, QObject &parent);
 
 public:
-    void setChecked(QSet<QUuid> const &slaves) { setChecked(slaves, _root); }
-    QSet<QUuid> checked() const { return checked(_root); }
+    void setChecked(QVariantList const &slaves) { setChecked(slaves, _root); }
+    QVariantList checked() const { return checked(_root); }
     void selectAll() { setCheckedState(_root, Qt::Checked); }
     void deselectAll() { setCheckedState(_root, Qt::Unchecked); }
 
@@ -28,9 +28,9 @@ public:
     bool setData(const QModelIndex &index, QVariant const &value, int role = Qt::EditRole) override;
 
 private:
-    void setChecked(QSet<QUuid> const &slaves, SlaveItem &slaveItem);
-    QSet<QUuid> checked(SlaveItem const &slaveItem) const;
+    void setChecked(QVariantList const &slaves, SlaveItem &slaveItem);
+    QVariantList checked(SlaveItem const &slaveItem) const;
     void setCheckedState(SlaveItem &item, Qt::CheckState state);
 };
 
-#endif // SLAVE_MODEL_CHECK_H
+#endif // SLAVE_CHECK_MODEL_H

@@ -15,8 +15,9 @@ public:
     bool hasProcess() const override { return false; }
     Editor *editor(EditorData const &data, QWidget &parent) const override;
     std::unique_ptr<SlaveController> controller(Config const &config, Plugin const &plugin, Corebus &corebus) const override;
-    QStringList paramKeyContainsSlave() const override;
-    void clearParams(Config &config, QUuid const &removedSlave, QUuid const &thisTypeSlave) const override;
+    QStringList watchedSlaveKeys() const override;
+    void onWatchedSlaveRemoved(Config &config, QUuid const &watchedSlave, QUuid const &thisTypeSlave) const override;
+    void onWatchedSlaveUpdated(Config &config, QUuid const &watchedSlave, QUuid const &thisTypeSlave) const override;
     bool isListener(Config &config, QUuid const &messageSource, QUuid const &thisTypeSlave) const override;
 };
 

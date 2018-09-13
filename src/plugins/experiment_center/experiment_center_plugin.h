@@ -18,6 +18,7 @@ public:
     bool hasEditor() const override { return true; }
     Editor *editor(EditorData const &data, QWidget &parent) const override;
     std::unique_ptr<SlaveController> controller(Config const &config, Plugin const &plugin, Corebus &corebus) const override;
+    QStringList watchedSlaveKeys() const override { return { QStringLiteral("respondent_places"), }; }
 };
 
 #endif // EXPERIMENT_CENTER_PLUGIN_H

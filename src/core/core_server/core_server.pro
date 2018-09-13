@@ -18,7 +18,7 @@ HEADERS += \
     client.h \
     tray_icon.h \
     config_storage.h \
-    params_cleaner.h
+    params_watch_dog.h
 
 SOURCES += \
     main.cpp \
@@ -26,7 +26,7 @@ SOURCES += \
     client.cpp \
     tray_icon.cpp \
     config_storage.cpp \
-    params_cleaner.cpp
+    params_watch_dog.cpp
 
 RESOURCES += \
     res.qrc

@@ -14,7 +14,7 @@ MessageViewerEditor::MessageViewerEditor(EditorData const &data, QWidget &parent
     , _selectAll{ tr("Select all"), this }
     , _deselectAll{ tr("Deselect all"), this }
 {
-    _slaveModel = new SlaveModelCheck{ _config, _plugins, *this };
+    _slaveModel = new SlaveCheckModel{ _config, _plugins, *this };
 
     _slaveSortModel = new SlaveSortModel{ *this };
     _slaveSortModel->setSourceModel(_slaveModel);
@@ -42,15 +42,15 @@ MessageViewerEditor::MessageViewerEditor(EditorData const &data, QWidget &parent
     connect(_slaveModel, &SlaveModel::dataChanged, this, &MessageViewerEditor::onConfigChanged);
 
     connect(&_treeView, &QTreeView::clicked, this, &MessageViewerEditor::onTreeViewClicked);
-    connect(&_selectAll, &QPushButton::clicked, _slaveModel, &SlaveModelCheck::selectAll);
-    connect(&_deselectAll, &QPushButton::clicked, _slaveModel, &SlaveModelCheck::deselectAll);
+    connect(&_selectAll, &QPushButton::clicked, _slaveModel, &SlaveCheckModel::selectAll);
+    connect(&_deselectAll, &QPushButton::clicked, _slaveModel, &SlaveCheckModel::deselectAll);
 
     onConfigChanged();
 }
 
 void MessageViewerEditor::onTreeViewClicked(QModelIndex const &index)
 {
-    _slaveModel->setData(_slaveSortModel->mapToSource(index), {}, SlaveModelCheck::RoleToggleCheckState);
+    _slaveModel->setData(_slaveSortModel->mapToSource(index), {}, SlaveCheckModel::RoleToggleCheckState);
 }
 
 void MessageViewerEditor::onConfigChanged()
@@ -61,21 +61,13 @@ void MessageViewerEditor::onConfigChanged()
 
 QVariantHash MessageViewerEditor::params() const
 {
-    QVariantList slaves;
-    for(auto &&id : _slaveModel->checked())
-        slaves << std::move(id);
-
     return {
-        { QStringLiteral("slaves"), slaves },
+        { QStringLiteral("slaves"), _slaveModel->checked() },
     };
 }
 
 void MessageViewerEditor::setParams(QVariantHash const &params)
 {
-    QSet<QUuid> slaves;
-    for(auto const &id : params.value(QStringLiteral("slaves")).toList())
-        slaves << id.toUuid();
-
-    _slaveModel->setChecked(slaves);
+    _slaveModel->setChecked(params.value(QStringLiteral("slaves")).toList());
     _treeView.expandAll();
 }

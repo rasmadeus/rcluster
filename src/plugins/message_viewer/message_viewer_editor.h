@@ -5,7 +5,7 @@
 #include <QLabel>
 #include <QTreeView>
 #include <default_base_editor.h>
-#include <slave_model_check.h>
+#include <slave_check_model.h>
 
 class SlaveSortModel;
 
@@ -29,7 +29,7 @@ private:
     QTreeView _treeView;
     QPushButton _selectAll;
     QPushButton _deselectAll;
-    SlaveModelCheck *_slaveModel{ nullptr };
+    SlaveCheckModel *_slaveModel{ nullptr };
     SlaveSortModel *_slaveSortModel{ nullptr };
 };
 

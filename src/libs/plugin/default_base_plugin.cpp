@@ -40,23 +40,23 @@ std::unique_ptr<SlaveController> DefaultBasePlugin::controller(Config const &con
     return nullptr;
 }
 
-QStringList DefaultBasePlugin::paramKeyContainsSlave() const
+QStringList DefaultBasePlugin::watchedSlaveKeys() const
 {
     return {};
 }
 
-void DefaultBasePlugin::clearParams(Config &config, QUuid const &removedSlave, QUuid const &thisTypeSlave) const
+void DefaultBasePlugin::onWatchedSlaveRemoved(Config &config, QUuid const &watchedSlave, QUuid const &thisTypeSlave) const
 {
     auto const slave = config.slave(thisTypeSlave);
     Q_ASSERT(slave.type() == type());
     auto params = slave.params();
     bool paramsChanged = false;
 
-    for(auto const &key : paramKeyContainsSlave())
+    for(auto const &key : watchedSlaveKeys())
     {
         {
             auto slaveId = params.value(key).toUuid();
-            if (slaveId == removedSlave)
+            if (slaveId == watchedSlave)
             {
                 params[key] = QUuid{};
                 paramsChanged = true;
@@ -65,8 +65,8 @@ void DefaultBasePlugin::clearParams(Config &config, QUuid const &removedSlave, Q
         }
         {
             auto slaveIds = params.value(key).toList();
-            auto it = std::remove_if(slaveIds.begin(), slaveIds.end(), [&removedSlave](auto const &id){
-                return removedSlave == id.toUuid();
+            auto it = std::remove_if(slaveIds.begin(), slaveIds.end(), [&watchedSlave](auto const &id){
+                return watchedSlave == id.toUuid();
             });
             if (it != slaveIds.end())
             {
@@ -78,6 +78,40 @@ void DefaultBasePlugin::clearParams(Config &config, QUuid const &removedSlave, Q
     }
 
     if (paramsChanged)
+        config.update(thisTypeSlave, params);
+}
+
+void DefaultBasePlugin::onWatchedSlaveUpdated(Config &config, QUuid const &watchedSlave, QUuid const &thisTypeSlave) const
+{
+    auto const slave = config.slave(thisTypeSlave);
+    Q_ASSERT(slave.type() == type());
+    auto params = slave.params();
+    bool isListener = false;
+
+    for(auto const &key : watchedSlaveKeys())
+    {
+        {
+            auto slaveId = params.value(key).toUuid();
+            if (slaveId == watchedSlave)
+            {
+                isListener = true;
+                break;
+            }
+        }
+        {
+            auto slaveIds = params.value(key).toList();
+            auto it = std::remove_if(slaveIds.begin(), slaveIds.end(), [&watchedSlave](auto const &id){
+                return watchedSlave == id.toUuid();
+            });
+            if (it != slaveIds.end())
+            {
+                isListener = true;
+                break;
+            }
+        }
+    }
+
+    if (isListener)
         config.update(thisTypeSlave, params);
 }
 
