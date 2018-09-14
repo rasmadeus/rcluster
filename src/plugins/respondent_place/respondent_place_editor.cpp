@@ -41,7 +41,7 @@ void RespondentPlaceEditor::setParams(QVariantHash const &params)
 
 void RespondentPlaceEditor::onTreeViewClicked(QModelIndex const &index)
 {
-    _model.setData(_proxyModel.mapToSource(index), {}, SlaveCheckModel::RoleToggleCheckState);
+    _proxyModel.setData(index, {}, SlaveCheckModel::RoleToggleCheckState);
 }
 
 void RespondentPlaceEditor::onConfigChanged()

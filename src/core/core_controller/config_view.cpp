@@ -23,7 +23,7 @@ ConfigView::ConfigView(Config &config, Plugins &plugins, Corebus &corebus, QWidg
     _sortModel.setSourceModel(&_model);
 
     auto mainLayout = new QVBoxLayout{ this };
-    mainLayout->setMargin(rcluster::layoutGap());
+    mainLayout->setMargin(0);
     mainLayout->setSpacing(rcluster::layoutGap());
     mainLayout->addWidget(&_view);
 

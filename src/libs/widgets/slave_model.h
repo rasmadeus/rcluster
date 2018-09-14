@@ -1,40 +1,16 @@
 #ifndef SLAVEMODEL_H
 #define SLAVEMODEL_H
 
-#include <QAbstractItemModel>
-#include <slave.h>
-#include "slave_item.h"
-#include "widgets_global.h"
+#include "slave_item_model.h"
 
-class Config;
-class Plugins;
-
-class WIDGETS_SHARED_EXPORT SlaveModel : public QAbstractItemModel
+class WIDGETS_SHARED_EXPORT SlaveModel : public SlaveItemModel
 {
     Q_OBJECT
-
-public:
-    enum
-    {
-        ColumnCaption,
-        ColumnSize,
-    };
-
-    enum
-    {
-        RoleItemId = Qt::UserRole + 1,
-        RoleItemType,
-    };
 
 public:
     explicit SlaveModel(Config const &config, Plugins const &plugins, QObject &parent);
 
 public:
-    Qt::ItemFlags flags(QModelIndex const &index) const override;
-    QModelIndex index(int row, int column, QModelIndex const &parent = {}) const override;
-    QModelIndex parent(QModelIndex const &index) const override;
-    int rowCount(QModelIndex const &parent = {}) const override;
-    int columnCount(QModelIndex const &parent = {}) const override;
     QVariant data(QModelIndex const &index, int role = Qt::DisplayRole) const override;
 
 signals:
@@ -42,21 +18,11 @@ signals:
     void renamed(QUuid const &slave);
 
 protected:
-    SlaveItem &item(QModelIndex const &index) const;
-    Slave slave(QModelIndex const &index) const;
-
+    void appendSlaveById(QUuid const &id);
     void appendChildren(QUuid const &id, SlaveItem &item);
     void reloadSlaves();
-    void appendSlave(QUuid const &slave);
-    void removeSlave(QUuid const &slave);
-    void updateSlave(QUuid const &slave);
 
     QVariant dataBackground(QModelIndex const &index) const;
-
-protected:
-    Config const &_config;
-    Plugins const &_plugins;
-    SlaveItem _root;
 };
 
 #endif // SLAVEMODEL_H

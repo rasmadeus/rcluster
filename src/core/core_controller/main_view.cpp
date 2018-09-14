@@ -33,6 +33,7 @@ ControllerWithActivity::ControllerWithActivity(Config &config, Plugins &plugins,
     auto helpMenu = menuBar()->addMenu(tr("Help"));
     helpMenu->addAction(tr("Open the application folder"), []{ QDesktopServices::openUrl(QUrl::fromLocalFile(rcluster::writableLocation())); });
 
+    _splitter.setContentsMargins(rcluster::layoutGap(), rcluster::layoutGap(), rcluster::layoutGap(), rcluster::layoutGap());
     _splitter.addWidget(&_configView);
     _splitter.addWidget(&_slaveParamsView);
     _splitter.setEnabled(false);

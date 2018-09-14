@@ -20,7 +20,7 @@ SlaveParamsView::SlaveParamsView(Config &config, Plugins &plugins, Corebus &core
     _stackedWidget.layout()->setSpacing(rcluster::layoutGap());
 
     auto mainLayout = new QHBoxLayout{ this };
-    mainLayout->setMargin(rcluster::layoutGap());
+    mainLayout->setMargin(0);
     mainLayout->setSpacing(rcluster::layoutGap());
     mainLayout->addWidget(&_stackedWidget);
 

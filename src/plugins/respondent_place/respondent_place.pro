@@ -16,13 +16,11 @@ PRECOMPILED_HEADER = \
 HEADERS += \
     pch.h \
     respondent_place_editor.h \
-    respondent_place_plugin.h \
-    device_model.h
+    respondent_place_plugin.h
 
 SOURCES += \
     respondent_place_editor.cpp \
-    respondent_place_plugin.cpp \
-    device_model.cpp
+    respondent_place_plugin.cpp
 
 RESOURCES += \
     $$PWD/res.qrc

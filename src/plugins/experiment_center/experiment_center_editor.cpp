@@ -42,7 +42,7 @@ void ExperimentCenterEditor::setParams(QVariantHash const &params)
 
 void ExperimentCenterEditor::onTreeViewClicked(QModelIndex const &index)
 {
-    _model.setData(_proxyModel.mapToSource(index), {}, SlaveCheckModel::RoleToggleCheckState);
+    _proxyModel.setData(index, {}, SlaveCheckModel::RoleToggleCheckState);
 }
 
 void ExperimentCenterEditor::onConfigChanged()

@@ -14,6 +14,7 @@ public:
 public:
     QVariant data(QModelIndex const &index, int role = Qt::DisplayRole) const override;
     Qt::ItemFlags flags(QModelIndex const &index) const override;
+    bool setData(QModelIndex const &index, QVariant const &value, int role = Qt::EditRole) override;
 
 protected:
     bool filterAcceptsRow(int sourceRow, QModelIndex const &sourceParent) const override;

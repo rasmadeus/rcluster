@@ -29,7 +29,7 @@ public:
     virtual std::unique_ptr<SlaveController> controller(Config const &config, Plugin const &plugin, Corebus &corebus) const = 0;
     virtual QStringList watchedSlaveKeys() const = 0;
     virtual void onWatchedSlaveRemoved(Config &config, QUuid const &watchedSlave, QUuid const &thisTypeSlave) const = 0;
-    virtual void onWatchedSlaveUpdated(Config &config, QUuid const &watchedSlave, QUuid const &thisTypeSlave) const = 0;
+    virtual bool isSlaveWatched(Config &config, QUuid const &watchedSlave, QUuid const &thisTypeSlave) const = 0;
     virtual bool isListener(Config &config, QUuid const &messageSource, QUuid const &thisTypeSlave) const = 0;
 };
 

@@ -81,22 +81,18 @@ void DefaultBasePlugin::onWatchedSlaveRemoved(Config &config, QUuid const &watch
         config.update(thisTypeSlave, params);
 }
 
-void DefaultBasePlugin::onWatchedSlaveUpdated(Config &config, QUuid const &watchedSlave, QUuid const &thisTypeSlave) const
+bool DefaultBasePlugin::isSlaveWatched(Config &config, QUuid const &watchedSlave, QUuid const &thisTypeSlave) const
 {
     auto const slave = config.slave(thisTypeSlave);
     Q_ASSERT(slave.type() == type());
     auto params = slave.params();
-    bool isListener = false;
 
     for(auto const &key : watchedSlaveKeys())
     {
         {
             auto slaveId = params.value(key).toUuid();
             if (slaveId == watchedSlave)
-            {
-                isListener = true;
-                break;
-            }
+                return true;
         }
         {
             auto slaveIds = params.value(key).toList();
@@ -104,15 +100,10 @@ void DefaultBasePlugin::onWatchedSlaveUpdated(Config &config, QUuid const &watch
                 return watchedSlave == id.toUuid();
             });
             if (it != slaveIds.end())
-            {
-                isListener = true;
-                break;
-            }
+                return true;
         }
     }
-
-    if (isListener)
-        config.update(thisTypeSlave, params);
+    return false;
 }
 
 bool DefaultBasePlugin::isListener(Config &config, QUuid const &messageSource, QUuid const &thisTypeSlave) const

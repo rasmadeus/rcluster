@@ -17,12 +17,18 @@ HEADERS += \
     pch.h \
     experiment_center_controller.h \
     experiment_center_editor.h \
-    experiment_center_plugin.h
+    experiment_center_plugin.h \
+    device_view.h \
+    data_view.h \
+    device_model.h
 
 SOURCES += \
     experiment_center_controller.cpp \
     experiment_center_editor.cpp \
-    experiment_center_plugin.cpp
+    experiment_center_plugin.cpp \
+    device_view.cpp \
+    data_view.cpp \
+    device_model.cpp
 
 RESOURCES += \
     $$PWD/res.qrc

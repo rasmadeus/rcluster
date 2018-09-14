@@ -11,7 +11,6 @@ ControllerWithActivity::ControllerWithActivity(Config const &config, Plugin cons
     : QMainWindow{ nullptr, Qt::WindowTitleHint | Qt::WindowMinMaxButtonsHint }
     , SlaveController{ config, plugin, corebus }
 {
-    setContentsMargins(rcluster::layoutGap(), rcluster::layoutGap(), rcluster::layoutGap(), rcluster::layoutGap());
     connect(qApp, &QApplication::aboutToQuit, this, static_cast<void(ControllerWithActivity::*)()>(&ControllerWithActivity::storeSettings));
 
     setWindowIcon(_plugin.pixmap({ 32, 32 }));

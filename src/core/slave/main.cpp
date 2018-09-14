@@ -42,9 +42,11 @@ int main(int argc, char *argv[])
         controller->onSetup(config.slave(corebus.id()));
     });
 
-    QObject::connect(&config, &Config::updated, [&controller, &corebus, &config](auto const &id){
+    QObject::connect(&config, &Config::updated, [&controller, &corebus, &config, &plugin](auto const &id){
         if (id == corebus.id())
             controller->onSetup(config.slave(id));
+        else if (plugin->isSlaveWatched(config, id, corebus.id()))
+            controller->onSetup(config.slave(corebus.id()));
     });
 
     QObject::connect(&corebus, &Corebus::ready, [&controller, &configWatcher](auto const &message){

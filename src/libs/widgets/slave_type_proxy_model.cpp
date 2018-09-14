@@ -1,4 +1,4 @@
-#include "slave_model.h"
+#include "slave_check_model.h"
 #include "slave_type_proxy_model.h"
 
 SlaveTypeProxyModel::SlaveTypeProxyModel(QStringList const &types, QStringList const &checkableTypes, QObject &parent)
@@ -26,6 +26,17 @@ Qt::ItemFlags SlaveTypeProxyModel::flags(QModelIndex const &index) const
     if (!_checkableTypes.contains(type))
         flags ^= Qt::ItemIsUserCheckable;
     return flags;
+}
+
+bool SlaveTypeProxyModel::setData(QModelIndex const &index, QVariant const &value, int role)
+{
+    if (role == SlaveCheckModel::RoleToggleCheckState)
+    {
+        auto const type = index.data(SlaveModel::RoleItemType).toString();
+        if (!_checkableTypes.contains(type))
+            return false;
+    }
+    return SlaveSortModel::setData(index, value, role);
 }
 
 bool SlaveTypeProxyModel::filterAcceptsRow(int sourceRow, QModelIndex const &sourceParent) const

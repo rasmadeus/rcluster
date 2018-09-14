@@ -17,7 +17,7 @@ public:
     std::unique_ptr<SlaveController> controller(Config const &config, Plugin const &plugin, Corebus &corebus) const override;
     QStringList watchedSlaveKeys() const override;
     void onWatchedSlaveRemoved(Config &config, QUuid const &watchedSlave, QUuid const &thisTypeSlave) const override;
-    void onWatchedSlaveUpdated(Config &config, QUuid const &watchedSlave, QUuid const &thisTypeSlave) const override;
+    bool isSlaveWatched(Config &config, QUuid const &watchedSlave, QUuid const &thisTypeSlave) const override;
     bool isListener(Config &config, QUuid const &messageSource, QUuid const &thisTypeSlave) const override;
 };
 

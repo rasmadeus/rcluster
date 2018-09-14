@@ -9,6 +9,7 @@ MessageViewerController::MessageViewerController(Config const &config, Plugin co
     : ControllerWithActivity{ config, plugin, corebus }
     , _log{ this }
 {
+    setContentsMargins(rcluster::layoutGap(), rcluster::layoutGap(), rcluster::layoutGap(), rcluster::layoutGap());
     setWindowTitle(tr("Message Viewer"));
     _log.setReadOnly(true);
     setCentralWidget(&_log);

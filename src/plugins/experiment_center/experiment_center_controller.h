@@ -5,7 +5,11 @@
 #include <gloop.h>
 #include <rtsp_client.h>
 #include <QPlainTextEdit>
+#include <QSplitter>
 #include <controller_with_activity.h>
+#include <plugins.h>
+#include "data_view.h"
+#include "device_view.h"
 
 class ExperimentCenterController : public ControllerWithActivity
 {
@@ -18,8 +22,16 @@ public:
 public:
     void onSetup(Slave const &slave) override;
 
+protected:
+    void storeSettings(QSettings &settings) override;
+    void restoreSettings(QSettings const &settings) override;
+
 private:
+    Plugins _plugins;
     std::unique_ptr<Gloop> _gloop;
+    QSplitter _splitter;
+    DataView _dataView;
+    DeviceView _deviceView;
 };
 
 #endif // EXPERIMENT_CENTER_CONTROLLER_H

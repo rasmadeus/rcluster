@@ -40,11 +40,15 @@ public:
     Qt::CheckState checkState() const { return _checkState; }
     void toggleCheckState() { _checkState = _checkState == Qt::Checked ? Qt::Unchecked : Qt::Checked; }
 
+    void setUserData(QVariant const &data) { _userData = data; }
+    QVariant const &userData() const { return _userData; }
+
 protected:
     SlaveItem *_parent{ nullptr };
     QUuid _id;
     QVector<SlaveItem*> _children;
     Qt::CheckState _checkState{ Qt::Unchecked };
+    QVariant _userData;
 };
 
 #endif // SLAVE_ITEM_H
