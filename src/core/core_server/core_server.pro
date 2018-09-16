@@ -17,16 +17,14 @@ HEADERS += \
     server.h \
     client.h \
     tray_icon.h \
-    config_storage.h \
-    params_cleaner.h
+    config_storage.h
 
 SOURCES += \
     main.cpp \
     server.cpp \
     client.cpp \
     tray_icon.cpp \
-    config_storage.cpp \
-    params_cleaner.cpp
+    config_storage.cpp
 
 RESOURCES += \
     res.qrc

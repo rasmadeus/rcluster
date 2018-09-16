@@ -54,26 +54,15 @@ void DefaultBasePlugin::onWatchedSlaveRemoved(Config &config, QUuid const &watch
 
     for(auto const &key : watchedSlaveKeys())
     {
+        auto slaveIds = params.value(key).toList();
+        auto it = std::remove_if(slaveIds.begin(), slaveIds.end(), [&watchedSlave](auto const &id){
+            return watchedSlave == id.toUuid();
+        });
+        if (it != slaveIds.end())
         {
-            auto slaveId = params.value(key).toUuid();
-            if (slaveId == watchedSlave)
-            {
-                params[key] = QUuid{};
-                paramsChanged = true;
-                continue;
-            }
-        }
-        {
-            auto slaveIds = params.value(key).toList();
-            auto it = std::remove_if(slaveIds.begin(), slaveIds.end(), [&watchedSlave](auto const &id){
-                return watchedSlave == id.toUuid();
-            });
-            if (it != slaveIds.end())
-            {
-                slaveIds.erase(it, slaveIds.end());
-                params[key] = slaveIds;
-                paramsChanged = true;
-            }
+            slaveIds.erase(it, slaveIds.end());
+            params[key] = slaveIds;
+            paramsChanged = true;
         }
     }
 
@@ -89,19 +78,12 @@ bool DefaultBasePlugin::isSlaveWatched(Config &config, QUuid const &watchedSlave
 
     for(auto const &key : watchedSlaveKeys())
     {
-        {
-            auto slaveId = params.value(key).toUuid();
-            if (slaveId == watchedSlave)
-                return true;
-        }
-        {
-            auto slaveIds = params.value(key).toList();
-            auto it = std::remove_if(slaveIds.begin(), slaveIds.end(), [&watchedSlave](auto const &id){
-                return watchedSlave == id.toUuid();
-            });
-            if (it != slaveIds.end())
-                return true;
-        }
+        auto slaveIds = params.value(key).toList();
+        auto it = std::remove_if(slaveIds.begin(), slaveIds.end(), [&watchedSlave](auto const &id){
+            return watchedSlave == id.toUuid();
+        });
+        if (it != slaveIds.end())
+            return true;
     }
     return false;
 }

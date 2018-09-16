@@ -6,7 +6,6 @@
 #include <plugins.h>
 #include <crash_handler.h>
 #include <translator.h>
-#include "params_cleaner.h"
 #include "config_storage.h"
 #include "server.h"
 #include "tray_icon.h"
@@ -26,7 +25,6 @@ int main(int argc, char *argv[])
     plugins.load();
 
     Config config;
-    ParamsCleaner paramsCleaner{ config, plugins };
     ConfigStorage configStorage{ config, plugins };
     Server server{ rcluster::corePort(), config, plugins };
 

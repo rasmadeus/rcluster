@@ -141,6 +141,13 @@ void Server::onConfigSlaveRemoved(QUuid const &slave)
     send(QStringLiteral("REMOVE"), {
         { QStringLiteral("slave"), slave },
     });
+
+    for(auto const &type : _config.types())
+    {
+        auto const *plugin = _plugins.plugin(type);
+        for(auto const &id : _config.slaves(type))
+            plugin->onWatchedSlaveRemoved(_config, slave, id);
+    }
 }
 
 void Server::onConfigSlaveRenamed(QUuid const &slave)
