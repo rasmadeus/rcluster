@@ -1,4 +1,6 @@
 #include <config.h>
+#include <svg.h>
+#include <device_state.h>
 #include "device_model.h"
 
 DeviceModel::DeviceModel(Config const &config, Plugins const &plugins, QObject &parent)
@@ -8,7 +10,6 @@ DeviceModel::DeviceModel(Config const &config, Plugins const &plugins, QObject &
     connect(&_config, &Config::enabled, this, &DeviceModel::updateSlave);
     connect(&_config, &Config::disabled, this, &DeviceModel::updateSlave);
     connect(&_config, &Config::runtimeParamChanged, this, &DeviceModel::updateSlave);
-    connect(&config, &Config::updated, this, &DeviceModel::onSlaveUpdated);
 }
 
 int DeviceModel::columnCount(QModelIndex const &parent) const
@@ -22,11 +23,14 @@ QVariant DeviceModel::data(QModelIndex const &index, int role) const
     if (!index.isValid())
         return {};
 
-    switch(index.column())
+    switch(role)
     {
-        case ColumnCaption: return SlaveItemModel::data(index, role);
-        case ColumnInfo: return dataInfo(index, role);
-        case ColumnState: return dataState(index, role);
+        case Qt::ToolTipRole:
+        case Qt::DisplayRole: return dataDisplay(index);
+        case Qt::DecorationRole: return dataDecoration(index);
+        case RoleItemId: return item(index).id();
+        case RoleItemType: slave(index).type();
+        default: return {};
     }
 }
 
@@ -44,17 +48,33 @@ void DeviceModel::onSetup(Slave const &slave)
     endResetModel();
 }
 
-void DeviceModel::onSlaveUpdated(QUuid const &id)
+QVariant DeviceModel::dataDisplay(QModelIndex const &index) const
 {
-
+    switch(index.column())
+    {
+        case ColumnCaption: return SlaveItemModel::data(index);
+        case ColumnInfo: return {};
+        case ColumnState: return {};
+        default: return {};
+    }
 }
 
-QVariant DeviceModel::dataInfo(QModelIndex const &index, int role) const
+QVariant DeviceModel::dataDecoration(QModelIndex const &index) const
 {
-    return {};
-}
+    if (index.column() == ColumnCaption)
+        return SlaveItemModel::data(index, Qt::DecorationRole);
 
-QVariant DeviceModel::dataState(QModelIndex const &index, int role) const
-{
-    return {};
+    if (index.column() != ColumnState)
+        return {};
+
+    auto const slave = this->slave(index);
+    if (slave.type() == QStringLiteral("RESPONDENT_PLACE"))
+        return {};
+
+    auto const state = slave.runtimeParam(QStringLiteral("state"));
+    auto const resource = state.isValid() && state.value<DeviceState>() == DeviceState::On
+        ? QStringLiteral("device_on")
+        : QStringLiteral("device_off");
+
+    return rcluster::fromSvg(resource, { 16, 16 });
 }

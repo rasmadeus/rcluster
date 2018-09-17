@@ -17,7 +17,7 @@ DeviceView::DeviceView(Config const &config, Plugins const &plugins, QWidget *pa
     _view.header()->setSectionResizeMode(DeviceModel::ColumnCaption, QHeaderView::ResizeToContents);
     _view.header()->setSectionResizeMode(DeviceModel::ColumnInfo, QHeaderView::Stretch);
     _view.header()->setSectionResizeMode(DeviceModel::ColumnState, QHeaderView::ResizeToContents);
-    _view.header()->hide();
+    //_view.header()->hide();
 
     auto mainLayout = new QVBoxLayout{ this };
     mainLayout->setSpacing(rcluster::layoutGap());

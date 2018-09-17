@@ -1,5 +1,7 @@
 <RCC>
     <qresource prefix="/">
         <file>res/experiment_center.svg</file>
+        <file>res/device_off.svg</file>
+        <file>res/device_on.svg</file>
     </qresource>
 </RCC>

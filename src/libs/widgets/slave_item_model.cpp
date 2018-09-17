@@ -73,7 +73,7 @@ QVariant SlaveItemModel::data(QModelIndex const &index, int role) const
         case Qt::DisplayRole: return slave(index).name();
         case Qt::DecorationRole: return _plugins.plugin(slave(index).type())->pixmap();
         case RoleItemId: return item(index).id();
-        case RoleItemType: return _config.slave(item(index).id()).type();
+        case RoleItemType: return slave(index).type();
         default: return {};
     }
 }
@@ -88,7 +88,7 @@ SlaveItem &SlaveItemModel::item(QModelIndex const &index) const
 Slave SlaveItemModel::slave(QModelIndex const &index) const
 {
     Q_ASSERT(index.isValid());
-    return _config.slave(index.data(RoleItemId).toUuid());
+    return _config.slave(item(index).id());
 }
 
 void SlaveItemModel::appendSlave(QUuid const &slave)

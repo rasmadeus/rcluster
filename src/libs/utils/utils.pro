@@ -29,7 +29,8 @@ HEADERS += \
     storable.h \
     svg.h \
     device.h \
-    active_device.h
+    active_device.h \
+    device_state.h
     pch.h
 
 SOURCES += \
@@ -38,7 +39,8 @@ SOURCES += \
     log.cpp \
     storable.cpp \
     device.cpp \
-    active_device.cpp
+    active_device.cpp \
+    device_state.cpp
 
 DISTFILES += \
     utils.pri

@@ -38,7 +38,7 @@ public:
     void setProcessState(QProcess::ProcessState state) { _processState = state; }
 
     void setRuntimeParam(QString const &key, QVariant const &value) { _runtimeParams[key] = value; }
-    QVariant runtimeParam(QString const &key) const { return _params.value(key); }
+    QVariant runtimeParam(QString const &key) const { return _runtimeParams.value(key); }
 
 private:
     QUuid _parent;

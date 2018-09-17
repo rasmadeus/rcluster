@@ -26,11 +26,8 @@ public:
     void onSetup(Slave const &slave);
 
 private:
-    void onSlaveUpdated(QUuid const &id);
-
-private:
-    QVariant dataInfo(QModelIndex const &index, int role) const;
-    QVariant dataState(QModelIndex const &index, int role) const;
+    QVariant dataDisplay(QModelIndex const &index) const;
+    QVariant dataDecoration(QModelIndex const &index) const;
 };
 
 #endif // DEVICE_MODEL_H
