@@ -10,6 +10,7 @@
 #include <plugins.h>
 #include "data_view.h"
 #include "device_view.h"
+#include "view_actions.h"
 
 class ExperimentCenterController : public ControllerWithActivity
 {
@@ -32,6 +33,7 @@ private:
     QSplitter _splitter;
     DataView _dataView;
     DeviceView _deviceView;
+    ViewActions _viewActions;
 };
 
 #endif // EXPERIMENT_CENTER_CONTROLLER_H

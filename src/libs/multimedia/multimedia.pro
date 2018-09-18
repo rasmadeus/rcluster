@@ -27,7 +27,8 @@ HEADERS += \
     gloop.h \
     rtsp_server.h \
     rtsp_client.h \
-    rtsp_server_observer.h
+    rtsp_server_observer.h \
+    camera_widget.h
     pch.h
 
 SOURCES += \
@@ -35,7 +36,8 @@ SOURCES += \
     gloop.cpp \
     rtsp_server.cpp \
     rtsp_client.cpp \
-    rtsp_server_observer.cpp
+    rtsp_server_observer.cpp \
+    camera_widget.cpp
 
 DISTFILES += \
     multimedia.pri

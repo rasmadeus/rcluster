@@ -1,3 +1,4 @@
+#include <QMenuBar>
 #include "experiment_center_controller.h"
 #include <rtsp_server.h>
 #include <config.h>
@@ -7,7 +8,9 @@
 
 ExperimentCenterController::ExperimentCenterController(Config const &config, Plugin const &plugin, Corebus &corebus)
     : ControllerWithActivity{ config, plugin, corebus }
-    , _deviceView{ config, _plugins }
+    , _dataView{ config, *this }
+    , _deviceView{ config, _plugins, *this }
+    , _viewActions{ _dataView, *this }
 {
     gst_init(nullptr, nullptr);
     _gloop = std::make_unique<Gloop>();
@@ -19,6 +22,14 @@ ExperimentCenterController::ExperimentCenterController(Config const &config, Plu
     _splitter.addWidget(&_dataView);
     setCentralWidget(&_splitter);
     setWindowTitle(tr("Experiment center"));
+
+    auto mainMenu = menuBar()->addMenu(tr("View"));
+    _viewActions.install(*mainMenu);
+
+    auto mainToolBar = addToolBar(tr("View"));
+    _viewActions.install(*mainToolBar);
+
+    connect(&_deviceView, &DeviceView::doubleClicked, &_dataView, &DataView::appendDeviceView);
 }
 
 ExperimentCenterController::~ExperimentCenterController()
@@ -34,12 +45,12 @@ void ExperimentCenterController::onSetup(Slave const &slave)
 
 void ExperimentCenterController::storeSettings(QSettings &settings)
 {
-    settings.setValue(QStringLiteral("splitter_state"), _splitter.saveState());
     settings.setValue(QStringLiteral("splitter_geometry"), _splitter.saveGeometry());
+    settings.setValue(QStringLiteral("splitter_state"), _splitter.saveState());
 }
 
 void ExperimentCenterController::restoreSettings(QSettings const &settings)
 {
-    _splitter.restoreState(settings.value(QStringLiteral("splitter_state")).toByteArray());
     _splitter.restoreGeometry(settings.value(QStringLiteral("splitter_geometry")).toByteArray());
+    _splitter.restoreState(settings.value(QStringLiteral("splitter_state")).toByteArray());
 }

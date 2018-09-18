@@ -29,7 +29,7 @@ QVariant DeviceModel::data(QModelIndex const &index, int role) const
         case Qt::DisplayRole: return dataDisplay(index);
         case Qt::DecorationRole: return dataDecoration(index);
         case RoleItemId: return item(index).id();
-        case RoleItemType: slave(index).type();
+        case RoleItemType: return slave(index).type();
         default: return {};
     }
 }
@@ -54,7 +54,6 @@ QVariant DeviceModel::dataDisplay(QModelIndex const &index) const
     {
         case ColumnCaption: return SlaveItemModel::data(index);
         case ColumnInfo: return {};
-        case ColumnState: return {};
         default: return {};
     }
 }
@@ -64,17 +63,5 @@ QVariant DeviceModel::dataDecoration(QModelIndex const &index) const
     if (index.column() == ColumnCaption)
         return SlaveItemModel::data(index, Qt::DecorationRole);
 
-    if (index.column() != ColumnState)
-        return {};
-
-    auto const slave = this->slave(index);
-    if (slave.type() == QStringLiteral("RESPONDENT_PLACE"))
-        return {};
-
-    auto const state = slave.runtimeParam(QStringLiteral("state"));
-    auto const resource = state.isValid() && state.value<DeviceState>() == DeviceState::On
-        ? QStringLiteral("device_on")
-        : QStringLiteral("device_off");
-
-    return rcluster::fromSvg(resource, { 16, 16 });
+    return {};
 }

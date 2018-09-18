@@ -3,5 +3,6 @@
         <file>res/experiment_center.svg</file>
         <file>res/device_off.svg</file>
         <file>res/device_on.svg</file>
+        <file>res/add.svg</file>
     </qresource>
 </RCC>

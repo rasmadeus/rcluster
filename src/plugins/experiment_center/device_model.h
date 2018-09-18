@@ -11,7 +11,6 @@ public:
     enum
     {
         ColumnInfo = ColumnCaption + 1,
-        ColumnState,
         ColumnSize,
     };
 

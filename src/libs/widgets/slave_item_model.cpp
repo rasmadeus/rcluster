@@ -124,5 +124,5 @@ void SlaveItemModel::updateSlave(QUuid const &slave)
 {
     auto const indexes = match(index(0, ColumnCaption), RoleItemId, slave, -1, Qt::MatchRecursive);
     for(auto const& index : indexes)
-        emit dataChanged(index, index);
+        emit dataChanged(index, this->index(index.row(), columnCount(index.parent()) - 1, index.parent()));
 }

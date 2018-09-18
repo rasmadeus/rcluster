@@ -32,12 +32,12 @@ SOURCES += \
     slave_item.cpp \
     slave_model.cpp \
     slave_sort_model.cpp \
-    actions.cpp \
     port_spin_box.cpp \
     data_comb_obox.cpp \
     slave_type_proxy_model.cpp \
     slave_check_model.cpp \
-    slave_item_model.cpp
+    slave_item_model.cpp \
+    actions.cpp
 
 DISTFILES += \
     widgets.pri

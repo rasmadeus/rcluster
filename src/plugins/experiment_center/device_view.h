@@ -14,10 +14,16 @@ class DeviceView : public QWidget
     Q_OBJECT
 
 public:
-    explicit DeviceView(Config const &config, Plugins const &plugins, QWidget *parent = nullptr);
+    explicit DeviceView(Config const &config, Plugins const &plugins, QWidget &parent);
 
 public:
     void onSetup(Slave const &slave);
+
+signals:
+    void doubleClicked(QUuid const &id, QString const &type);
+
+private:
+    void onDoubleClicked(QModelIndex const &index);
 
 private:
     Config const &_config;

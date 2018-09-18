@@ -20,7 +20,9 @@ HEADERS += \
     experiment_center_plugin.h \
     device_view.h \
     data_view.h \
-    device_model.h
+    device_model.h \
+    view_actions.h \
+    device_data_view.h
 
 SOURCES += \
     experiment_center_controller.cpp \
@@ -28,7 +30,9 @@ SOURCES += \
     experiment_center_plugin.cpp \
     device_view.cpp \
     data_view.cpp \
-    device_model.cpp
+    device_model.cpp \
+    view_actions.cpp \
+    device_data_view.cpp
 
 RESOURCES += \
     $$PWD/res.qrc
