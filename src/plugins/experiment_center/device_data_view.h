@@ -4,13 +4,14 @@
 #include <QMdiArea>
 
 class Config;
+class Plugins;
 
 class DeviceDataView : public QMdiArea
 {
     Q_OBJECT
 
 public:
-    explicit DeviceDataView(Config const &config, QWidget &parent);
+    explicit DeviceDataView(Config const &config, Plugins const &plugins, QWidget &parent);
 
 public:
     void appendView(QUuid const &id, QString const &type);
@@ -20,6 +21,7 @@ private:
 
 private:
     Config const &_config;
+    Plugins const &_plugins;
 };
 
 #endif // DEVICE_DATA_VIEW_H

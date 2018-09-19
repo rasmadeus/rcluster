@@ -12,7 +12,7 @@ extern "C"
 CameraController::CameraController(Config const &config, Plugin const &plugin, Corebus &corebus)
     : ControllerWithoutActivity{ config, plugin, corebus }
 {
-    connect(&_rtspServerObserver, &RtspServerObserver::stateChanged, this, &CameraController::onRtspServerStateChanged);
+    connect(&_rtspServerObserver, &GstPipelineObserver::stateChanged, this, &CameraController::onRtspServerStateChanged);
 
     gst_init(nullptr, nullptr);
     _gloop = std::make_unique<Gloop>();

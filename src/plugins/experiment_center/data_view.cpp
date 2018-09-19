@@ -4,9 +4,10 @@
 #include "data_view.h"
 #include "device_data_view.h"
 
-DataView::DataView(Config const &config, QWidget &parent)
+DataView::DataView(Config const &config, Plugins const &plugins, QWidget &parent)
     : QWidget{ &parent }
     , _config{ config }
+    , _plugins{ plugins }
 {
     _tabs.setTabsClosable(true);
 
@@ -20,7 +21,7 @@ DataView::DataView(Config const &config, QWidget &parent)
 
 void DataView::appendTab()
 {
-    _tabs.addTab(new DeviceDataView{ _config, _tabs }, makeTabText(_tabs.count()));
+    _tabs.addTab(new DeviceDataView{ _config, _plugins, _tabs }, makeTabText(_tabs.count()));
 }
 
 void DataView::appendDeviceView(QUuid const &id, QString const &type)

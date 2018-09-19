@@ -4,13 +4,14 @@
 #include <QTabWidget>
 
 class Config;
+class Plugins;
 
 class DataView : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit DataView(Config const &config, QWidget &parent);
+    explicit DataView(Config const &config, Plugins const &plugins, QWidget &parent);
 
 public:
     void appendTab();
@@ -23,6 +24,7 @@ private:
 
 private:
     Config const &_config;
+    Plugins const &_plugins;
     QTabWidget _tabs;
 };
 

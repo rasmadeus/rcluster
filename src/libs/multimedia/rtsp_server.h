@@ -13,7 +13,7 @@ extern "C"
 #include "video_source_type.h"
 
 class Config;
-class RtspServerObserver;
+class GstPipelineObserver;
 
 class MULTIMEDIA_SHARED_EXPORT RtspServer
 {
@@ -26,7 +26,7 @@ public:
     static QString url(Config const &config, QUuid const &cameraId);
 
 public:
-    RtspServer(RtspServerObserver &observer, QVariantHash const &params);
+    RtspServer(GstPipelineObserver &observer, QVariantHash const &params);
     ~RtspServer();
 
 public:
@@ -34,7 +34,7 @@ public:
     void onStateChanged(gint state);
 
 private:
-    RtspServerObserver &_observer;
+    GstPipelineObserver &_observer;
     GstRTSPServer *_server;
     GstRTSPMediaFactory *_factory;
 

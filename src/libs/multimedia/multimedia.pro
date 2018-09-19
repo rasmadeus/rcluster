@@ -27,8 +27,9 @@ HEADERS += \
     gloop.h \
     rtsp_server.h \
     rtsp_client.h \
-    rtsp_server_observer.h \
-    camera_widget.h
+    camera_widget.h \
+    gst_element_holder.h \
+    gst_pipeline_observer.h
     pch.h
 
 SOURCES += \
@@ -36,8 +37,9 @@ SOURCES += \
     gloop.cpp \
     rtsp_server.cpp \
     rtsp_client.cpp \
-    rtsp_server_observer.cpp \
-    camera_widget.cpp
+    camera_widget.cpp \
+    gst_element_holder.cpp \
+    gst_pipeline_observer.cpp
 
 DISTFILES += \
     multimedia.pri

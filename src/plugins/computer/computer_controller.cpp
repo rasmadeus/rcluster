@@ -16,11 +16,13 @@ void ComputerController::onGetCameras(Message const &message)
     QJsonArray cameras;
     auto const availableCameras = QCameraInfo::availableCameras();
     for(int i = 0; i < availableCameras.size(); ++i)
+    {
         cameras << QJsonObject{
             { QStringLiteral("name"), availableCameras[i].deviceName() },
             { QStringLiteral("desc"), availableCameras[i].description() },
             { QStringLiteral("device_index"), i },
-    };
+        };
+    }
 
     _corebus.send(QStringLiteral("CAMERAS"), message.from(), { { QStringLiteral("cameras"), std::move(cameras) }, });
 }

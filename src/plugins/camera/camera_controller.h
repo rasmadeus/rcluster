@@ -5,7 +5,7 @@
 #include <controller_without_activity.h>
 #include <gloop.h>
 #include <rtsp_server.h>
-#include <rtsp_server_observer.h>
+#include <gst_pipeline_observer.h>
 
 class CameraController : public ControllerWithoutActivity
 {
@@ -22,7 +22,7 @@ private:
     void onRtspServerStateChanged(int state);
 
 private:
-    RtspServerObserver _rtspServerObserver;
+    GstPipelineObserver _rtspServerObserver;
     std::unique_ptr<RtspServer> _rtspServer;
     std::unique_ptr<Gloop> _gloop;
 };

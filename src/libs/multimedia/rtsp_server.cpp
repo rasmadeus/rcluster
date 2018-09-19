@@ -6,7 +6,7 @@ extern "C"
 #include <QDebug>
 #include <config.h>
 #include "rtsp_server.h"
-#include "rtsp_server_observer.h"
+#include "gst_pipeline_observer.h"
 
 namespace
 {
@@ -46,8 +46,11 @@ QString RtspServer::launch(VideoSourceType type, QVariantHash const &params)
 {
     switch(type)
     {
-        case VideoSourceType::FakeCamera: return QStringLiteral("( videotestsrc is-live=1 ! x264enc ! rtph264pay name=pay0 pt=96 )");
-        case VideoSourceType::WebCamera: return QStringLiteral("( videotestsrc is-live=1 ! x264enc ! rtph264pay name=pay0 pt=96 )");
+        case VideoSourceType::FakeCamera:
+            return QStringLiteral("( videotestsrc is-live=1 ! x264enc ! rtph264pay name=pay0 pt=96 )");
+        case VideoSourceType::WebCamera:
+            return QStringLiteral("( ksvideosrc device-index=%1 ! videoconvert ! x264enc ! video/x-h264, profile=baseline ! rtph264pay name=pay0 pt=96 )")
+                .arg(params.value(QStringLiteral("device_index")).toInt());
     }
 }
 
@@ -81,7 +84,7 @@ QString RtspServer::url(Config const &config, QUuid const &cameraId)
     return url(host(config, cameraId), port, cameraId);
 }
 
-RtspServer::RtspServer(RtspServerObserver &observer, QVariantHash const &params)
+RtspServer::RtspServer(GstPipelineObserver &observer, QVariantHash const &params)
     : _observer{ observer }
     , _server{ gst_rtsp_server_new() }
     , _factory{ gst_rtsp_media_factory_new() }

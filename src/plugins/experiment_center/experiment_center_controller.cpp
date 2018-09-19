@@ -8,14 +8,14 @@
 
 ExperimentCenterController::ExperimentCenterController(Config const &config, Plugin const &plugin, Corebus &corebus)
     : ControllerWithActivity{ config, plugin, corebus }
-    , _dataView{ config, *this }
+    , _dataView{ config, _plugins, *this }
     , _deviceView{ config, _plugins, *this }
     , _viewActions{ _dataView, *this }
 {
+    _plugins.load();
+
     gst_init(nullptr, nullptr);
     _gloop = std::make_unique<Gloop>();
-
-    _plugins.load();
 
     _splitter.setContentsMargins(rcluster::layoutGap(), rcluster::layoutGap(), rcluster::layoutGap(), rcluster::layoutGap());
     _splitter.addWidget(&_deviceView);
