@@ -41,6 +41,7 @@ ExperimentCenterController::~ExperimentCenterController()
 void ExperimentCenterController::onSetup(Slave const &slave)
 {
     _deviceView.onSetup(slave);
+    _dataView.onSetup(slave);
 }
 
 void ExperimentCenterController::storeSettings(QSettings &settings)

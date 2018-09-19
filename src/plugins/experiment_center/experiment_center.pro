@@ -22,6 +22,7 @@ HEADERS += \
     data_view.h \
     device_model.h \
     view_actions.h \
+    devices_data_view.h \
     device_data_view.h
 
 SOURCES += \
@@ -32,6 +33,7 @@ SOURCES += \
     data_view.cpp \
     device_model.cpp \
     view_actions.cpp \
+    devices_data_view.cpp \
     device_data_view.cpp
 
 RESOURCES += \

@@ -1,34 +1,23 @@
-#include <QMdiSubWindow>
 #include <config.h>
-#include <plugins.h>
-#include <rtsp_client.h>
-#include <rtsp_server.h>
-#include <camera_widget.h>
 #include "device_data_view.h"
 
-DeviceDataView::DeviceDataView(Config const &config, Plugins const &plugins, QWidget &parent)
-    : QMdiArea{ &parent }
+DeviceDataView::DeviceDataView(QUuid const &id, Config const &config, QWidget &parent)
+    : QMdiSubWindow{ &parent }
+    , _id{ id }
     , _config{ config }
-    , _plugins{ plugins }
 {
+    updateTitle();
+    setAttribute(Qt::WA_DeleteOnClose);
+    connect(&config, &Config::renamed, this, &DeviceDataView::onSlaveRenamed);
 }
 
-void DeviceDataView::appendView(QUuid const &id, QString const &type)
+void DeviceDataView::updateTitle()
 {
-    auto subWindow = new QMdiSubWindow{ this };
-    subWindow->setAttribute(Qt::WA_DeleteOnClose);
-    subWindow->setWidget(make(id, type, *subWindow));
-    subWindow->setWindowIcon(_plugins.plugin(type)->pixmap());
-    subWindow->setWindowTitle(_config.slave(id).name());
-    addSubWindow(subWindow);
-    subWindow->show();
-    tileSubWindows();
+    setWindowTitle(_config.slave(_id).name());
 }
 
-QWidget *DeviceDataView::make(QUuid const &id, QString const &type, QWidget &parent) const
+void DeviceDataView::onSlaveRenamed(QUuid const &id)
 {
-    if (type == QStringLiteral("CAMERA"))
-        return new CameraWidget{ RtspServer::url(_config, id), parent };
-    else
-        Q_ASSERT(false);
+    if (id == _id)
+        updateTitle();
 }

@@ -5,6 +5,7 @@
 
 class Config;
 class Plugins;
+class Slave;
 
 class DataView : public QWidget
 {
@@ -16,6 +17,7 @@ public:
 public:
     void appendTab();
     void appendDeviceView(QUuid const &id, QString const &type);
+    void onSetup(Slave const &slave);
 
 private:
     void removeTab(int index);

@@ -1,27 +1,28 @@
 #ifndef DEVICE_DATA_VIEW_H
 #define DEVICE_DATA_VIEW_H
 
-#include <QMdiArea>
+#include <QMdiSubWindow>
+#include <QUuid>
 
 class Config;
-class Plugins;
 
-class DeviceDataView : public QMdiArea
+class DeviceDataView : public QMdiSubWindow
 {
     Q_OBJECT
 
 public:
-    explicit DeviceDataView(Config const &config, Plugins const &plugins, QWidget &parent);
+    explicit DeviceDataView(QUuid const &id, Config const &config, QWidget &parent);
 
 public:
-    void appendView(QUuid const &id, QString const &type);
+    QUuid const &id() const { return _id; }
 
 private:
-    QWidget *make(QUuid const &id, QString const &type, QWidget &parent) const;
+    void updateTitle();
+    void onSlaveRenamed(QUuid const &id);
 
 private:
+    QUuid const _id;
     Config const &_config;
-    Plugins const &_plugins;
 };
 
 #endif // DEVICE_DATA_VIEW_H

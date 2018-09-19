@@ -2,7 +2,7 @@
 #include <QUuid>
 #include <globals.h>
 #include "data_view.h"
-#include "device_data_view.h"
+#include "devices_data_view.h"
 
 DataView::DataView(Config const &config, Plugins const &plugins, QWidget &parent)
     : QWidget{ &parent }
@@ -21,7 +21,7 @@ DataView::DataView(Config const &config, Plugins const &plugins, QWidget &parent
 
 void DataView::appendTab()
 {
-    _tabs.addTab(new DeviceDataView{ _config, _plugins, _tabs }, makeTabText(_tabs.count()));
+    _tabs.addTab(new DevicesDataView{ _config, _plugins, _tabs }, makeTabText(_tabs.count()));
 }
 
 void DataView::appendDeviceView(QUuid const &id, QString const &type)
@@ -33,7 +33,13 @@ void DataView::appendDeviceView(QUuid const &id, QString const &type)
 
     auto currentWidget = _tabs.currentWidget();
     Q_ASSERT(currentWidget != nullptr);
-    static_cast<DeviceDataView*>(currentWidget)->appendView(id, type);
+    static_cast<DevicesDataView*>(currentWidget)->appendView(id, type);
+}
+
+void DataView::onSetup(Slave const &slave)
+{
+    for(int i = 0; i < _tabs.count(); ++i)
+        static_cast<DevicesDataView*>(_tabs.widget(i))->onSetup(slave);
 }
 
 void DataView::removeTab(int index)
