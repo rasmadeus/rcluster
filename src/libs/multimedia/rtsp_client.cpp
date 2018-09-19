@@ -70,7 +70,7 @@ namespace
                 gst_message_parse_error (message, &er, &debug);
                 qDebug() << "RtpClient error:" <<  er->message;
                 g_error_free(er);
-                g_free (debug);
+                g_free(debug);
                 static_cast<RtspClient*>(userData)->emitError();
                 break;
             }
