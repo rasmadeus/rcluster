@@ -23,8 +23,18 @@ void DevicesDataView::onSetup(Slave const &slave)
             actualDevices << device.toUuid();
 
     for(auto deviceView : subWindowList())
-        if (!actualDevices.contains(static_cast<DeviceDataView*>(deviceView)->id()))
+    {
+        auto const deviceId = static_cast<DeviceDataView*>(deviceView)->id();
+        if (actualDevices.contains(deviceId))
+        {
+            if (slave.type() == QStringLiteral("CAMERA"))
+                static_cast<CameraWidget*>(deviceView->widget())->setUrl(RtspServer::url(_config, deviceId));
+        }
+        else
+        {
             deviceView->close();
+        }
+    }
 
     tileSubWindows();
 }

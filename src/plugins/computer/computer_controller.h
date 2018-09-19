@@ -17,6 +17,7 @@ public:
 
 private:
     void onGetCameras(Message const &message);
+    void onGetDisplays(Message const &message);
 };
 
 #endif // COMPUTER_CONTROLLER_H

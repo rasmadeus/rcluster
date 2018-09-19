@@ -6,6 +6,7 @@
 #include <data_combo_box.h>
 #include <port_spin_box.h>
 #include <message_router.h>
+#include "display_editor.h"
 #include "web_camera_editor.h"
 
 class CameraEditor : public DefaultBaseEditor
@@ -32,6 +33,7 @@ private:
     QStackedWidget _paramsWidgets;
     DefaultBaseEditor _fakeCameraEditor;
     WebCameraEditor _webCameraEditor;
+    DisplayEditor _displayEditor;
     MessageRouter _router;
 };
 

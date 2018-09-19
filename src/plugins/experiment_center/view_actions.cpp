@@ -11,4 +11,18 @@ ViewActions::ViewActions(DataView &dataView, QObject &parent)
         &_dataView,
         &DataView::appendTab
     );
+
+    connect(
+        &append(QStringLiteral("tile"), tr("Tile windows"), false),
+        &QAction::triggered,
+        &_dataView,
+        &DataView::arrangeTile
+    );
+
+    connect(
+        &append(QStringLiteral("cascade"), tr("Cascade windows"), false),
+        &QAction::triggered,
+        &_dataView,
+        &DataView::arrangeCascade
+    );
 }

@@ -28,9 +28,11 @@ ControllerWithActivity::ControllerWithActivity(Config &config, Plugins &plugins,
     _coreActions.install(*coreToolBar);
 
     auto viewMenu = menuBar()->addMenu(tr("View"));
+    viewMenu->setObjectName(QStringLiteral("view_menu"));
     viewMenu->addAction(coreToolBar->toggleViewAction());
 
     auto helpMenu = menuBar()->addMenu(tr("Help"));
+    helpMenu->setObjectName(QStringLiteral("help_menu"));
     helpMenu->addAction(tr("Open the application folder"), []{ QDesktopServices::openUrl(QUrl::fromLocalFile(rcluster::writableLocation())); });
 
     _splitter.setContentsMargins(rcluster::layoutGap(), rcluster::layoutGap(), rcluster::layoutGap(), rcluster::layoutGap());

@@ -4,5 +4,7 @@
         <file>res/device_off.svg</file>
         <file>res/device_on.svg</file>
         <file>res/add.svg</file>
+        <file>res/cascade.svg</file>
+        <file>res/tile.svg</file>
     </qresource>
 </RCC>

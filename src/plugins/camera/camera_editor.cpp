@@ -11,12 +11,15 @@ CameraEditor::CameraEditor(EditorData const &data, QWidget &parent)
     : DefaultBaseEditor{ data, parent }
     , _fakeCameraEditor{ data, _paramsWidgets }
     , _webCameraEditor{ data, _paramsWidgets }
+    , _displayEditor{ data, _paramsWidgets }
 {
     _typeComboBox.addItem(tr("Fake camera"), QVariant::fromValue(VideoSourceType::FakeCamera));
     _typeComboBox.addItem(tr("Web camera"), QVariant::fromValue(VideoSourceType::WebCamera));
+    _typeComboBox.addItem(tr("Display"), QVariant::fromValue(VideoSourceType::Display));
 
     _paramsWidgets.addWidget(&_fakeCameraEditor);
     _paramsWidgets.addWidget(&_webCameraEditor);
+    _paramsWidgets.addWidget(&_displayEditor);
 
     auto mainLayout = new QVBoxLayout{ this };
     mainLayout->setSpacing(0);
@@ -39,10 +42,12 @@ CameraEditor::CameraEditor(EditorData const &data, QWidget &parent)
     connect(&_typeComboBox, static_cast<void(DataComboBox::*)(int)>(&DataComboBox::currentIndexChanged), this, &CameraEditor::onTypeChanged);
 
     _router.handle(QStringLiteral("CAMERAS"), std::bind(&WebCameraEditor::fill, &_webCameraEditor, std::placeholders::_1));
+    _router.handle(QStringLiteral("DISPLAYS"), std::bind(&DisplayEditor::fill, &_displayEditor, std::placeholders::_1));
     connect(&_corebus, &Corebus::ready, this, &CameraEditor::onMessage);
 
     auto computer = _config.parent(_id, QStringLiteral("COMPUTER"));
     _corebus.send(QStringLiteral("GET_CAMERAS"), computer.toString());
+    _corebus.send(QStringLiteral("GET_DISPLAYS"), computer.toString());
 }
 
 QVariantHash CameraEditor::params() const
@@ -81,5 +86,6 @@ void CameraEditor::onTypeChanged()
     {
         case VideoSourceType::FakeCamera: _paramsWidgets.setCurrentWidget(&_fakeCameraEditor); break;
         case VideoSourceType::WebCamera: _paramsWidgets.setCurrentWidget(&_webCameraEditor); break;
+        case VideoSourceType::Display: _paramsWidgets.setCurrentWidget(&_displayEditor); break;
     }
 }

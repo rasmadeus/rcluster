@@ -15,9 +15,11 @@ public:
     explicit DataView(Config const &config, Plugins const &plugins, QWidget &parent);
 
 public:
+    void onSetup(Slave const &slave);
     void appendTab();
     void appendDeviceView(QUuid const &id, QString const &type);
-    void onSetup(Slave const &slave);
+    void arrangeTile();
+    void arrangeCascade();
 
 private:
     void removeTab(int index);

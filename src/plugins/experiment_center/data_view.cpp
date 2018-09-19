@@ -19,6 +19,12 @@ DataView::DataView(Config const &config, Plugins const &plugins, QWidget &parent
     connect(&_tabs, &QTabWidget::tabCloseRequested, this, &DataView::removeTab);
 }
 
+void DataView::onSetup(Slave const &slave)
+{
+    for(int i = 0; i < _tabs.count(); ++i)
+        static_cast<DevicesDataView*>(_tabs.widget(i))->onSetup(slave);
+}
+
 void DataView::appendTab()
 {
     _tabs.addTab(new DevicesDataView{ _config, _plugins, _tabs }, makeTabText(_tabs.count()));
@@ -36,10 +42,16 @@ void DataView::appendDeviceView(QUuid const &id, QString const &type)
     static_cast<DevicesDataView*>(currentWidget)->appendView(id, type);
 }
 
-void DataView::onSetup(Slave const &slave)
+void DataView::arrangeTile()
 {
-    for(int i = 0; i < _tabs.count(); ++i)
-        static_cast<DevicesDataView*>(_tabs.widget(i))->onSetup(slave);
+    if (_tabs.count() > 0)
+        static_cast<DevicesDataView*>(_tabs.currentWidget())->tileSubWindows();
+}
+
+void DataView::arrangeCascade()
+{
+    if (_tabs.count() > 0)
+        static_cast<DevicesDataView*>(_tabs.currentWidget())->cascadeSubWindows();
 }
 
 void DataView::removeTab(int index)

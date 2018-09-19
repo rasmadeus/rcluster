@@ -26,20 +26,20 @@ WebCameraEditor::WebCameraEditor(EditorData const &data, QWidget &parent)
 QVariantHash WebCameraEditor::params() const
 {
     return {
-        { QStringLiteral("device_index"), _camerasComboBox.currentData() },
+        { QStringLiteral("index"), _camerasComboBox.currentData() },
     };
 }
 
 void WebCameraEditor::setParams(QVariantHash const &params)
 {
-    _camerasComboBox.setIndex(params.value(QStringLiteral("device_index")));
+    _camerasComboBox.setIndex(params.value(QStringLiteral("index")));
     _camerasComboBox.setEnabled(_camerasComboBox.count() > 1);
 }
 
 QStringList WebCameraEditor::errors() const
 {
     QStringList errors;
-    auto const dublicateId = _config.findLocalParam(_id, QStringLiteral("device_index"), _camerasComboBox.currentData());
+    auto const dublicateId = _config.findLocalParam(_id, QStringLiteral("index"), _camerasComboBox.currentData());
     if (!dublicateId.isNull())
         errors << tr("Camera \"%1\" has been already selected at %2.").arg(dublicateId.toString()).arg(_config.slave(dublicateId).name());
     return errors;
@@ -54,7 +54,7 @@ void WebCameraEditor::fill(Message const &message)
     {
         auto const object = value.toObject();
         auto const desc = object.value(QStringLiteral("desc"));
-        auto const index = object.value(QStringLiteral("device_index"));
+        auto const index = object.value(QStringLiteral("index"));
         _camerasComboBox.addItem(desc.toString(), index);
     }
 

@@ -50,7 +50,10 @@ QString RtspServer::launch(VideoSourceType type, QVariantHash const &params)
             return QStringLiteral("( videotestsrc is-live=1 ! x264enc ! rtph264pay name=pay0 pt=96 )");
         case VideoSourceType::WebCamera:
             return QStringLiteral("( ksvideosrc device-index=%1 ! videoconvert ! x264enc ! video/x-h264, profile=baseline ! rtph264pay name=pay0 pt=96 )")
-                .arg(params.value(QStringLiteral("device_index")).toInt());
+                .arg(params.value(QStringLiteral("index")).toInt());
+        case VideoSourceType::Display:
+            return QStringLiteral("(dx9screencapsrc monitor=%1 cursor=1 ! videoconvert ! x264enc ! video/x-h264, profile=baseline ! rtph264pay name=pay0 pt=96 )")
+                .arg(params.value(QStringLiteral("index")).toInt());
     }
 }
 

@@ -18,13 +18,15 @@ HEADERS += \
     camera_editor.h \
     camera_plugin.h \
     camera_controller.h \
-    web_camera_editor.h
+    web_camera_editor.h \
+    display_editor.h
 
 SOURCES += \
     camera_editor.cpp \
     camera_plugin.cpp \
     camera_controller.cpp \
-    web_camera_editor.cpp
+    web_camera_editor.cpp \
+    display_editor.cpp
 
 RESOURCES += \
     $$PWD/res.qrc

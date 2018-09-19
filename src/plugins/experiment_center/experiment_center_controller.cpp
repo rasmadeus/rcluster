@@ -17,6 +17,7 @@ ExperimentCenterController::ExperimentCenterController(Config const &config, Plu
     gst_init(nullptr, nullptr);
     _gloop = std::make_unique<Gloop>();
 
+    _splitter.setObjectName(QStringLiteral("splitter"));
     _splitter.setContentsMargins(rcluster::layoutGap(), rcluster::layoutGap(), rcluster::layoutGap(), rcluster::layoutGap());
     _splitter.addWidget(&_deviceView);
     _splitter.addWidget(&_dataView);
@@ -24,9 +25,11 @@ ExperimentCenterController::ExperimentCenterController(Config const &config, Plu
     setWindowTitle(tr("Experiment center"));
 
     auto mainMenu = menuBar()->addMenu(tr("View"));
+    mainMenu->setObjectName(QStringLiteral("main_menu"));
     _viewActions.install(*mainMenu);
 
     auto mainToolBar = addToolBar(tr("View"));
+    mainToolBar->setObjectName(QStringLiteral("main_tool_bar"));
     _viewActions.install(*mainToolBar);
 
     connect(&_deviceView, &DeviceView::doubleClicked, &_dataView, &DataView::appendDeviceView);

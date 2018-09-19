@@ -11,6 +11,7 @@ ControllerWithActivity::ControllerWithActivity(Config const &config, Plugin cons
     : QMainWindow{ nullptr, Qt::WindowTitleHint | Qt::WindowMinMaxButtonsHint }
     , SlaveController{ config, plugin, corebus }
 {
+    setObjectName(QStringLiteral("controller_with_activity"));
     connect(qApp, &QApplication::aboutToQuit, this, static_cast<void(ControllerWithActivity::*)()>(&ControllerWithActivity::storeSettings));
 
     setWindowIcon(_plugin.pixmap({ 32, 32 }));
