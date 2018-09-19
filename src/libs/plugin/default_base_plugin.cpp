@@ -74,18 +74,13 @@ bool DefaultBasePlugin::isSlaveWatched(Config &config, QUuid const &watchedSlave
 {
     auto const slave = config.slave(thisTypeSlave);
     Q_ASSERT(slave.type() == type());
-    auto params = slave.params();
+    auto const params = slave.params();
 
-    for(auto const &key : watchedSlaveKeys())
-    {
-        auto slaveIds = params.value(key).toList();
-        auto it = std::remove_if(slaveIds.begin(), slaveIds.end(), [&watchedSlave](auto const &id){
-            return watchedSlave == id.toUuid();
-        });
-        if (it != slaveIds.end())
-            return true;
-    }
-    return false;
+    auto const keys = watchedSlaveKeys();
+    return std::any_of(keys.cbegin(), keys.cend(), [&params, &watchedSlave](auto const& id){
+        auto const slaveIds = params.value(id).toList();
+        return std::any_of(slaveIds.cbegin(), slaveIds.cend(), [&watchedSlave](auto const &id){ return watchedSlave == id.toUuid(); });
+    });
 }
 
 bool DefaultBasePlugin::isListener(Config &config, QUuid const &messageSource, QUuid const &thisTypeSlave) const
