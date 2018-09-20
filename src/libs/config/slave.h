@@ -33,12 +33,15 @@ public:
     QVariantHash const &params() const { return _params; }
     QVariant param(QString const &key) const { return _params.value(key); }
     void setParams(QVariantHash const &params) { _params = params; }
+    void setParams(QVariantHash &&params) { _params = std::move(params); }
 
     QProcess::ProcessState processState() const { return _processState; }
     void setProcessState(QProcess::ProcessState state) { _processState = state; }
 
     void setRuntimeParam(QString const &key, QVariant const &value) { _runtimeParams[key] = value; }
     QVariant runtimeParam(QString const &key) const { return _runtimeParams.value(key); }
+
+    bool isFake() const { return _params.value(QStringLiteral("is_fake")).toBool(); }
 
 private:
     QUuid _parent;

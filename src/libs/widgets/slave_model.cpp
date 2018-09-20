@@ -29,6 +29,7 @@ QVariant SlaveModel::data(QModelIndex const &index, int role) const
     switch(role)
     {
         case Qt::BackgroundRole: return dataBackground(index);
+        case Qt::TextColorRole: return dataTextColor(index);
         default: return SlaveItemModel::data(index, role);
     }
 }
@@ -62,5 +63,17 @@ QVariant SlaveModel::dataBackground(QModelIndex const &index) const
     if (!_plugins.plugin(slave.type())->hasProcess() || slave.disabled())
         return {};
 
-    return slave.processState() == QProcess::ProcessState::Running ? QVariant{} : QColor{ 255, 150, 150 };
+    if (slave.processState() != QProcess::ProcessState::Running)
+        return QColor{ 255, 210, 210 };
+
+    return {};
+}
+
+QVariant SlaveModel::dataTextColor(QModelIndex const &index) const
+{
+    auto const slave = this->slave(index);
+    if (slave.isFake())
+        return QColor{ 200, 0, 0 };
+
+    return {};
 }

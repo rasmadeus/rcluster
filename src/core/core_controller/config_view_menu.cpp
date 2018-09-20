@@ -48,7 +48,13 @@ void ConfigViewMenu::appendSlave(QUuid const &parent, QString const &type)
     slave.setId(QUuid::createUuid());
     slave.setType(type);
     slave.setName(name);
-    slave.setParams(plugin->defaultParams());
+
+    auto params = plugin->defaultParams();
+    if (plugin->hasEditor())
+        params[QStringLiteral("is_fake")] = true;
+    slave.setParams(std::move(params));
+
+    _last = slave.id();
 
     _corebus.send(QStringLiteral("APPEND"), QStringLiteral("core"), {
         { QStringLiteral("slave"), slave.toJson() },

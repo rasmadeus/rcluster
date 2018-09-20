@@ -23,6 +23,7 @@ protected:
     void reloadSlaves();
 
     QVariant dataBackground(QModelIndex const &index) const;
+    QVariant dataTextColor(QModelIndex const &index) const;
 };
 
 #endif // SLAVEMODEL_H

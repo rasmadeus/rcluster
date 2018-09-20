@@ -35,9 +35,9 @@ ConfigView::ConfigView(Config &config, Plugins &plugins, Corebus &corebus, QWidg
 
     connect(&_view, &QTreeView::customContextMenuRequested, this, &ConfigView::showMenu);
     connect(_view.selectionModel(), &QItemSelectionModel::currentChanged, this, &ConfigView::select);
-    connect(&_model, &SlaveModel::rowsRemoved, this, &ConfigView::selectCurrent);
     connect(&_model, &SlaveModel::reloaded, &_view, &QTreeView::expandAll);
     connect(&_model, &SlaveModel::rowsInserted, this, &ConfigView::sortSlaves);
+    connect(&_model, &SlaveModel::rowsInserted, this, &ConfigView::trySelectLast);
     connect(&_model, &SlaveModel::renamed, this, &ConfigView::sortSlaves);
     connect(&_model, &SlaveModel::reloaded, this, &ConfigView::sortSlaves);
 
@@ -57,12 +57,20 @@ void ConfigView::select(QModelIndex const &current)
     emit selected(id);
 }
 
-void ConfigView::selectCurrent()
-{
-    qDebug() << "Current:" << _view.currentIndex().data(SlaveModel::RoleItemId).toUuid();
-}
-
 void ConfigView::sortSlaves()
 {
+    _view.expandAll();
     _sortModel.sort(SlaveModel::ColumnCaption);
+}
+
+void ConfigView::trySelectLast(QModelIndex const &parent, int first, int last)
+{
+    Q_UNUSED(first)
+    auto const index = _model.index(last, SlaveItemModel::ColumnCaption, parent);
+    auto const id = index.data(SlaveModel::RoleItemId).toUuid();
+    if (!id.isNull() && _menuController.last() == id)
+    {
+        _view.selectionModel()->select(_sortModel.mapFromSource(index), QItemSelectionModel::ClearAndSelect);
+        emit selected(id);
+    }
 }

@@ -4,6 +4,8 @@
 #include <QObject>
 #include "name_dialog.h"
 
+#include <QUuid>
+
 class Config;
 class Plugins;
 class Corebus;
@@ -17,6 +19,7 @@ public:
 
 public:
     void watch(QMenu &menu, QUuid const &id);
+    QUuid const &last() const { return _last; }
 
 private:
     void appendSlave(QUuid const &parent, QString const &type);
@@ -30,6 +33,7 @@ private:
     Config &_config;
     Plugins &_plugins;
     Corebus &_corebus;
+    QUuid _last;
 };
 
 #endif // CONFIG_VIEW_MENU_H

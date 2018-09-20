@@ -24,8 +24,8 @@ signals:
 private:
     void showMenu(QPoint const &pos);
     void select(QModelIndex const &current);
-    void selectCurrent();
     void sortSlaves();
+    void trySelectLast(QModelIndex const &parent, int first, int last);
 
 private:
     QTreeView _view;

@@ -83,7 +83,7 @@ bool Config::isLocal(QUuid const &id) const
         return true;
 
     return std::any_of(computers.cbegin(), computers.cend(), [&id, this](auto const &item){
-        return this->descendants(item).contains(id);
+        return descendants(item).contains(id);
     });
 }
 
@@ -110,6 +110,10 @@ QUuid Config::findLocalParam(QUuid const &id, QString const &key, QVariant const
             continue;
 
         auto const slave = this->slave(descendantId);
+
+        if (slave.isFake())
+            continue;
+
         auto const slaveParam = slave.param(key);
         if (!slaveParam.isValid())
             continue;

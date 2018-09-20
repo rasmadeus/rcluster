@@ -33,6 +33,9 @@ void Supervisors::start(QUuid const &id)
     if (slave.disabled())
         return;
 
+    if (slave.isFake())
+        return;
+
     auto const plugin = _plugins.plugin(slave.type());
     if (!plugin->hasProcess())
         return;
@@ -91,4 +94,6 @@ void Supervisors::onUpdated(QUuid const &id)
     auto const slave = _config.slave(id);
     if (slave.type() == QStringLiteral("COMPUTER"))
         onReseted();
+    else if (_config.isLocal(id) && !_processes.contains(id))
+        start(id);
 }
