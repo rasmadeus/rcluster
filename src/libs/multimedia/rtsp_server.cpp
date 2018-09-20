@@ -128,7 +128,6 @@ RtspServer::~RtspServer()
     g_object_unref(_server);
 
     _observer.onStateChanged(GST_STATE_NULL);
-
     qDebug() << "Rtsp server stopped";
 }
 

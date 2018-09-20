@@ -27,6 +27,8 @@ CameraController::~CameraController()
 
 void CameraController::onSetup(Slave const &slave)
 {
+    _rtspServer.reset();
+
     auto const host = RtspServer::host(_config, slave.id());
     auto const port = slave.param(QStringLiteral("port"));
     auto const mountPath = RtspServer::toMountPath(slave.id());
@@ -46,6 +48,6 @@ void CameraController::onRtspServerStateChanged(int state)
     _corebus.send(QStringLiteral("RUNTIME"), QStringLiteral("core"), {
         { QStringLiteral("slave"), _corebus.id() },
         { QStringLiteral("key"), QStringLiteral("state") },
-        { QStringLiteral("value"), QVariant::fromValue(state == GST_STATE_PLAYING ? DeviceState::On : DeviceState::Off) },
+        { QStringLiteral("value"), static_cast<int>(state == GST_STATE_PLAYING ? DeviceState::On : DeviceState::Off) },
     });
 }
