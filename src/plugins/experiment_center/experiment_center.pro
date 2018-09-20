@@ -23,7 +23,8 @@ HEADERS += \
     device_model.h \
     view_actions.h \
     devices_data_view.h \
-    device_data_view.h
+    device_data_view.h \
+    state_delegate.h
 
 SOURCES += \
     experiment_center_controller.cpp \
@@ -34,7 +35,8 @@ SOURCES += \
     device_model.cpp \
     view_actions.cpp \
     devices_data_view.cpp \
-    device_data_view.cpp
+    device_data_view.cpp \
+    state_delegate.cpp
 
 RESOURCES += \
     $$PWD/res.qrc

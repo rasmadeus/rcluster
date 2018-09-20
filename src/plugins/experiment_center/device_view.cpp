@@ -3,6 +3,7 @@
 #include <globals.h>
 #include <config.h>
 #include <slave.h>
+#include "state_delegate.h"
 #include "device_view.h"
 
 DeviceView::DeviceView(Config const &config, Plugins const &plugins, QWidget &parent)
@@ -12,11 +13,16 @@ DeviceView::DeviceView(Config const &config, Plugins const &plugins, QWidget &pa
     , _proxyModel{ *this }
 {
     _proxyModel.setSourceModel(&_model);
-
     _view.setModel(&_proxyModel);
+
+    _view.header()->setSectionsMovable(false);
+    _view.header()->setStretchLastSection(false);
     _view.header()->setSectionResizeMode(DeviceModel::ColumnCaption, QHeaderView::ResizeToContents);
     _view.header()->setSectionResizeMode(DeviceModel::ColumnInfo, QHeaderView::Stretch);
-    _view.header()->hide();
+    _view.header()->setSectionResizeMode(DeviceModel::ColumnBattery, QHeaderView::ResizeToContents);
+    _view.header()->setSectionResizeMode(DeviceModel::ColumnState, QHeaderView::ResizeToContents);
+
+    _view.setItemDelegateForColumn(DeviceModel::ColumnState, new StateDelegate{ _config, _view });
 
     auto mainLayout = new QVBoxLayout{ this };
     mainLayout->setSpacing(rcluster::layoutGap());

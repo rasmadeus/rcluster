@@ -34,6 +34,23 @@ QVariant DeviceModel::data(QModelIndex const &index, int role) const
     }
 }
 
+QVariant DeviceModel::headerData(int section, Qt::Orientation orientation, int role) const
+{
+    if (orientation == Qt::Vertical || role != Qt::DisplayRole)
+        return {};
+
+    static QHash<int, QString> const headers{
+        { ColumnCaption, tr("Caption") },
+        { ColumnInfo, tr("Device info") },
+        { ColumnBattery, tr("Battery") },
+        { ColumnState, tr("On/off") },
+    };
+
+    auto const it = headers.find(section);
+    Q_ASSERT(it != headers.cend());
+    return *it;
+}
+
 void DeviceModel::onSetup(Slave const &slave)
 {
     beginResetModel();
@@ -54,14 +71,31 @@ QVariant DeviceModel::dataDisplay(QModelIndex const &index) const
     {
         case ColumnCaption: return SlaveItemModel::data(index);
         case ColumnInfo: return {};
+        case ColumnBattery: return dataDisplayBattery(index);
+        case ColumnState: return {};
         default: return {};
     }
 }
 
+QVariant DeviceModel::dataDisplayBattery(QModelIndex const &index) const
+{
+    static QHash<QString, bool> const devices{
+        { QStringLiteral("CAMERA"), false },
+    };
+
+    auto const slave = this->slave(index);
+    auto const it = devices.find(slave.type());
+    if (it == devices.cend())
+        return {};
+
+    return *it ? QStringLiteral("%1%").arg(slave.runtimeParam(QStringLiteral("battery")).toInt()) : tr("Cable");
+}
+
 QVariant DeviceModel::dataDecoration(QModelIndex const &index) const
 {
-    if (index.column() == ColumnCaption)
-        return SlaveItemModel::data(index, Qt::DecorationRole);
-
-    return {};
+    switch(index.column())
+    {
+        case ColumnCaption: return SlaveItemModel::data(index, Qt::DecorationRole);
+        default: return {};
+    }
 }

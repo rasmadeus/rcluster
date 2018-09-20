@@ -26,13 +26,13 @@ DisplayEditor::DisplayEditor(EditorData const &data, QWidget &parent)
 QVariantHash DisplayEditor::params() const
 {
     return {
-        { QStringLiteral("index"), _displayComboBox.currentData() },
+        { QStringLiteral("display_index"), _displayComboBox.currentData() },
     };
 }
 
 void DisplayEditor::setParams(QVariantHash const &params)
 {
-    _displayComboBox.setIndex(params.value(QStringLiteral("index")));
+    _displayComboBox.setIndex(params.value(QStringLiteral("display_index")));
     _displayComboBox.setEnabled(_displayComboBox.count() > 1);
 }
 
@@ -44,7 +44,7 @@ void DisplayEditor::fill(Message const &message)
     for(auto value : message.param(QStringLiteral("displays")).toJsonArray())
     {
         auto const object = value.toObject();
-        auto const index = object.value(QStringLiteral("index"));
+        auto const index = object.value(QStringLiteral("display_index"));
         _displayComboBox.addItem(tr("Display: %1").arg(index.toInt()), index);
     }
 

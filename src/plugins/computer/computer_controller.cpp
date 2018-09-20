@@ -23,7 +23,7 @@ void ComputerController::onGetCameras(Message const &message)
         cameras << QJsonObject{
             { QStringLiteral("name"), availableCameras[i].deviceName() },
             { QStringLiteral("desc"), availableCameras[i].description() },
-            { QStringLiteral("index"), i },
+            { QStringLiteral("camera_index"), i },
         };
     }
 
@@ -41,7 +41,7 @@ void ComputerController::onGetDisplays(Message const &message)
             { QStringLiteral("y"), rect.x() },
             { QStringLiteral("width"), rect.x() },
             { QStringLiteral("height"), rect.x() },
-            { QStringLiteral("index"), i },
+            { QStringLiteral("display_index"), i },
          };
     }
     _corebus.send(QStringLiteral("DISPLAYS"), message.from(), { { QStringLiteral("displays"), std::move(displays) }, });

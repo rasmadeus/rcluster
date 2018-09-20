@@ -15,7 +15,7 @@
    viewBox="0 0 16.933333 16.933334"
    version="1.1"
    id="svg8"
-   inkscape:version="0.92.3 (2405546, 2018-03-11)"
+   inkscape:version="0.92.1 r15371"
    sodipodi:docname="device_on.svg"
    inkscape:export-filename="C:\dev\projects\rcluster\src\slaves\message_viewer\plugin\res\message_viewer.png"
    inkscape:export-xdpi="95"
@@ -26,7 +26,7 @@
        inkscape:collect="always"
        id="linearGradient974">
       <stop
-         style="stop-color:#00ff00;stop-opacity:1;"
+         style="stop-color:#00c800;stop-opacity:1"
          offset="0"
          id="stop970" />
       <stop
@@ -188,9 +188,9 @@
        inkscape:collect="always"
        xlink:href="#linearGradient974"
        id="linearGradient976"
-       x1="0"
-       y1="288.53333"
-       x2="19.27194"
+       x1="3.8695314"
+       y1="287.93802"
+       x2="22.645378"
        y2="294.23953"
        gradientUnits="userSpaceOnUse" />
   </defs>
@@ -202,7 +202,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="7.9999996"
-     inkscape:cx="20.600806"
+     inkscape:cx="-1.8991951"
      inkscape:cy="25.019532"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
@@ -212,9 +212,9 @@
      inkscape:showpageshadow="false"
      inkscape:snap-midpoints="true"
      inkscape:window-width="1920"
-     inkscape:window-height="1027"
-     inkscape:window-x="0"
-     inkscape:window-y="29"
+     inkscape:window-height="1017"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
      inkscape:window-maximized="1" />
   <metadata
      id="metadata5">

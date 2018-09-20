@@ -8,6 +8,7 @@ extern "C"
 }
 
 #if defined __cplusplus
+    #include <unordered_map>
     #include <QtCore>
     #include <QtGui>
     #include <QtWidgets>

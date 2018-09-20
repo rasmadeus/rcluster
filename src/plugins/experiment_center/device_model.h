@@ -11,6 +11,8 @@ public:
     enum
     {
         ColumnInfo = ColumnCaption + 1,
+        ColumnBattery,
+        ColumnState,
         ColumnSize,
     };
 
@@ -20,12 +22,14 @@ public:
 public:
     int columnCount(QModelIndex const &parent = {}) const override;
     QVariant data(QModelIndex const &index, int role = Qt::DisplayRole) const override;
+    QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
 
 public:
     void onSetup(Slave const &slave);
 
 private:
     QVariant dataDisplay(QModelIndex const &index) const;
+    QVariant dataDisplayBattery(QModelIndex const &index) const;
     QVariant dataDecoration(QModelIndex const &index) const;
 };
 
