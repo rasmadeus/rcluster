@@ -4,13 +4,9 @@
 #include <QTimerEvent>
 #include "camera_widget.h"
 
-CameraWidget::CameraWidget(QString const &url, QWidget &parent)
+CameraWidget::CameraWidget(QWidget &parent)
     : QWidget{ &parent }
-    , _url{ url }
 {
-    connect(&_observer, &GstPipelineObserver::error, this, &CameraWidget::onError);
-    connect(&_observer, &GstPipelineObserver::stateChanged, this, &CameraWidget::onStateChanged);
-    _client = std::make_unique<RtspClient>(url, winId(), _observer);
 }
 
 void CameraWidget::setUrl(QString const &url)
@@ -18,10 +14,12 @@ void CameraWidget::setUrl(QString const &url)
     _url = url;
 
     if (_client != nullptr)
-    {
         _client.reset();
-        _client = std::make_unique<RtspClient>(url, winId(), _observer);
-    }
+
+    _client = std::make_unique<RtspClient>(winId());
+    connect(_client.get(), &RtspClient::stateChanged, this, &CameraWidget::onStateChanged);
+    connect(_client.get(), &RtspClient::error, this, &CameraWidget::onError);
+    _client->start({ { QStringLiteral("location"), url }, });
 }
 
 void CameraWidget::paintEvent(QPaintEvent *ev)
@@ -29,7 +27,7 @@ void CameraWidget::paintEvent(QPaintEvent *ev)
     QPainter painter{ this };
     painter.fillRect(ev->rect(), Qt::black);
 
-    if (_state != GST_STATE_PLAYING)
+    if (_state != DeviceState::On)
     {
         static auto const caption = tr("Connecting...");
 
@@ -46,7 +44,10 @@ void CameraWidget::timerEvent(QTimerEvent *ev)
     if (ev->timerId() == _reconnectTimerId)
     {
         Q_ASSERT(_client == nullptr);
-        _client = std::make_unique<RtspClient>(_url, winId(), _observer);
+        _client = std::make_unique<RtspClient>(winId());
+        connect(_client.get(), &RtspClient::stateChanged, this, &CameraWidget::onStateChanged);
+        connect(_client.get(), &RtspClient::error, this, &CameraWidget::onError);
+        _client->start({ { QStringLiteral("location"), _url }, });
         killTimer(_reconnectTimerId);
         _reconnectTimerId = -1;
     }

@@ -2,25 +2,27 @@
 #define RTSPCLIENT_H
 
 #include <QWidget>
+#include <device.h>
 #include "gst_element_holder.h"
 
 class GstPipelineObserver;
 
-class MULTIMEDIA_SHARED_EXPORT RtspClient
+class MULTIMEDIA_SHARED_EXPORT RtspClient : public Device
 {
 public:
-    RtspClient(QString const &url, WId id, GstPipelineObserver &observer);
-    ~RtspClient();
+    RtspClient(WId id);
+    ~RtspClient() override;
 
 public:
-    void play();
-    void createWindow(GstMessage *message);
-    void emitError();
-    void emitStateChanged(int state);
+    void start(QVariantHash const &params) override;
+    void stop() final override;
+
+public:
+    gboolean onBusMessage(GstMessage *message);
+    GstBusSyncReply onBusPostMessage(GstMessage *message);
 
 private:
     WId _id;
-    GstPipelineObserver &_observer;
     GstElementHolder _src;
     GstElementHolder _decodebin;
     GstElementHolder _videosink;

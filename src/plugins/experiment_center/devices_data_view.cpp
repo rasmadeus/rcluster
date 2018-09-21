@@ -52,7 +52,11 @@ void DevicesDataView::appendView(QUuid const &id, QString const &type)
 QWidget *DevicesDataView::make(QUuid const &id, QString const &type, QWidget &parent) const
 {
     if (type == QStringLiteral("CAMERA"))
-        return new CameraWidget{ RtspServer::url(_config, id), parent };
+    {
+        auto widget = new CameraWidget{ parent };
+        widget->setUrl(RtspServer::url(_config, id));
+        return widget;
+    }
     else
         Q_ASSERT(false);
 }
