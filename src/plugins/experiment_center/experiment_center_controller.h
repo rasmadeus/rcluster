@@ -3,7 +3,7 @@
 
 #include <memory>
 #include <gloop.h>
-#include <rtsp_client.h>
+#include <rtsp_renderer.h>
 #include <QPlainTextEdit>
 #include <QSplitter>
 #include <controller_with_activity.h>

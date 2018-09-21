@@ -1,5 +1,5 @@
-#ifndef RTSPCLIENT_H
-#define RTSPCLIENT_H
+#ifndef RTSP_RENDERER_H
+#define RTSP_RENDERER_H
 
 #include <QWidget>
 #include <device.h>
@@ -7,11 +7,11 @@
 
 class GstPipelineObserver;
 
-class MULTIMEDIA_SHARED_EXPORT RtspClient : public Device
+class MULTIMEDIA_SHARED_EXPORT RtspRenderer : public Device
 {
 public:
-    RtspClient(WId id);
-    ~RtspClient() override;
+    RtspRenderer(WId id);
+    ~RtspRenderer() override;
 
 public:
     void start(QVariantHash const &params) override;
@@ -30,4 +30,4 @@ private:
     guint _busWatchId{ 0 };
 };
 
-#endif // RTSPCLIENT_H
+#endif // RTSP_RENDERER_H

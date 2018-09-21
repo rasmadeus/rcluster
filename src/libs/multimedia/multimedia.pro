@@ -26,20 +26,20 @@ HEADERS += \
     video_source_type.h \
     gloop.h \
     rtsp_server.h \
-    rtsp_client.h \
     camera_widget.h \
     gst_element_holder.h \
-    gst_pipeline_observer.h
+    gst_pipeline_observer.h \
+    rtsp_renderer.h
     pch.h
 
 SOURCES += \
     video_source_type.cpp \
     gloop.cpp \
     rtsp_server.cpp \
-    rtsp_client.cpp \
     camera_widget.cpp \
     gst_element_holder.cpp \
-    gst_pipeline_observer.cpp
+    gst_pipeline_observer.cpp \
+    rtsp_renderer.cpp
 
 DISTFILES += \
     multimedia.pri

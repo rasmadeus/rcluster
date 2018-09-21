@@ -7,7 +7,7 @@ extern "C"
 #include <QDebug>
 #include <device_state.h>
 #include "gst_pipeline_observer.h"
-#include "rtsp_client.h"
+#include "rtsp_renderer.h"
 
 namespace
 {
@@ -42,17 +42,17 @@ namespace
     GstBusSyncReply onBusPostMessage (GstBus *bus, GstMessage *message, gpointer userData)
     {
         Q_UNUSED(bus)
-        return static_cast<RtspClient*>(userData)->onBusPostMessage(message);
+        return static_cast<RtspRenderer*>(userData)->onBusPostMessage(message);
     }
 
     gboolean onBusMessage(GstBus *bus, GstMessage *message, gpointer userData)
     {
         Q_UNUSED(bus)
-        return static_cast<RtspClient*>(userData)->onBusMessage(message);
+        return static_cast<RtspRenderer*>(userData)->onBusMessage(message);
     }
 }
 
-RtspClient::RtspClient(WId id)
+RtspRenderer::RtspRenderer(WId id)
     : _id{ id }
     , _src{ "rtspsrc", "rtspsrc" }
     , _decodebin{ "decodebin", "decodebin" }
@@ -72,12 +72,12 @@ RtspClient::RtspClient(WId id)
     _busWatchId = gst_bus_add_watch(bus, ::onBusMessage, this);
 }
 
-RtspClient::~RtspClient()
+RtspRenderer::~RtspRenderer()
 {
     stop();
 }
 
-void RtspClient::start(QVariantHash const &params)
+void RtspRenderer::start(QVariantHash const &params)
 {
     stop();
 
@@ -86,12 +86,12 @@ void RtspClient::start(QVariantHash const &params)
     qDebug() << "Play state:" << playState;
 }
 
-void RtspClient::stop()
+void RtspRenderer::stop()
 {
     _pipeline.setState(GST_STATE_NULL);
 }
 
-gboolean RtspClient::onBusMessage(GstMessage *message)
+gboolean RtspRenderer::onBusMessage(GstMessage *message)
 {
     switch (GST_MESSAGE_TYPE(message))
     {
@@ -130,7 +130,7 @@ gboolean RtspClient::onBusMessage(GstMessage *message)
    return TRUE;
 }
 
-GstBusSyncReply RtspClient::onBusPostMessage(GstMessage *message)
+GstBusSyncReply RtspRenderer::onBusPostMessage(GstMessage *message)
 {
     if (!gst_is_video_overlay_prepare_window_handle_message (message))
         return GST_BUS_PASS;

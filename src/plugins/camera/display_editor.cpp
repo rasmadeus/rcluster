@@ -36,10 +36,19 @@ void DisplayEditor::setParams(QVariantHash const &params)
     _displayComboBox.setEnabled(_displayComboBox.count() > 1);
 }
 
+QStringList DisplayEditor::errors() const
+{
+    QStringList errors;
+
+    if (!_displayComboBox.currentData().isValid())
+        errors << tr("The computer doesn't have any web cameras.");
+
+    return errors;
+}
+
 void DisplayEditor::fill(Message const &message)
 {
     _displayComboBox.clear();
-    _displayComboBox.addItem(tr("Don't use"));
 
     for(auto value : message.param(QStringLiteral("displays")).toJsonArray())
     {
@@ -47,6 +56,9 @@ void DisplayEditor::fill(Message const &message)
         auto const index = object.value(QStringLiteral("display_index"));
         _displayComboBox.addItem(tr("Display: %1").arg(index.toInt()), index);
     }
+
+    if (_displayComboBox.count() == 0)
+        _displayComboBox.addItem(tr("No data"));
 
     setParams(_config.slave(_id).params());
 }

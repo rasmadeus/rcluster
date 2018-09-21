@@ -8,8 +8,8 @@ CameraWidget::CameraWidget(QWidget &parent)
     : QWidget{ &parent }
     , _client{ winId() }
 {
-    connect(&_client, &RtspClient::stateChanged, this, &CameraWidget::onStateChanged);
-    connect(&_client, &RtspClient::error, this, &CameraWidget::onError);
+    connect(&_client, &RtspRenderer::stateChanged, this, &CameraWidget::onStateChanged);
+    connect(&_client, &RtspRenderer::error, this, &CameraWidget::onError);
 }
 
 void CameraWidget::setUrl(QString const &url)
@@ -35,7 +35,6 @@ void CameraWidget::paintEvent(QPaintEvent *ev)
     painter.setFont(font);
     painter.setPen(Qt::white);
     painter.drawText(captionRect, caption);
-
 }
 
 void CameraWidget::timerEvent(QTimerEvent *ev)

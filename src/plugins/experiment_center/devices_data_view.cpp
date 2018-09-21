@@ -2,7 +2,7 @@
 #include <QMdiSubWindow>
 #include <config.h>
 #include <plugins.h>
-#include <rtsp_client.h>
+#include <rtsp_renderer.h>
 #include <rtsp_server.h>
 #include <camera_widget.h>
 #include "device_data_view.h"

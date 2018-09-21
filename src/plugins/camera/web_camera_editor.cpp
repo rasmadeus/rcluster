@@ -39,17 +39,20 @@ void WebCameraEditor::setParams(QVariantHash const &params)
 QStringList WebCameraEditor::errors() const
 {
     QStringList errors;
+
+    if (!_camerasComboBox.currentData().isValid())
+        errors << tr("The computer doesn't have any web cameras.");
+
     auto const dublicateId = _config.findLocalParam(_id, QStringLiteral("camera_index"), _camerasComboBox.currentData());
     if (!dublicateId.isNull())
         errors << tr("Camera \"%1\" has been already selected at %2.").arg(dublicateId.toString()).arg(_config.slave(dublicateId).name());
+
     return errors;
 }
 
 void WebCameraEditor::fill(Message const &message)
 {
     _camerasComboBox.clear();
-    _camerasComboBox.addItem(tr("Don't use"));
-
     for(auto value : message.param(QStringLiteral("cameras")).toJsonArray())
     {
         auto const object = value.toObject();
@@ -57,6 +60,9 @@ void WebCameraEditor::fill(Message const &message)
         auto const index = object.value(QStringLiteral("camera_index"));
         _camerasComboBox.addItem(desc.toString(), index);
     }
+
+    if (_camerasComboBox.count() == 0)
+        _camerasComboBox.addItem(tr("No data"));
 
     setParams(_config.slave(_id).params());
 }

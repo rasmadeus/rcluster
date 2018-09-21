@@ -9,7 +9,7 @@ extern "C"
 #include <memory>
 #include <QWidget>
 #include <device_state.h>
-#include "rtsp_client.h"
+#include "rtsp_renderer.h"
 #include "multimedia_global.h"
 
 class MULTIMEDIA_SHARED_EXPORT CameraWidget : public QWidget
@@ -33,7 +33,7 @@ private:
 private:
     QString _url;
     DeviceState _state{ DeviceState::Unknown };
-    RtspClient _client;
+    RtspRenderer _client;
     int _reconnectTimerId{ -1 };
 };
 
