@@ -3,6 +3,7 @@
 #include <QTcpSocket>
 #include <config.h>
 #include <config_watcher.h>
+#include <device_state.h>
 #include <log.h>
 #include <globals.h>
 #include <core_bus.h>
@@ -23,6 +24,7 @@ int main(int argc, char *argv[])
 
     Translator{ Translator::Type::AppAndPlugins };
     qRegisterMetaType<Message>("Message");
+    qRegisterMetaType<DeviceState>("DeviceState");
     QApplication::setOrganizationName(rcluster::organizationName());
 
     Config config;

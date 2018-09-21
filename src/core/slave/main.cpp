@@ -3,6 +3,7 @@
 #include <config.h>
 #include <config_watcher.h>
 #include <core_bus.h>
+#include <device_state.h>
 #include <log.h>
 #include <message.h>
 #include <plugins.h>
@@ -30,6 +31,7 @@ int main(int argc, char *argv[])
     QApplication::setApplicationName(plugin->type().toLower());
 
     qRegisterMetaType<Message>("Message");
+    qRegisterMetaType<DeviceState>("DeviceState");
 
     Config config;
     ConfigWatcher configWatcher{ config };

@@ -19,11 +19,10 @@ public:
     void onSetup(Slave const &slave) override;
 
 private:
-    void onRtspServerStateChanged(int state);
+    void onRtspServerStateChanged(DeviceState state);
 
 private:
-    GstPipelineObserver _rtspServerObserver;
-    std::unique_ptr<RtspServer> _rtspServer;
+    RtspServer _rtspServer;
     std::unique_ptr<Gloop> _gloop;
 };
 

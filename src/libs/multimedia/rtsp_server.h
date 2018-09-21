@@ -6,6 +6,7 @@ extern "C"
     #include <gst/rtsp-server/rtsp-server.h>
 }
 
+#include <device.h>
 #include <QVariantHash>
 #include <QString>
 #include <QUuid>
@@ -15,8 +16,10 @@ extern "C"
 class Config;
 class GstPipelineObserver;
 
-class MULTIMEDIA_SHARED_EXPORT RtspServer
+class MULTIMEDIA_SHARED_EXPORT RtspServer final : public Device
 {
+    Q_OBJECT
+
 public:
     static QString launch(VideoSourceType type, QVariantHash const &params);
     static QString toMountPath(QUuid const &id);
@@ -26,23 +29,25 @@ public:
     static QString url(Config const &config, QUuid const &cameraId);
 
 public:
-    RtspServer(GstPipelineObserver &observer, QVariantHash const &params);
-    ~RtspServer();
+    explicit RtspServer(QObject *parent = nullptr);
+    ~RtspServer() override;
 
 public:
+    void start(QVariantHash const &params) override;
+    void stop() override;
+
     QString url() const;
-    void onStateChanged(gint state);
 
 private:
-    GstPipelineObserver &_observer;
-    GstRTSPServer *_server;
-    GstRTSPMediaFactory *_factory;
+    GstRTSPServer *_server{ nullptr };
+    GstRTSPMediaFactory *_factory{ nullptr };
 
 private:
     QString _host;
     QString _port;
     QString _mountPath;
     QString _launch;
+    guint _id;
 };
 
 #endif // RTSP_SERVER_H

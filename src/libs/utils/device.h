@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QVariantHash>
+#include "device_state.h"
 #include "utils_global.h"
 
 class UTILS_SHARED_EXPORT Device : public QObject
@@ -20,8 +21,7 @@ protected:
     void logError(QString const &what);
 
 signals:
-    void started();
-    void stopped();
+    void stateChanged(DeviceState state);
     void error(QString const &what);
 };
 

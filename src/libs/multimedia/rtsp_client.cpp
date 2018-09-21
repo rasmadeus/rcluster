@@ -63,6 +63,17 @@ namespace
                 static_cast<RtspClient*>(userData)->emitStateChanged(newState);
                 break;
             }
+            case GST_MESSAGE_WARNING:
+            {
+                GError *er;
+                gchar *debug;
+                gst_message_parse_warning(message, &er, &debug);
+                qDebug() << "RtpClient warning:" <<  er->message;
+                g_error_free(er);
+                g_free(debug);
+                static_cast<RtspClient*>(userData)->emitError();
+                break;
+            }
             case GST_MESSAGE_ERROR:
             {
                 GError *er;

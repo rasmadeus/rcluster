@@ -12,22 +12,21 @@ extern "C"
 CameraController::CameraController(Config const &config, Plugin const &plugin, Corebus &corebus)
     : ControllerWithoutActivity{ config, plugin, corebus }
 {
-    connect(&_rtspServerObserver, &GstPipelineObserver::stateChanged, this, &CameraController::onRtspServerStateChanged);
-
+    connect(&_rtspServer, &RtspServer::stateChanged, this, &CameraController::onRtspServerStateChanged);
     gst_init(nullptr, nullptr);
     _gloop = std::make_unique<Gloop>();
 }
 
 CameraController::~CameraController()
 {
-    _rtspServer.reset();
+    _rtspServer.stop();
     _gloop.reset();
     gst_deinit();
 }
 
 void CameraController::onSetup(Slave const &slave)
 {
-    _rtspServer.reset();
+    _rtspServer.stop();
 
     auto const host = RtspServer::host(_config, slave.id());
     auto const port = slave.param(QStringLiteral("port"));
@@ -35,7 +34,7 @@ void CameraController::onSetup(Slave const &slave)
     auto const type = slave.param(QStringLiteral("type")).value<VideoSourceType>();
     auto const params = slave.param(QStringLiteral("params")).toHash();
 
-    _rtspServer = std::make_unique<RtspServer>(_rtspServerObserver, QVariantHash{
+    _rtspServer.start(QVariantHash{
         { QStringLiteral("host"), host },
         { QStringLiteral("port"), port },
         { QStringLiteral("mount_path"), mountPath },
@@ -43,11 +42,11 @@ void CameraController::onSetup(Slave const &slave)
     });
 }
 
-void CameraController::onRtspServerStateChanged(int state)
+void CameraController::onRtspServerStateChanged(DeviceState state)
 {
     _corebus.send(QStringLiteral("RUNTIME"), QStringLiteral("core"), {
         { QStringLiteral("slave"), _corebus.id() },
         { QStringLiteral("key"), QStringLiteral("state") },
-        { QStringLiteral("value"), static_cast<int>(state == GST_STATE_PLAYING ? DeviceState::On : DeviceState::Off) },
+        { QStringLiteral("value"), static_cast<int>(state) },
     });
 }

@@ -83,7 +83,7 @@ bool Config::isLocal(QUuid const &id) const
         return true;
 
     return std::any_of(computers.cbegin(), computers.cend(), [&id, this](auto const &item){
-        return descendants(item).contains(id);
+        return this->descendants(item).contains(id);
     });
 }
 

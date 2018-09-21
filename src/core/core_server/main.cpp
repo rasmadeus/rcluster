@@ -5,6 +5,7 @@
 #include <message.h>
 #include <plugins.h>
 #include <crash_handler.h>
+#include <device_state.h>
 #include <translator.h>
 #include "config_storage.h"
 #include "server.h"
@@ -20,6 +21,7 @@ int main(int argc, char *argv[])
     CrashHandler::handle(app.applicationName());
     Translator{};
     qRegisterMetaType<Message>("Message");
+    qRegisterMetaType<DeviceState>("DeviceState");
 
     Plugins plugins;
     plugins.load();

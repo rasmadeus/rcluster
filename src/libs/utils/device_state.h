@@ -5,6 +5,7 @@
 
 enum class DeviceState
 {
+    Unknown,
     On,
     Off,
 };

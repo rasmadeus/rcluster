@@ -5,12 +5,13 @@ extern "C"
 
 #include <QDebug>
 #include <config.h>
+#include "device_state.h"
 #include "rtsp_server.h"
 #include "gst_pipeline_observer.h"
 
 namespace
 {
-    GstRTSPFilterResult allClientFilter (GstRTSPServer* server, GstRTSPClient* client, gpointer data)
+    GstRTSPFilterResult removeAllClients (GstRTSPServer* server, GstRTSPClient* client, gpointer data)
     {
         Q_UNUSED(server)
         Q_UNUSED(client)
@@ -28,16 +29,14 @@ namespace
 
     void onMediaNewState(GstRTSPMedia *media, gint state, gpointer userData)
     {
-        qDebug() << "Media" << media << "new state:" << state;
-        auto server = static_cast<RtspServer*>(userData);
-        Q_ASSERT(server != nullptr);
-        server->onStateChanged(state);
+        qDebug() << "Media" << media << "for server" << userData << "has a new state:" << state;
+        static_cast<RtspServer*>(userData)->stateChanged(state == GST_STATE_PLAYING ? DeviceState::On : DeviceState::Off);
     }
 
     void onMediaConstructed(GstRTSPMediaFactory *factory, GstRTSPMedia *media, gpointer userData)
     {
         Q_UNUSED(factory)
-        qDebug() << "Media constructed:" << media;
+        qDebug() << "Media" << media << "has been constructed for server" << userData;
         g_signal_connect(media, "new-state", G_CALLBACK(onMediaNewState), userData);
     }
 }
@@ -87,15 +86,29 @@ QString RtspServer::url(Config const &config, QUuid const &cameraId)
     return url(host(config, cameraId), port, cameraId);
 }
 
-RtspServer::RtspServer(GstPipelineObserver &observer, QVariantHash const &params)
-    : _observer{ observer }
-    , _server{ gst_rtsp_server_new() }
-    , _factory{ gst_rtsp_media_factory_new() }
-    , _host{ params.value(QStringLiteral("host")).toString() }
-    , _port{ params.value(QStringLiteral("port")).toString() }
-    , _mountPath{ QStringLiteral("/%1").arg(params.value(QStringLiteral("mount_path")).toString()) }
-    , _launch{ params.value(QStringLiteral("launch")).toString() }
+RtspServer::RtspServer(QObject *parent)
+    : Device{ parent }
 {
+}
+
+RtspServer::~RtspServer()
+{
+    stop();
+}
+
+void RtspServer::start(QVariantHash const &params)
+{
+    stop();
+
+    Q_ASSERT(_server == nullptr);
+
+    _server = gst_rtsp_server_new();
+    _factory = gst_rtsp_media_factory_new();
+    _host = params.value(QStringLiteral("host")).toString();
+    _port = params.value(QStringLiteral("port")).toString();
+    _mountPath = QStringLiteral("/%1").arg(params.value(QStringLiteral("mount_path")).toString());
+    _launch = params.value(QStringLiteral("launch")).toString();
+
     g_signal_connect(_server, "client-connected", G_CALLBACK(::onClientConnected), this);
     g_signal_connect(_factory, "media-constructed", G_CALLBACK(::onMediaConstructed), this);
 
@@ -106,37 +119,33 @@ RtspServer::RtspServer(GstPipelineObserver &observer, QVariantHash const &params
     gst_rtsp_media_factory_set_shared(_factory, TRUE);
     gst_rtsp_mount_points_add_factory (mounts, _mountPath.toUtf8().constData(), _factory);
     g_object_unref (mounts);
-    gst_rtsp_server_attach(_server, nullptr);
-
-    _observer.onStateChanged(GST_STATE_PLAYING);
-
-    qDebug() << "Rtsp server started as" << _launch.toUtf8().constData() << "at" << url(_host, _port.toInt(), _mountPath);
+    _id = gst_rtsp_server_attach(_server, nullptr);
 }
 
-RtspServer::~RtspServer()
+void RtspServer::stop()
 {
-    auto pool = gst_rtsp_server_get_session_pool(_server);
-    gst_rtsp_session_pool_cleanup(pool);
-    g_object_unref(pool);
+    if (_server == nullptr)
+        return;
+
+    gst_rtsp_server_client_filter(_server, ::removeAllClients, nullptr);
 
     auto mounts = gst_rtsp_server_get_mount_points(_server);
     gst_rtsp_mount_points_remove_factory(mounts, _mountPath.toUtf8().constData());
     g_object_unref (mounts);
-    gst_rtsp_server_client_filter(_server, ::allClientFilter, nullptr);
 
+    auto pool = gst_rtsp_server_get_session_pool(_server);
+    gst_rtsp_session_pool_cleanup(pool);
+    g_object_unref(pool);
+
+    g_source_remove(_id);
     g_object_unref(_factory);
     g_object_unref(_server);
 
-    _observer.onStateChanged(GST_STATE_NULL);
-    qDebug() << "Rtsp server stopped";
+    _factory = nullptr;
+    _server = nullptr;
 }
 
 QString RtspServer::url() const
 {
     return url(_host, _port.toInt(), _mountPath);
-}
-
-void RtspServer::onStateChanged(gint state)
-{
-    _observer.onStateChanged(state);
 }
