@@ -79,6 +79,8 @@ RtspClient::~RtspClient()
 
 void RtspClient::start(QVariantHash const &params)
 {
+    stop();
+
     _src.setProperty(QStringLiteral("location"), params.value(QStringLiteral("location")).toString());
     auto const playState = _pipeline.setState(GST_STATE_PLAYING);
     qDebug() << "Play state:" << playState;

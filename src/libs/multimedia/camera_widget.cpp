@@ -6,48 +6,28 @@
 
 CameraWidget::CameraWidget(QWidget &parent)
     : QWidget{ &parent }
+    , _client{ winId() }
 {
+    connect(&_client, &RtspClient::error, this, &CameraWidget::onError);
 }
 
 void CameraWidget::setUrl(QString const &url)
 {
     _url = url;
-
-    if (_client != nullptr)
-        _client.reset();
-
-    _client = std::make_unique<RtspClient>(winId());
-    connect(_client.get(), &RtspClient::stateChanged, this, &CameraWidget::onStateChanged);
-    connect(_client.get(), &RtspClient::error, this, &CameraWidget::onError);
-    _client->start({ { QStringLiteral("location"), url }, });
+    _client.start({ { QStringLiteral("location"), url }, });
 }
 
 void CameraWidget::paintEvent(QPaintEvent *ev)
 {
     QPainter painter{ this };
     painter.fillRect(ev->rect(), Qt::black);
-
-    if (_state != DeviceState::On)
-    {
-        static auto const caption = tr("Connecting...");
-
-        auto captionRect = QFontMetrics{ {} }.boundingRect(caption);
-        captionRect.moveCenter(ev->rect().center());
-
-        painter.setPen(Qt::white);
-        painter.drawText(captionRect, caption);
-    }
 }
 
 void CameraWidget::timerEvent(QTimerEvent *ev)
 {
     if (ev->timerId() == _reconnectTimerId)
     {
-        Q_ASSERT(_client == nullptr);
-        _client = std::make_unique<RtspClient>(winId());
-        connect(_client.get(), &RtspClient::stateChanged, this, &CameraWidget::onStateChanged);
-        connect(_client.get(), &RtspClient::error, this, &CameraWidget::onError);
-        _client->start({ { QStringLiteral("location"), _url }, });
+        _client.start({ { QStringLiteral("location"), _url }, });
         killTimer(_reconnectTimerId);
         _reconnectTimerId = -1;
     }
@@ -57,8 +37,7 @@ void CameraWidget::onError()
 {
     if (_reconnectTimerId == -1)
     {
-        Q_ASSERT(_client != nullptr);
-        _client.reset();
+        _client.stop();
         _reconnectTimerId = startTimer(std::chrono::seconds(5));
         repaint();
     }

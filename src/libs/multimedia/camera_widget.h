@@ -28,13 +28,11 @@ protected:
 
 private:
     void onError();
-    void onStateChanged(DeviceState state) { _state = state; }
 
 private:
     QString _url;
-    std::unique_ptr<RtspClient> _client;
+    RtspClient _client;
     int _reconnectTimerId{ -1 };
-    DeviceState _state{ DeviceState::Unknown };
 };
 
 #endif // CAMERA_WIDGET_H
