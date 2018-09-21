@@ -10,4 +10,5 @@ SUBDIRS += \
     camera \
     experiment_center \
     respondent_place \
-    respondent_places
+    respondent_places \
+    media_player

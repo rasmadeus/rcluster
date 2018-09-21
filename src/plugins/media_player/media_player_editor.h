@@ -1,0 +1,30 @@
+#ifndef MEDIA_PLAYER_EDITOR_H
+#define MEDIA_PLAYER_EDITOR_H
+
+#include <QComboBox>
+#include <QLabel>
+#include <QListView>
+#include <default_base_editor.h>
+#include "files_model.h"
+
+class MediaPlayerEditor : public DefaultBaseEditor
+{
+    Q_OBJECT
+
+public:
+    explicit MediaPlayerEditor(EditorData const &data, QWidget &parent);
+
+public:
+    QVariantHash params() const override;
+    void setParams(QVariantHash const &params) override;
+    QStringList errors() const override;
+
+private:
+    QLabel _displaysLabel;
+    QComboBox _displays;
+    QLabel _mediaFilesLabel;
+    QListView _mediaFiles;
+    FilesModel _filesModel;
+};
+
+#endif // MEDIA_PLAYER_EDITOR_H

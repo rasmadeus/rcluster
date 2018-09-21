@@ -20,7 +20,6 @@ public:
 public:
     virtual QVariantHash params() const = 0;
     virtual void setParams(QVariantHash const &params) = 0;
-
     virtual QStringList errors() const = 0;
 
 protected:
