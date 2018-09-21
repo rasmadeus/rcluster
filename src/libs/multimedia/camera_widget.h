@@ -27,10 +27,12 @@ protected:
     void timerEvent(QTimerEvent *ev) override;
 
 private:
+    void onStateChanged(DeviceState state) { _state = state; }
     void onError();
 
 private:
     QString _url;
+    DeviceState _state{ DeviceState::Unknown };
     RtspClient _client;
     int _reconnectTimerId{ -1 };
 };
