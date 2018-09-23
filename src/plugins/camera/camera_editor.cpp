@@ -3,7 +3,7 @@
 #include <QLabel>
 #include <globals.h>
 #include <config.h>
-#include <core_bus.h>
+#include <corebus.h>
 #include <video_source_type.h>
 #include "camera_editor.h"
 

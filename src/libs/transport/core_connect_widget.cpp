@@ -8,7 +8,7 @@
 #include <QFormLayout>
 #include <QSettings>
 #include <globals.h>
-#include "core_bus.h"
+#include "corebus.h"
 #include "core_connect_widget.h"
 
 CoreConnectWidget::CoreConnectWidget(Corebus &corebus, QWidget *parent)

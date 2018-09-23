@@ -1,5 +1,5 @@
 #include <QMainWindow>
-#include <core_bus.h>
+#include <corebus.h>
 #include "core_actions.h"
 
 CoreActions::CoreActions(Corebus &corebus, QMainWindow &parent)

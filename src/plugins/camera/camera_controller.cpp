@@ -4,7 +4,7 @@ extern "C"
 }
 
 #include <config.h>
-#include <core_bus.h>
+#include <corebus.h>
 #include <video_source_type.h>
 #include <device_state.h>
 #include "camera_controller.h"

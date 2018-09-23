@@ -2,7 +2,7 @@
 #include <QVBoxLayout>
 #include <globals.h>
 #include <config.h>
-#include <core_bus.h>
+#include <corebus.h>
 #include <editor.h>
 #include <plugins.h>
 #include "slave_editor.h"

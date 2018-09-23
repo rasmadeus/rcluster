@@ -1,6 +1,6 @@
 #include <QMenu>
 #include <config.h>
-#include <core_bus.h>
+#include <corebus.h>
 #include <plugins.h>
 #include "config_view_menu.h"
 

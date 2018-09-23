@@ -4,7 +4,7 @@
 #include <QUuid>
 #include <QTimer>
 #include <config.h>
-#include <core_bus.h>
+#include <corebus.h>
 #include <globals.h>
 #include <plugins.h>
 #include "config_view.h"

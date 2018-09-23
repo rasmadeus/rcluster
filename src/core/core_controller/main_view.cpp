@@ -5,7 +5,7 @@
 #include <QStatusBar>
 #include <QUrl>
 #include <globals.h>
-#include <core_bus.h>
+#include <corebus.h>
 #include "main_view.h"
 
 ControllerWithActivity::ControllerWithActivity(Config &config, Plugins &plugins, Corebus &corebus)

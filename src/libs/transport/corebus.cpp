@@ -2,7 +2,7 @@
 #include <QSettings>
 #include <QTcpSocket>
 #include <QTimerEvent>
-#include "core_bus.h"
+#include "corebus.h"
 #include "message.h"
 
 Corebus::Corebus(const QUuid &id, QObject *parent)

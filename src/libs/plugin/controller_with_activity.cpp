@@ -1,7 +1,7 @@
 #include <QApplication>
 #include <QLayout>
 #include <QSettings>
-#include <core_bus.h>
+#include <corebus.h>
 #include <globals.h>
 #include <message.h>
 #include "controller_with_activity.h"

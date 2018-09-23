@@ -3,7 +3,7 @@
 #include <QDesktopWidget>
 #include <QJsonArray>
 #include <QJsonObject>
-#include <core_bus.h>
+#include <corebus.h>
 #include <message.h>
 #include "computer_controller.h"
 

@@ -2,7 +2,7 @@
 #include <QLabel>
 #include <config.h>
 #include <config_watcher.h>
-#include <core_bus.h>
+#include <corebus.h>
 #include <device_state.h>
 #include <log.h>
 #include <message.h>

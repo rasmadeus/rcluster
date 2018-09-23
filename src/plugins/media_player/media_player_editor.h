@@ -5,6 +5,7 @@
 #include <QLabel>
 #include <QListView>
 #include <default_base_editor.h>
+#include <message_router.h>
 #include "files_model.h"
 
 class MediaPlayerEditor : public DefaultBaseEditor
@@ -21,8 +22,11 @@ public:
 
 private:
     void onViewClicked(QModelIndex const &index);
+    void onMessage(Message const &message);
+    void onDisplays(Message const &message);
 
 private:
+    MessageRouter _router;
     QLabel _displaysLabel;
     QComboBox _displays;
     QLabel _mediaFilesLabel;

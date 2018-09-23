@@ -3,7 +3,7 @@
 #include <config.h>
 #include <config_watcher.h>
 #include <log.h>
-#include <core_bus.h>
+#include <corebus.h>
 #include <message.h>
 #include <plugins.h>
 #include <crash_handler.h>

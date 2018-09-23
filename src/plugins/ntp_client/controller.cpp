@@ -3,7 +3,7 @@
 #include <QTimerEvent>
 #include "controller.h"
 #include "config.h"
-#include "core_bus.h"
+#include "corebus.h"
 #include "ntp_reply.h"
 
 Controller::Controller(Config const &config, Plugin const &plugin, Corebus &corebus)

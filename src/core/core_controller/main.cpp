@@ -6,7 +6,7 @@
 #include <device_state.h>
 #include <log.h>
 #include <globals.h>
-#include <core_bus.h>
+#include <corebus.h>
 #include <message.h>
 #include <plugins.h>
 #include <crash_handler.h>

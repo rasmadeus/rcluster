@@ -1,7 +1,7 @@
 #include <QApplication>
 #include <QLayout>
 #include <QSettings>
-#include <core_bus.h>
+#include <corebus.h>
 #include <message.h>
 #include "message_viewer_controller.h"
 

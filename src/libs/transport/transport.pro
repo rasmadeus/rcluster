@@ -27,7 +27,7 @@ HEADERS += \
     message_controller.h \
     message_router.h \
     core_connect_widget.h \
-    core_bus.h
+    corebus.h
     pch.h
 
 SOURCES += \
@@ -35,7 +35,7 @@ SOURCES += \
     message_controller.cpp \
     message_router.cpp \
     core_connect_widget.cpp \
-    core_bus.cpp
+    corebus.cpp
 
 DISTFILES += \
     transport.pri
