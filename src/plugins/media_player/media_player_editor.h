@@ -20,6 +20,9 @@ public:
     QStringList errors() const override;
 
 private:
+    void onViewClicked(QModelIndex const &index);
+
+private:
     QLabel _displaysLabel;
     QComboBox _displays;
     QLabel _mediaFilesLabel;

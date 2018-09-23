@@ -20,9 +20,12 @@ public:
 public:
     int rowCount(QModelIndex const &parent = {}) const override;
     QVariant data(QModelIndex const &index, int role = Qt::DisplayRole) const override;
+    bool setData(QModelIndex const &index, QVariant const &value, int role = Qt::EditRole);
 
 private:
+    QVariant dataDisplay(QModelIndex const &index) const;
     QVariant dataDecoration(QModelIndex const &index) const;
+    void appendEmptyRow();
 
 private:
     QStringList _files;
