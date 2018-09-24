@@ -6,5 +6,7 @@
         <file>res/add.svg</file>
         <file>res/cascade.svg</file>
         <file>res/tile.svg</file>
+        <file>res/start.svg</file>
+        <file>res/stop.svg</file>
     </qresource>
 </RCC>

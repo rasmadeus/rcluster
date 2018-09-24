@@ -8,9 +8,11 @@
 
 ExperimentCenterController::ExperimentCenterController(Config const &config, Plugin const &plugin, Corebus &corebus)
     : ControllerWithActivity{ config, plugin, corebus }
+    , _experimentCenter{ config, corebus, *this }
     , _dataView{ config, _plugins, *this }
     , _deviceView{ config, _plugins, *this }
     , _viewActions{ _dataView, *this }
+    , _experimentActions{ _experimentCenter, *this }
 {
     _plugins.load();
 
@@ -23,6 +25,14 @@ ExperimentCenterController::ExperimentCenterController(Config const &config, Plu
     _splitter.addWidget(&_dataView);
     setCentralWidget(&_splitter);
     setWindowTitle(tr("Experiment center"));
+
+    auto experimentMenu = menuBar()->addMenu(tr("Experiment"));
+    experimentMenu->setObjectName(QStringLiteral("experiment_menu"));
+    _experimentActions.install(*experimentMenu);
+
+    auto experimentToolBar = addToolBar(tr("Experiment"));
+    experimentToolBar->setObjectName(QStringLiteral("experiment_tool_bar"));
+    _experimentActions.install(*experimentToolBar);
 
     auto mainMenu = menuBar()->addMenu(tr("View"));
     mainMenu->setObjectName(QStringLiteral("main_menu"));
@@ -43,6 +53,7 @@ ExperimentCenterController::~ExperimentCenterController()
 
 void ExperimentCenterController::onSetup(Slave const &slave)
 {
+    _experimentCenter.onSetup(slave);
     _deviceView.onSetup(slave);
     _dataView.onSetup(slave);
 }

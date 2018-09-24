@@ -16,7 +16,6 @@ MediaPlayerEditor::MediaPlayerEditor(EditorData const &data, QWidget &parent)
     , _mediaFiles{ this }
 {
     _displays.addItem(tr("No data"));
-    _displays.setEnabled(false);
 
     _mediaFiles.setModel(&_filesModel);
     _mediaFiles.setSelectionBehavior(QAbstractItemView::SelectRows);
@@ -41,16 +40,26 @@ MediaPlayerEditor::MediaPlayerEditor(EditorData const &data, QWidget &parent)
 
 QVariantHash MediaPlayerEditor::params() const
 {
-    return {};
+    return {
+        { QStringLiteral("display"), _displays.currentData() },
+        { QStringLiteral("files"), _filesModel.files() },
+    };
 }
 
 void MediaPlayerEditor::setParams(QVariantHash const &params)
 {
+    _filesModel.setFiles(params.value(QStringLiteral("files")).toStringList());
 }
 
 QStringList MediaPlayerEditor::errors() const
 {
     QStringList errors;
+    if (!_displays.currentData().isValid())
+        errors << tr("You have to select a display. If you can't - check the Computer object's settings.");
+
+    if (_filesModel.files().isEmpty())
+        errors << tr("Select, please, one media file at least.");
+
     return errors;
 }
 
@@ -84,4 +93,6 @@ void MediaPlayerEditor::onDisplays(Message const &message)
 
     if (_displays.count() == 0)
         _displays.addItem(tr("No data"));
+
+    _displays.setIndex(_config.slave(_id).param(QStringLiteral("display")));
 }

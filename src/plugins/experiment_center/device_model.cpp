@@ -88,7 +88,7 @@ QVariant DeviceModel::dataDisplayBattery(QModelIndex const &index) const
     if (it == devices.cend())
         return {};
 
-    return *it ? QStringLiteral("%1%").arg(slave.runtimeParam(QStringLiteral("battery")).toInt()) : tr("Cable");
+    return *it ? QStringLiteral("%1%").arg(slave.runtimeParam(QStringLiteral("battery")).toInt()) : tr("cable");
 }
 
 QVariant DeviceModel::dataDecoration(QModelIndex const &index) const

@@ -4,6 +4,7 @@
 #include <QComboBox>
 #include <QLabel>
 #include <QListView>
+#include <data_combo_box.h>
 #include <default_base_editor.h>
 #include <message_router.h>
 #include "files_model.h"
@@ -28,7 +29,7 @@ private:
 private:
     MessageRouter _router;
     QLabel _displaysLabel;
-    QComboBox _displays;
+    DataComboBox _displays;
     QLabel _mediaFilesLabel;
     QListView _mediaFiles;
     FilesModel _filesModel;

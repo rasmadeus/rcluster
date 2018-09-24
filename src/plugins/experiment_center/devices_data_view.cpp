@@ -58,5 +58,7 @@ QWidget *DevicesDataView::make(QUuid const &id, QString const &type, QWidget &pa
         return widget;
     }
     else
+    {
         Q_ASSERT(false);
+    }
 }

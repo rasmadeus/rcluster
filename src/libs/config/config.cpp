@@ -34,9 +34,9 @@ void Config::fromJson(QJsonObject const &json)
     emit reseted();
 }
 
-QSet<QUuid> Config::descendants(QUuid const &id) const
+QVector<QUuid> Config::descendants(QUuid const &id) const
 {
-    QSet<QUuid> res;
+    QVector<QUuid> res;
     for(auto const &child : children(id))
     {
         res << child;
@@ -55,15 +55,15 @@ QVector<QUuid> Config::descendants(QUuid const &id, QString const &type) const
         if (slave.id() != id && slave.type() == type)
             res << child;
 
-        for(auto &&descendant : descendants(child))
+        for(auto &&descendant : descendants(child, type))
             res << std::move(descendant);
     }
     return res;
 }
 
-QSet<QUuid> Config::localComputers() const
+QVector<QUuid> Config::localComputers() const
 {
-    QSet<QUuid> res;
+    QVector<QUuid> res;
     auto const hosts = QNetworkInterface::allAddresses();
 
     for(auto const &id : slaves(QStringLiteral("COMPUTER")))
@@ -163,8 +163,8 @@ void Config::removeSlave(QUuid const &id)
         removeSlave(child);
 
     Q_ASSERT(_children.remove(id) == 1);
-    Q_ASSERT(_children[_slaves[id].parent()].remove(id));
-    Q_ASSERT(_types[_slaves[id].type()].remove(id));
+    Q_ASSERT(_children[_slaves[id].parent()].removeAll(id) == 1);
+    Q_ASSERT(_types[_slaves[id].type()].removeAll(id) == 1);
     Q_ASSERT(_slaves.remove(id) == 1);
 
     emit removed(id);

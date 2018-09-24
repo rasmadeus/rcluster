@@ -2,6 +2,8 @@
 #define CONFIG_H
 
 #include <QObject>
+#include <QVector>
+#include <QUuid>
 #include <storable.h>
 #include "config_global.h"
 #include "slave.h"
@@ -18,16 +20,15 @@ public:
     void fromJson(QJsonObject const &json) override;
 
 public:
-    QSet<QUuid> rootChildren() const { return children(QUuid{}); }
-    QSet<QUuid> children(QUuid const &id) const { return _children.value(id); }
-    QVector<QUuid> children(QUuid const &id, QString const &type) const;
-    QSet<QUuid> descendants(QUuid const &id) const;
+    QVector<QUuid> rootChildren() const { return children({}); }
+    QVector<QUuid> children(QUuid const &id) const { return _children.value(id); }
+    QVector<QUuid> descendants(QUuid const &id) const;
     QVector<QUuid> descendants(QUuid const &id, QString const &type) const;
-    QSet<QUuid> slaves(QString const &type) const { return _types.value(type); }
+    QVector<QUuid> slaves(QString const &type) const { return _types.value(type); }
     QList<QUuid> slaves() const { return _slaves.keys(); }
     Slave slave(QUuid const &id) const { return _slaves.value(id); }
     bool hasSlave(QUuid const &id) const { return _slaves.contains(id); }
-    QSet<QUuid> localComputers() const;
+    QVector<QUuid> localComputers() const;
     bool isLocal(QUuid const &id) const;
     QUuid parent(QUuid const &id, QString const &parentType) const;
     QUuid findLocalParam(QUuid const &id, QString const &key, QVariant const &param) const;
@@ -66,8 +67,8 @@ private:
 
 private:
     QHash<QUuid, Slave> _slaves;
-    QHash<QUuid, QSet<QUuid>> _children;
-    QHash<QString, QSet<QUuid>> _types;
+    QHash<QUuid, QVector<QUuid>> _children;
+    QHash<QString, QVector<QUuid>> _types;
 };
 
 #endif // CONFIG_H

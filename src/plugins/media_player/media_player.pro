@@ -1,3 +1,6 @@
+QT += \
+    multimediawidgets
+
 TARGET = \
     media_player
 
