@@ -13,7 +13,7 @@ class ExperimentCenter : public QObject
     Q_OBJECT
 
 public:
-    explicit ExperimentCenter(Config const &config, Corebus &corebus, QWidget &parent);
+    explicit ExperimentCenter(Config const &config, Corebus &corebus, QObject &parent);
 
 public:
     void onSetup(Slave const &slave);
