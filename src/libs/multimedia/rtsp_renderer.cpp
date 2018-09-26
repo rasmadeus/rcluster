@@ -108,9 +108,9 @@ gboolean RtspRenderer::onBusMessage(GstMessage *message)
             GError *er;
             gchar *debug;
             gst_message_parse_warning(message, &er, &debug);
+            logError(er->message);
             g_error_free(er);
             g_free(debug);
-            logError(er->message);
             break;
         }
         case GST_MESSAGE_ERROR:
@@ -119,9 +119,9 @@ gboolean RtspRenderer::onBusMessage(GstMessage *message)
             gchar *debug;
             gst_message_parse_error (message, &er, &debug);
             qDebug() << "RtpClient error:" <<  er->message;
+            logError(er->message);
             g_error_free(er);
             g_free(debug);
-            logError(er->message);
             break;
         }
         default:

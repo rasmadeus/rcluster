@@ -33,11 +33,11 @@ SOURCES += \
     slave_model.cpp \
     slave_sort_model.cpp \
     port_spin_box.cpp \
-    data_comb_obox.cpp \
     slave_type_proxy_model.cpp \
     slave_check_model.cpp \
     slave_item_model.cpp \
-    actions.cpp
+    actions.cpp \
+    data_combo_box.cpp
 
 DISTFILES += \
     widgets.pri

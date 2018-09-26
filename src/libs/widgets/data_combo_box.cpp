@@ -3,12 +3,12 @@
 DataComboBox::DataComboBox(QWidget *parent)
     : QComboBox{ parent }
 {
-    setEnabled(false);
 }
 
 void DataComboBox::fill(Config const &config, QVector<QUuid> const &ids)
 {
     clear();
+    addItem(tr("None"));
 
     QVector<QPair<QString, QUuid>> data;
     for(auto const &id : ids)

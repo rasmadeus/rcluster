@@ -15,7 +15,7 @@ MediaPlayerEditor::MediaPlayerEditor(EditorData const &data, QWidget &parent)
     , _mediaFilesLabel{ tr("Media files:"), this }
     , _mediaFiles{ this }
 {
-    _displays.addItem(tr("No data"));
+    _displays.addItem(tr("None"));
 
     _mediaFiles.setModel(&_filesModel);
     _mediaFiles.setSelectionBehavior(QAbstractItemView::SelectRows);
@@ -83,6 +83,7 @@ void MediaPlayerEditor::onMessage(Message const &message)
 void MediaPlayerEditor::onDisplays(Message const &message)
 {
     _displays.clear();
+    _displays.addItem(tr("None"));
 
     for(auto value : message.param(QStringLiteral("displays")).toJsonArray())
     {
@@ -90,9 +91,6 @@ void MediaPlayerEditor::onDisplays(Message const &message)
         auto const index = object.value(QStringLiteral("display_index"));
         _displays.addItem(tr("Display: %1").arg(index.toInt()), index);
     }
-
-    if (_displays.count() == 0)
-        _displays.addItem(tr("No data"));
 
     _displays.setIndex(_config.slave(_id).param(QStringLiteral("display")));
 }

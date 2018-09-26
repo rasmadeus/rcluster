@@ -11,7 +11,7 @@
 DisplayEditor::DisplayEditor(EditorData const &data, QWidget &parent)
     : DefaultBaseEditor{ data, parent }
 {
-    _displayComboBox.addItem(tr("No data"));
+    _displayComboBox.addItem(tr("None"));
     _displayComboBox.setEnabled(false);
 
     auto mainLayout = new QGridLayout{ this };
@@ -49,6 +49,7 @@ QStringList DisplayEditor::errors() const
 void DisplayEditor::fill(Message const &message)
 {
     _displayComboBox.clear();
+    _displayComboBox.addItem(tr("None"));
 
     for(auto value : message.param(QStringLiteral("displays")).toJsonArray())
     {
@@ -56,9 +57,6 @@ void DisplayEditor::fill(Message const &message)
         auto const index = object.value(QStringLiteral("display_index"));
         _displayComboBox.addItem(tr("Display: %1").arg(index.toInt()), index);
     }
-
-    if (_displayComboBox.count() == 0)
-        _displayComboBox.addItem(tr("No data"));
 
     setParams(_config.slave(_id).params());
 }
