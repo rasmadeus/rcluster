@@ -13,13 +13,15 @@ class PLUGIN_SHARED_EXPORT ControllerWithActivity : public QMainWindow, public S
 public:
     explicit ControllerWithActivity(Config const &config, Plugin const &plugin, Corebus &corebus);
 
+public:
+    void restoreSettings() override;
+
 protected:
-    virtual void storeSettings(QSettings &settings) { Q_UNUSED(settings); }
-    virtual void restoreSettings(QSettings const &settings) { Q_UNUSED(settings); }
+    virtual void storeSettings(QSettings &settings) const { Q_UNUSED(settings); }
+    virtual void restoreSettings(QSettings &settings) { Q_UNUSED(settings); }
 
 private:
-    void storeSettings();
-    void restoreSettings();
+    void storeControllerSettings() const;
 };
 
 #endif // CONTROLLER_WITH_ACTIVITY_H

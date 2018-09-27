@@ -51,7 +51,7 @@ ControllerWithActivity::ControllerWithActivity(Config &config, Plugins &plugins,
     restoreSettings();
 }
 
-void ControllerWithActivity::storeSettings()
+void ControllerWithActivity::storeSettings() const
 {
     QSettings settings;
     settings.beginGroup(QStringLiteral("main_view"));

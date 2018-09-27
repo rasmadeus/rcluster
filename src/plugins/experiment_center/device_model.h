@@ -10,7 +10,8 @@ class DeviceModel : public SlaveItemModel
 public:
     enum
     {
-        ColumnInfo = ColumnCaption + 1,
+        ColumnRestApi = ColumnCaption + 1,
+        ColumnInfo,
         ColumnBattery,
         ColumnState,
         ColumnSize,

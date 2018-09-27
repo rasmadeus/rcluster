@@ -5,6 +5,7 @@
 #include <slave_sort_model.h>
 #include "device_model.h"
 
+class QSettings;
 class Config;
 class Plugins;
 class Slave;
@@ -18,6 +19,8 @@ public:
 
 public:
     void onSetup(Slave const &slave);
+    void storeSettings(QSettings &settings) const;
+    void restoreSettings(QSettings &settings);
 
 signals:
     void doubleClicked(QUuid const &id, QString const &type);

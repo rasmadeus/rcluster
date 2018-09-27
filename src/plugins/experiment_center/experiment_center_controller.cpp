@@ -58,14 +58,16 @@ void ExperimentCenterController::onSetup(Slave const &slave)
     _dataView.onSetup(slave);
 }
 
-void ExperimentCenterController::storeSettings(QSettings &settings)
+void ExperimentCenterController::storeSettings(QSettings &settings) const
 {
     settings.setValue(QStringLiteral("splitter_geometry"), _splitter.saveGeometry());
     settings.setValue(QStringLiteral("splitter_state"), _splitter.saveState());
+    _deviceView.storeSettings(settings);
 }
 
-void ExperimentCenterController::restoreSettings(QSettings const &settings)
+void ExperimentCenterController::restoreSettings(QSettings &settings)
 {
     _splitter.restoreGeometry(settings.value(QStringLiteral("splitter_geometry")).toByteArray());
     _splitter.restoreState(settings.value(QStringLiteral("splitter_state")).toByteArray());
+    _deviceView.restoreSettings(settings);
 }

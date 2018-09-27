@@ -11,3 +11,12 @@ std::unique_ptr<SlaveController> ExperimentCenterPlugin::controller(Config const
 {
     return std::make_unique<ExperimentCenterController>(config, plugin, corebus);
 }
+
+QStringList ExperimentCenterPlugin::watchedSlaveKeys() const
+{
+    return {
+        QStringLiteral("respondent_places"),
+        QStringLiteral("media_player"),
+        QStringLiteral("lab_rest_api"),
+    };
+}

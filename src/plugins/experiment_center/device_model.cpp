@@ -41,9 +41,10 @@ QVariant DeviceModel::headerData(int section, Qt::Orientation orientation, int r
 
     static QHash<int, QString> const headers{
         { ColumnCaption, tr("Caption") },
+        { ColumnRestApi, tr("Rest API info") },
         { ColumnInfo, tr("Device info") },
         { ColumnBattery, tr("Battery") },
-        { ColumnState, tr("On/off") },
+        { ColumnState, tr("State") },
     };
 
     auto const it = headers.find(section);
@@ -70,6 +71,7 @@ QVariant DeviceModel::dataDisplay(QModelIndex const &index) const
     switch(index.column())
     {
         case ColumnCaption: return SlaveItemModel::data(index);
+        case ColumnRestApi: return {};
         case ColumnInfo: return {};
         case ColumnBattery: return dataDisplayBattery(index);
         case ColumnState: return {};

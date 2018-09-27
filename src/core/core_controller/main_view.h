@@ -18,7 +18,7 @@ public:
     explicit ControllerWithActivity(Config &config, Plugins &plugins, Corebus &corebus);
 
 private:
-    void storeSettings();
+    void storeSettings() const;
     void restoreSettings();
     void onCoreConnected();
     void onCoreDisconnected();

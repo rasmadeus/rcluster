@@ -12,14 +12,13 @@ ControllerWithActivity::ControllerWithActivity(Config const &config, Plugin cons
     , SlaveController{ config, plugin, corebus }
 {
     setObjectName(QStringLiteral("controller_with_activity"));
-    connect(qApp, &QApplication::aboutToQuit, this, static_cast<void(ControllerWithActivity::*)()>(&ControllerWithActivity::storeSettings));
+    connect(qApp, &QApplication::aboutToQuit, this, &ControllerWithActivity::storeControllerSettings);
 
     setWindowIcon(_plugin.pixmap({ 32, 32 }));
-    restoreSettings();
     show();
 }
 
-void ControllerWithActivity::storeSettings()
+void ControllerWithActivity::storeControllerSettings() const
 {
     QSettings settings;
     settings.beginGroup(QStringLiteral("main_view"));

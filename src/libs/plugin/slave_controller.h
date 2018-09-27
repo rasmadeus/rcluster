@@ -20,6 +20,7 @@ public:
 public:
     virtual void onSetup(Slave const &slave) = 0;
     virtual void onMessage(Message const &message) { _router.route(message); }
+    virtual void restoreSettings() {}
 
 protected:
     Config const &_config;

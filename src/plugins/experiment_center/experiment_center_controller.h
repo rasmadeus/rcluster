@@ -26,8 +26,8 @@ public:
     void onSetup(Slave const &slave) override;
 
 protected:
-    void storeSettings(QSettings &settings) override;
-    void restoreSettings(QSettings const &settings) override;
+    void storeSettings(QSettings &settings) const override;
+    void restoreSettings(QSettings &settings) override;
 
 private:
     Plugins _plugins;

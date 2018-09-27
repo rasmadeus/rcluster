@@ -38,6 +38,7 @@ int main(int argc, char *argv[])
     Corebus corebus{ args.id };
 
     auto controller = plugin->controller(config, *plugin, corebus);
+    controller->restoreSettings();
     Q_ASSERT(controller != nullptr);
 
     QObject::connect(&config, &Config::reseted, [&controller, &corebus, &config](){
