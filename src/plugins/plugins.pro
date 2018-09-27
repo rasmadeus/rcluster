@@ -11,4 +11,5 @@ SUBDIRS += \
     experiment_center \
     respondent_place \
     respondent_places \
-    media_player
+    media_player \
+    lab_rest_api

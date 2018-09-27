@@ -26,7 +26,9 @@ private:
 
 private:
     QLabel _mediaPlayerLabel;
-    DataComboBox _mediaPlayers;
+    DataComboBox _mediaPlayer;
+    QLabel _labRestApiLabel;
+    DataComboBox _labRestApi;
     QLabel _viewLabel;
     QTreeView _view;
     SlaveCheckModel _model;

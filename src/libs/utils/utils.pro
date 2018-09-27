@@ -30,7 +30,8 @@ HEADERS += \
     svg.h \
     device.h \
     active_device.h \
-    device_state.h
+    device_state.h \
+    simplecrypt.h
     pch.h
 
 SOURCES += \
@@ -40,7 +41,8 @@ SOURCES += \
     storable.cpp \
     device.cpp \
     active_device.cpp \
-    device_state.cpp
+    device_state.cpp \
+    simplecrypt.cpp
 
 DISTFILES += \
     utils.pri

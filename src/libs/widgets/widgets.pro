@@ -25,7 +25,8 @@ HEADERS += \
     data_combo_box.h \
     slave_type_proxy_model.h \
     slave_check_model.h \
-    slave_item_model.h
+    slave_item_model.h \
+    pass_line_edit.h
     pch.h
 
 SOURCES += \
@@ -37,7 +38,8 @@ SOURCES += \
     slave_check_model.cpp \
     slave_item_model.cpp \
     actions.cpp \
-    data_combo_box.cpp
+    data_combo_box.cpp \
+    pass_line_edit.cpp
 
 DISTFILES += \
     widgets.pri
