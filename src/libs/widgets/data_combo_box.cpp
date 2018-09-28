@@ -42,7 +42,7 @@ void DataComboBox::setIndex(QVariantList const &data)
 {
     for(auto const &value : data)
     {
-        auto const index = findData(value);
+        auto const index = findData(value.toUuid());
         if (index != -1)
         {
             setCurrentIndex(index);

@@ -41,8 +41,8 @@ void SlaveCheckModel::setChecked(QVariantList const &slaves, SlaveItem &slaveIte
     for(int i = 0; i < slaveItem.childCount(); ++i)
     {
         auto &child = slaveItem.child(i);
-
-        child.setCheckState(slaves.contains(child.id()) ? Qt::Checked : Qt::Unchecked);
+        auto const needCheck = std::any_of(slaves.cbegin(), slaves.cend(), [&child](auto const &item){ return item.toUuid() == child.id(); });
+        child.setCheckState(needCheck ? Qt::Checked : Qt::Unchecked);
         updateSlave(child.id());
         setChecked(slaves, child);
     }

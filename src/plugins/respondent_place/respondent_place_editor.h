@@ -2,6 +2,7 @@
 #define RESPONDENT_PLACE_EDITOR_H
 
 #include <QLabel>
+#include <QSpinBox>
 #include <QTreeView>
 #include <default_base_editor.h>
 #include <slave_check_model.h>
@@ -23,6 +24,8 @@ private:
     void onConfigChanged();
 
 private:
+    QLabel _placeNumberLabel;
+    QSpinBox _placeNumber;
     QLabel _deviceViewLabel;
     QTreeView _deviceView;
     SlaveCheckModel _model;
