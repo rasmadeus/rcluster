@@ -25,13 +25,13 @@ HEADERS += \
     crash_handler.h \
     log.h \
     globals.h \
-    qt_types_hash.h \
     storable.h \
     svg.h \
     device.h \
     active_device.h \
     device_state.h \
-    simplecrypt.h
+    simplecrypt.h \
+    hash_functions.h
     pch.h
 
 SOURCES += \

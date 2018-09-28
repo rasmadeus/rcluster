@@ -40,6 +40,12 @@ void CameraController::onSetup(Slave const &slave)
         { QStringLiteral("mount_path"), mountPath },
         { QStringLiteral("launch"), RtspServer::launch(type, params) },
     });
+
+    _corebus.send(QStringLiteral("RUNTIME"), QStringLiteral("core"), {
+        { QStringLiteral("slave"), _corebus.id() },
+        { QStringLiteral("key"), QStringLiteral("battery") },
+        { QStringLiteral("value"), QStringLiteral("has cable") },
+    });
 }
 
 void CameraController::onRtspServerStateChanged(DeviceState state)

@@ -1,6 +1,5 @@
 #include <QMenuBar>
 #include "experiment_center_controller.h"
-#include <rtsp_server.h>
 #include <config.h>
 #include <globals.h>
 #include <QDebug>
@@ -9,21 +8,12 @@
 ExperimentCenterController::ExperimentCenterController(Config const &config, Plugin const &plugin, Corebus &corebus)
     : ControllerWithActivity{ config, plugin, corebus }
     , _experimentCenter{ config, corebus, *this }
-    , _dataView{ config, _plugins, *this }
-    , _deviceView{ config, _plugins, *this }
-    , _viewActions{ _dataView, *this }
     , _experimentActions{ _experimentCenter, *this }
+    , _devicesView{ config, _plugins }
 {
     _plugins.load();
 
-    gst_init(nullptr, nullptr);
-    _gloop = std::make_unique<Gloop>();
-
-    _splitter.setObjectName(QStringLiteral("splitter"));
-    _splitter.setContentsMargins(rcluster::layoutGap(), rcluster::layoutGap(), rcluster::layoutGap(), rcluster::layoutGap());
-    _splitter.addWidget(&_deviceView);
-    _splitter.addWidget(&_dataView);
-    setCentralWidget(&_splitter);
+    setCentralWidget(&_devicesView);
     setWindowTitle(tr("Experiment center"));
 
     auto experimentMenu = menuBar()->addMenu(tr("Experiment"));
@@ -33,41 +23,18 @@ ExperimentCenterController::ExperimentCenterController(Config const &config, Plu
     auto experimentToolBar = addToolBar(tr("Experiment"));
     experimentToolBar->setObjectName(QStringLiteral("experiment_tool_bar"));
     _experimentActions.install(*experimentToolBar);
-
-    auto mainMenu = menuBar()->addMenu(tr("View"));
-    mainMenu->setObjectName(QStringLiteral("main_menu"));
-    _viewActions.install(*mainMenu);
-
-    auto mainToolBar = addToolBar(tr("View"));
-    mainToolBar->setObjectName(QStringLiteral("main_tool_bar"));
-    _viewActions.install(*mainToolBar);
-
-    connect(&_deviceView, &DeviceView::doubleClicked, &_dataView, &DataView::appendDeviceView);
-}
-
-ExperimentCenterController::~ExperimentCenterController()
-{
-    _gloop.reset();
-    gst_deinit();
 }
 
 void ExperimentCenterController::onSetup(Slave const &slave)
 {
     _experimentCenter.onSetup(slave);
-    _deviceView.onSetup(slave);
-    _dataView.onSetup(slave);
+    _devicesView.onSetup(slave);
 }
 
 void ExperimentCenterController::storeSettings(QSettings &settings) const
 {
-    settings.setValue(QStringLiteral("splitter_geometry"), _splitter.saveGeometry());
-    settings.setValue(QStringLiteral("splitter_state"), _splitter.saveState());
-    _deviceView.storeSettings(settings);
 }
 
 void ExperimentCenterController::restoreSettings(QSettings &settings)
 {
-    _splitter.restoreGeometry(settings.value(QStringLiteral("splitter_geometry")).toByteArray());
-    _splitter.restoreState(settings.value(QStringLiteral("splitter_state")).toByteArray());
-    _deviceView.restoreSettings(settings);
 }

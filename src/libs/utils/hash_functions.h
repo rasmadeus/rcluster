@@ -1,6 +1,7 @@
 #ifndef QT_TYPES_HASH_H
 #define QT_TYPES_HASH_H
 
+#include <functional>
 #include <string>
 #include <QUuid>
 #include <QString>

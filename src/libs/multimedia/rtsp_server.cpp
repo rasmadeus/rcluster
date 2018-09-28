@@ -30,7 +30,6 @@ namespace
     void onMediaNewState(GstRTSPMedia *media, gint state, gpointer userData)
     {
         qDebug() << "Media" << media << "for server" << userData << "has a new state:" << state;
-        static_cast<RtspServer*>(userData)->stateChanged(state == GST_STATE_PLAYING ? DeviceState::On : DeviceState::Off);
     }
 
     void onMediaConstructed(GstRTSPMediaFactory *factory, GstRTSPMedia *media, gpointer userData)
@@ -120,6 +119,8 @@ void RtspServer::start(QVariantHash const &params)
     gst_rtsp_mount_points_add_factory (mounts, _mountPath.toUtf8().constData(), _factory);
     g_object_unref (mounts);
     _id = gst_rtsp_server_attach(_server, nullptr);
+
+    emit stateChanged(DeviceState::On);
 }
 
 void RtspServer::stop()
@@ -143,6 +144,8 @@ void RtspServer::stop()
 
     _factory = nullptr;
     _server = nullptr;
+
+    emit stateChanged(DeviceState::Off);
 }
 
 QString RtspServer::url() const

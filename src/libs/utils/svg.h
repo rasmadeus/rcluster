@@ -7,7 +7,7 @@
 
 namespace rcluster
 {
-    inline QPixmap fromSvg(QString const &res, QSize const &size)
+    inline QPixmap fromSvg(QString const &res, QSize const &size = QSize{ 16, 16 })
     {
         QPixmap pixmap{ size };
         pixmap.fill(QColor{ 0, 0, 0, 0 });

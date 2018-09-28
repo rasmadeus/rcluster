@@ -5,7 +5,7 @@
 #include <unordered_map>
 #include <QTcpServer>
 #include <config_watcher.h>
-#include <qt_types_hash.h>
+#include <hash_functions.h>
 #include <message.h>
 #include <message_router.h>
 
