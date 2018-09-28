@@ -13,7 +13,7 @@ Plugin* Plugins::load(QString const &type)
         return {};
     }
 
-    QPluginLoader pluginLoader{ pluginsDir.absoluteFilePath(type) };
+    QPluginLoader pluginLoader{ pluginsDir.absoluteFilePath(type.toLower()) };
     auto plugin = pluginLoader.instance();
     if (!plugin)
     {

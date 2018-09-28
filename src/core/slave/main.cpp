@@ -21,8 +21,10 @@ int main(int argc, char *argv[])
     Log log;
     log.init(args.type.toLower(), args.id);
 
+    args.log();
+
     CrashHandler::handle(args.type.toLower(), args.id);
-    Translator{ args.type };
+    Translator{ args.type };    
 
     auto plugin = Plugins::load(args.type);
     Q_ASSERT(plugin);

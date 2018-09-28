@@ -11,7 +11,8 @@ CONFIG += \
     c++14 \
     precompile_header \
     warn_on \
-    plugin
+    plugin \
+    no_plugin_name_prefix
 
 PRECOMPILED_HEADER = \
     pch.h
