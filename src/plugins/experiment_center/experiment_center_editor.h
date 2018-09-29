@@ -7,6 +7,7 @@
 #include <default_base_editor.h>
 #include <slave_check_model.h>
 #include <slave_type_proxy_model.h>
+#include <message_router.h>
 
 class ExperimentCenterEditor : public DefaultBaseEditor
 {
@@ -23,12 +24,23 @@ public:
 private:
     void onTreeViewClicked(QModelIndex const &index);
     void onConfigChanged();
+    void onMessage(Message const &message);
+    void onReply(Message const &message);
+    void getExperiments();
+    void getSausages();
+    void fillExperiment(Message const &message);
+    void fillSausage(Message const &message);
 
 private:
+    MessageRouter _router;
     QLabel _mediaPlayerLabel;
     DataComboBox _mediaPlayer;
     QLabel _labRestApiLabel;
     DataComboBox _labRestApi;
+    QLabel _experimentLabel;
+    DataComboBox _experiment;
+    QLabel _sausageLabel;
+    DataComboBox _sausage;
     QLabel _viewLabel;
     QTreeView _view;
     SlaveCheckModel _model;
