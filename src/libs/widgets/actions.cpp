@@ -8,8 +8,8 @@ Actions::Actions(QObject &parent)
 {
 }
 
-QAction &Actions::append(QString const &icon, QString const &name, bool afterSeparator)
+QAction &Actions::append(QString const &icon, QString const &name, bool afterSeparator, QSize const &iconSize)
 {
-    _actions.emplace_back(std::make_unique<QAction>(rcluster::fromSvg(icon, { 32, 32 }), name), afterSeparator);
+    _actions.emplace_back(std::make_unique<QAction>(rcluster::fromSvg(icon, iconSize), name), afterSeparator);
     return *_actions.back().first.get();
 }

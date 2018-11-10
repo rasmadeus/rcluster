@@ -15,14 +15,14 @@ CoreActions::CoreActions(Corebus &corebus, QMainWindow &parent)
     );
 
     connect(
-        &append(QStringLiteral("exit_core"), tr("Exit core and slaves"), true),
+        &append(QStringLiteral("exit_core"), tr("Exit core and nodes"), true),
         &QAction::triggered,
         this,
-        &CoreActions::exitCoreAndSlaves
+        &CoreActions::exitCoreAndNodes
     );
 }
 
-void CoreActions::exitCoreAndSlaves()
+void CoreActions::exitCoreAndNodes()
 {
     _corebus.send(QStringLiteral("EXIT"));
 }

@@ -13,7 +13,7 @@ public:
 
 public:
     void onMessage(Message const &message) override;
-    void onSetup(Slave const &slave) override { Q_UNUSED(slave) }
+    void onSetup([[maybe_unused]] Node const &node) override {}
 
 private:
     int _count{ 0 };

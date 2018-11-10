@@ -29,6 +29,5 @@ win32 {
         -lgstvideo-1.0 \
         -lgstbase-1.0 \
         -lgstrtsp-1.0 \
-        -lgstrtspserver-1.0 \
-        -lsupc++
+        -lgstrtspserver-1.0
 }

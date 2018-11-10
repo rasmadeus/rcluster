@@ -2,11 +2,11 @@
 #define CONTROLLER_WITH_ACTIVITY_H
 
 #include <QMainWindow>
-#include "slave_controller.h"
+#include "node_controller.h"
 
 class QSettings;
 
-class PLUGIN_SHARED_EXPORT ControllerWithActivity : public QMainWindow, public SlaveController
+class PLUGIN_SHARED_EXPORT ControllerWithActivity : public QMainWindow, public NodeController
 {
     Q_OBJECT
 
@@ -17,8 +17,8 @@ public:
     void restoreSettings() override;
 
 protected:
-    virtual void storeSettings(QSettings &settings) const { Q_UNUSED(settings); }
-    virtual void restoreSettings(QSettings &settings) { Q_UNUSED(settings); }
+    virtual void storeSettings([[maybe_unused]] QSettings &settings) const {}
+    virtual void restoreSettings([[maybe_unused]] QSettings &settings) {}
 
 private:
     void storeControllerSettings() const;

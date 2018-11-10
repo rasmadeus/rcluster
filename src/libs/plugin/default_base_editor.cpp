@@ -12,9 +12,8 @@ QVariantHash DefaultBaseEditor::params() const
     return {};
 }
 
-void DefaultBaseEditor::setParams(QVariantHash const &params)
+void DefaultBaseEditor::setParams([[maybe_unused]] QVariantHash const &params)
 {
-    Q_UNUSED(params)
 }
 
 QStringList DefaultBaseEditor::errors() const

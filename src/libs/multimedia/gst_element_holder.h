@@ -15,6 +15,7 @@ class MULTIMEDIA_SHARED_EXPORT GstElementHolder
 public:
     GstElementHolder(QString const &factoryName, QString const &name);
     GstElementHolder(QString const &pipelineName);
+    GstElementHolder(QString const &name, GstElement *element);
     ~GstElementHolder();
 
 public:

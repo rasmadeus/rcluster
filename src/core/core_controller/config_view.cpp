@@ -35,39 +35,38 @@ ConfigView::ConfigView(Config &config, Plugins &plugins, Corebus &corebus, QWidg
 
     connect(&_view, &QTreeView::customContextMenuRequested, this, &ConfigView::showMenu);
     connect(_view.selectionModel(), &QItemSelectionModel::currentChanged, this, &ConfigView::select);
-    connect(&_model, &SlaveModel::reloaded, &_view, &QTreeView::expandAll);
-    connect(&_model, &SlaveModel::rowsInserted, this, &ConfigView::sortSlaves);
-    connect(&_model, &SlaveModel::rowsInserted, this, &ConfigView::trySelectLast);
-    connect(&_model, &SlaveModel::renamed, this, &ConfigView::sortSlaves);
-    connect(&_model, &SlaveModel::reloaded, this, &ConfigView::sortSlaves);
+    connect(&_model, &NodeModel::reloaded, &_view, &QTreeView::expandAll);
+    connect(&_model, &NodeModel::rowsInserted, this, &ConfigView::sortNodes);
+    connect(&_model, &NodeModel::rowsInserted, this, &ConfigView::trySelectLast);
+    connect(&_model, &NodeModel::renamed, this, &ConfigView::sortNodes);
+    connect(&_model, &NodeModel::reloaded, this, &ConfigView::sortNodes);
 
-    sortSlaves();
+    sortNodes();
 }
 
 void ConfigView::showMenu(QPoint const &pos)
 {
     QMenu menu{ this };
-    _menuController.watch(menu, _view.indexAt(pos).data(SlaveModel::RoleItemId).toUuid());
+    _menuController.watch(menu, _view.indexAt(pos).data(NodeModel::RoleItemId).toUuid());
     menu.exec(_view.mapToGlobal(pos));
 }
 
 void ConfigView::select(QModelIndex const &current)
 {
-    auto const id = current.data(SlaveModel::RoleItemId).toUuid();
+    auto const id = current.data(NodeModel::RoleItemId).toUuid();
     emit selected(id);
 }
 
-void ConfigView::sortSlaves()
+void ConfigView::sortNodes()
 {
     _view.expandAll();
-    _sortModel.sort(SlaveModel::ColumnCaption);
+    _sortModel.sort(NodeModel::ColumnCaption);
 }
 
-void ConfigView::trySelectLast(QModelIndex const &parent, int first, int last)
+void ConfigView::trySelectLast(QModelIndex const &parent, [[maybe_unused]] int first, int last)
 {
-    Q_UNUSED(first)
-    auto const index = _model.index(last, SlaveItemModel::ColumnCaption, parent);
-    auto const id = index.data(SlaveModel::RoleItemId).toUuid();
+    auto const index = _model.index(last, NodeItemModel::ColumnCaption, parent);
+    auto const id = index.data(NodeModel::RoleItemId).toUuid();
     if (!id.isNull() && _menuController.last() == id)
     {
         _view.selectionModel()->select(_sortModel.mapFromSource(index), QItemSelectionModel::ClearAndSelect);

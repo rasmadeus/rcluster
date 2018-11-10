@@ -8,13 +8,14 @@
 
 namespace rcluster
 {
+    inline QString pseudonym() { return QStringLiteral("rcluster"); }
     inline int layoutGap() { return 6; }
     inline quint16 corePort() { return 13000; }
-    inline QString writableLocation() { return QStandardPaths::writableLocation(QStandardPaths::GenericConfigLocation) + QDir::separator() + QStringLiteral("rcluster"); }
-    inline QString dumpsLocation() { return writableLocation() + QDir::separator() + QStringLiteral("dumps"); }
-    inline QString pathToFileConfig() { return writableLocation() + QDir::separator() + QStringLiteral("config_server.txt"); }
+    inline QString writableLocation() { return QStandardPaths::writableLocation(QStandardPaths::GenericConfigLocation) + QStringLiteral("/") + pseudonym(); }
+    inline QString dumpsLocation() { return writableLocation() + QStringLiteral("/dumps"); }
+    inline QString pathToFileConfig() { return writableLocation() + QStringLiteral("/config_server.txt"); }
     inline QString organizationName() { return QStringLiteral("rcluster"); }
-    inline QString logsLocation() { return writableLocation() + QDir::separator() + QStringLiteral("logs"); }
-}
+    inline QString logsLocation() { return writableLocation() + QStringLiteral("/logs"); }
+ }
 
 #endif //GLOBALS_H

@@ -1,5 +1,0 @@
-<RCC>
-    <qresource prefix="/">
-        <file>res/lab_rest_api.svg</file>
-    </qresource>
-</RCC>

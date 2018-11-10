@@ -8,7 +8,6 @@ DEFINES += \
     CONFIG_LIBRARY
 
 CONFIG += \
-    c++14 \
     precompile_header \
     warn_on
 
@@ -19,7 +18,7 @@ HEADERS += \
     pch.h \
     storage.h \
     config.h \
-    slave.h \
+    node.h \
     config_global.h \
     file_storable.h \
     config_watcher.h
@@ -27,15 +26,16 @@ HEADERS += \
 SOURCES += \
     storage.cpp \
     config.cpp \
-    slave.cpp \
+    node.cpp \
     file_storable.cpp \
     config_watcher.cpp
 
-DISTFILES += \
+DESTFILES += \
     config.pri
 
 TRANSLATIONS += \
     ../../translations/libs/config_ru.ts
 
+include($$(PRO_ROOT)/src/common/common.pri)
 include($$(PRO_ROOT)/src/libs/transport/transport.pri)
 include($$(PRO_ROOT)/src/common/install_lib.pri)

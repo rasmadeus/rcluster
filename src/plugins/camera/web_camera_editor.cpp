@@ -45,7 +45,7 @@ QStringList WebCameraEditor::errors() const
 
     auto const dublicateId = _config.findLocalParam(_id, QStringLiteral("camera_index"), _camerasComboBox.currentData());
     if (!dublicateId.isNull())
-        errors << tr("Camera \"%1\" has been already selected at %2.").arg(dublicateId.toString()).arg(_config.slave(dublicateId).name());
+        errors << tr("Camera \"%1\" has been already selected at %2.").arg(dublicateId.toString()).arg(_config.node(dublicateId).name());
 
     return errors;
 }
@@ -64,5 +64,5 @@ void WebCameraEditor::fill(Message const &message)
     if (_camerasComboBox.count() == 0)
         _camerasComboBox.addItem(tr("No data"));
 
-    setParams(_config.slave(_id).params());
+    setParams(_config.node(_id).params());
 }

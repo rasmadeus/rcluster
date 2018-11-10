@@ -5,6 +5,25 @@ DataComboBox::DataComboBox(QWidget *parent)
 {
 }
 
+void DataComboBox::fill(QJsonArray const &restApiJson)
+{
+    clear();
+    addItem(tr("None"));
+
+    std::vector<std::pair<QString, int>> values;
+    for(auto const &value : restApiJson)
+    {
+        auto const record = value.toObject();
+        values.emplace_back(record.value(QStringLiteral("name")).toString(), record.value(QStringLiteral("id")).toInt());
+    }
+    std::sort(values.begin(), values.end(), [](auto const &left, auto const &right){ return right.second < left.second; });
+
+    for(auto const &value : values)
+        addItem(QStringLiteral("[%1] %2").arg(value.second).arg(value.first), value.second);
+
+    setEnabled(count() > 1);
+}
+
 void DataComboBox::fill(Config const &config, QVector<QUuid> const &ids)
 {
     clear();
@@ -12,7 +31,7 @@ void DataComboBox::fill(Config const &config, QVector<QUuid> const &ids)
 
     QVector<QPair<QString, QUuid>> data;
     for(auto const &id : ids)
-        data << qMakePair(config.slave(id).name(), id);
+        data << qMakePair(config.node(id).name(), id);
 
     std::sort(data.begin(), data.end(), [](auto const &left, auto const &right){ return left.first < right.first; });
 
@@ -24,7 +43,7 @@ void DataComboBox::fill(Config const &config, QVector<QUuid> const &ids)
 
 void DataComboBox::fill(Config const &config, QString const &type)
 {
-    fill(config, config.slaves(type));
+    fill(config, config.nodes(type));
 }
 
 void DataComboBox::fillWithLocals(Config const &config, QString const &type, QUuid const &local)

@@ -15,6 +15,13 @@ GstElementHolder::GstElementHolder(QString const &pipelineName)
     logError();
 }
 
+GstElementHolder::GstElementHolder(QString const &name, GstElement *element)
+    : _name{ name }
+    , _element{ element }
+{
+    logError();
+}
+
 GstElementHolder::~GstElementHolder()
 {
     if (_element)

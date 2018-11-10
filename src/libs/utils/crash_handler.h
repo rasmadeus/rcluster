@@ -18,7 +18,7 @@ public:
 public:
     void start();
     void setPath(QString const &type, QUuid const &id);
-    QString path() const { return rcluster::dumpsLocation() + QDir::separator() + _type + _id.toString() + QStringLiteral(".dmp"); }
+    QString path() const { return rcluster::dumpsLocation() + QStringLiteral("/") + _type + _id.toString() + QStringLiteral(".dmp"); }
 
 private:
     CrashHandler() = default;

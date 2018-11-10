@@ -35,14 +35,14 @@ private:
 private:
     void onConfigReseted();
 
-    void onConfigSlaveAppended(QUuid const &slave);
-    void onConfigSlaveRemoved(QUuid const &slave);
-    void onConfigSlaveRenamed(QUuid const &slave);
-    void onConfigSlaveEnabled(QUuid const &slave);
-    void onConfigSlaveDisabled(QUuid const &slave);
-    void onConfigSlaveUpdated(QUuid const &slave);
-    void onConfigProcessStateChanged(QUuid const &slave);
-    void onConfigRuntime(QUuid const &slave, QString const &key);
+    void onConfigNodeAppended(QUuid const &node);
+    void onConfigNodeRemoved(QUuid const &node);
+    void onConfigNodeRenamed(QUuid const &node);
+    void onConfigNodeEnabled(QUuid const &node);
+    void onConfigNodeDisabled(QUuid const &node);
+    void onConfigNodeUpdated(QUuid const &node);
+    void onConfigProcessStateChanged(QUuid const &node);
+    void onConfigRuntime(QUuid const &node, QString const &key);
 
 private:
     Config &_config;

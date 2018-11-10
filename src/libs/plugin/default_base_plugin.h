@@ -3,7 +3,7 @@
 
 #include <QVariantHash>
 #include "plugin.h"
-#include "slave_controller.h"
+#include "node_controller.h"
 
 class PLUGIN_SHARED_EXPORT DefaultBasePlugin : public Plugin
 {
@@ -14,11 +14,18 @@ public:
     bool hasEditor() const override { return false; }
     bool hasProcess() const override { return false; }
     Editor *editor(EditorData const &data, QWidget &parent) const override;
-    std::unique_ptr<SlaveController> controller(Config const &config, Plugin const &plugin, Corebus &corebus) const override;
-    QStringList watchedSlaveKeys() const override;
-    void onWatchedSlaveRemoved(Config &config, QUuid const &watchedSlave, QUuid const &thisTypeSlave) const override;
-    bool isSlaveWatched(Config &config, QUuid const &watchedSlave, QUuid const &thisTypeSlave) const override;
-    bool isListener(Config &config, QUuid const &messageSource, QUuid const &thisTypeSlave) const override;
+    std::unique_ptr<NodeController> controller(Config const &config, Plugin const &plugin, Corebus &corebus) const override;
+    void onNodeRemoved(Config &config, QUuid const &removedNode, QUuid const &thisTypeNode) const override;
+    void onNodeUpdated(Config &config, QUuid const &updatedNode, QUuid const &thisTypeNode) const override;
+    bool isListener(Config &config, QString const &messageSource, QUuid const &thisTypeNode) const override;
+
+protected:
+    void clearParamList(Config &config, QUuid const &removedNode, QUuid const &thisTypeNode, QString const &paramKey) const;
+    void clearParam(Config &config, QUuid const &removedNode, QUuid const &thisTypeNode, QString const &paramKey) const;
+    void updateParamList(Config &config, QUuid const &updatedNode, QUuid const &thisTypeNode, QString const &paramKey) const;
+    void updateParam(Config &config, QUuid const &updatedNode, QUuid const &thisTypeNode, QString const &paramKey) const;
+    bool isListenerParamList(Config &config, QString const &messageSource, QUuid const &thisTypeNode, QString const &paramKey) const;
+    bool isListenerParam(Config &config, QString const &messageSource, QUuid const &thisTypeNode, QString const &paramKey) const;
 };
 
 #endif // DEFAULT_BASE_PLUGIN_H

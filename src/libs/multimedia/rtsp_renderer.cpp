@@ -5,16 +5,13 @@ extern "C"
 
 #include <QApplication>
 #include <QDebug>
-#include <device_state.h>
 #include "gst_pipeline_observer.h"
 #include "rtsp_renderer.h"
 
 namespace
 {
-    void onDecodebinPadAdded(GstElement *element, GstPad *pad, gpointer data)
+    void onDecodebinPadAdded([[maybe_unused]] GstElement *element, GstPad *pad, gpointer data)
     {
-        Q_UNUSED(element)
-
         qDebug() << "Pad added";
         auto decodebin = static_cast<GstElement*>(data);
         auto sinkPad = gst_element_get_static_pad(decodebin, "sink");
@@ -25,10 +22,8 @@ namespace
         }
     }
 
-    void onVideoSinkPadAdded(GstElement *element, GstPad *pad, gpointer userData)
+    void onVideoSinkPadAdded([[maybe_unused]] GstElement *element, GstPad *pad, gpointer userData)
     {
-        Q_UNUSED(element)
-
         qDebug() << "Decoded Pad added";
         auto decodebin = static_cast<GstElement*>(userData);
         auto sinkPad = gst_element_get_static_pad (decodebin, "sink");
@@ -39,21 +34,20 @@ namespace
         }
     }
 
-    GstBusSyncReply onBusPostMessage (GstBus *bus, GstMessage *message, gpointer userData)
+    GstBusSyncReply onBusPostMessage ([[maybe_unused]] GstBus *bus, GstMessage *message, gpointer userData)
     {
-        Q_UNUSED(bus)
         return static_cast<RtspRenderer*>(userData)->onBusPostMessage(message);
     }
 
-    gboolean onBusMessage(GstBus *bus, GstMessage *message, gpointer userData)
+    gboolean onBusMessage([[maybe_unused]] GstBus *bus, GstMessage *message, gpointer userData)
     {
-        Q_UNUSED(bus)
         return static_cast<RtspRenderer*>(userData)->onBusMessage(message);
     }
 }
 
 RtspRenderer::RtspRenderer(WId id)
-    : _id{ id }
+    : DefaultDevice{}
+    , _id{ id }
     , _src{ "rtspsrc", "rtspsrc" }
     , _decodebin{ "decodebin", "decodebin" }
     , _videosink{ "glimagesink", "glimagesink" }
@@ -67,14 +61,15 @@ RtspRenderer::RtspRenderer(WId id)
     _src.connect(QStringLiteral("pad-added"), G_CALLBACK(::onDecodebinPadAdded), _decodebin.get());
     _decodebin.connect(QStringLiteral("pad-added"), G_CALLBACK(::onVideoSinkPadAdded), _videosink.get());
 
-    auto bus = _pipeline.bus();
-    gst_bus_set_sync_handler(bus, ::onBusPostMessage, this, nullptr);
-    _busWatchId = gst_bus_add_watch(bus, ::onBusMessage, this);
+    _bus = _pipeline.bus();
+    gst_bus_set_sync_handler(_bus, ::onBusPostMessage, this, nullptr);
+    _busWatchId = gst_bus_add_watch(_bus, ::onBusMessage, this);
 }
 
 RtspRenderer::~RtspRenderer()
 {
     stop();
+    g_object_unref(_bus);
 }
 
 void RtspRenderer::start(QVariantHash const &params)
@@ -100,7 +95,7 @@ gboolean RtspRenderer::onBusMessage(GstMessage *message)
             GstState oldState;
             GstState newState;
             gst_message_parse_state_changed(message, &oldState, &newState, nullptr);
-            emit stateChanged(newState == GST_STATE_PLAYING ? DeviceState::On : DeviceState::Off);
+            emit stateChanged(newState == GST_STATE_PLAYING ? Device::State::On : Device::State::Off);
             break;
         }
         case GST_MESSAGE_WARNING:
@@ -108,7 +103,8 @@ gboolean RtspRenderer::onBusMessage(GstMessage *message)
             GError *er;
             gchar *debug;
             gst_message_parse_warning(message, &er, &debug);
-            logError(er->message);
+            emit error(er->message);
+            qCritical() << er->message;
             g_error_free(er);
             g_free(debug);
             break;
@@ -118,8 +114,8 @@ gboolean RtspRenderer::onBusMessage(GstMessage *message)
             GError *er;
             gchar *debug;
             gst_message_parse_error (message, &er, &debug);
-            qDebug() << "RtpClient error:" <<  er->message;
-            logError(er->message);
+            emit error(er->message);
+            qCritical() << er->message;
             g_error_free(er);
             g_free(debug);
             break;

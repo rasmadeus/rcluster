@@ -9,7 +9,6 @@ TARGET = \
 
 CONFIG += \
     console \
-    c++14 \
     warn_on
 
 CONFIG -= \

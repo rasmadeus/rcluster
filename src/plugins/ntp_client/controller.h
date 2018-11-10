@@ -3,10 +3,10 @@
 
 #include <QHostAddress>
 #include <QObject>
-#include <slave_controller.h>
+#include <node_controller.h>
 #include "ntp_client.h"
 
-class Controller : public QObject, public SlaveController
+class Controller : public QObject, public NodeController
 {
     Q_OBJECT
 
@@ -14,7 +14,7 @@ public:
     explicit Controller(Config const &config, Plugin const &plugin, Corebus &corebus);
 
 public:
-    void onSetup(Slave const &slave) override;
+    void onSetup(Node const &node) override;
 
 protected:
     void timerEvent(QTimerEvent *ev) override;

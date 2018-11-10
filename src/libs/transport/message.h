@@ -26,6 +26,7 @@ public:
     QString const &from() const { return _from; }
     QVariant param(QString const &key) const { return _params.value(key); }
     QString toString() const;
+    QVariantHash const &params() const { return _params; }
 
 private:
     QDateTime _createDateTime{ QDateTime::currentDateTimeUtc() };

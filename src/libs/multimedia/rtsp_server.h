@@ -6,7 +6,7 @@ extern "C"
     #include <gst/rtsp-server/rtsp-server.h>
 }
 
-#include <device.h>
+#include <default_device.h>
 #include <QVariantHash>
 #include <QString>
 #include <QUuid>
@@ -16,7 +16,7 @@ extern "C"
 class Config;
 class GstPipelineObserver;
 
-class MULTIMEDIA_SHARED_EXPORT RtspServer final : public Device
+class MULTIMEDIA_SHARED_EXPORT RtspServer : public DefaultDevice
 {
     Q_OBJECT
 
@@ -34,7 +34,7 @@ public:
 
 public:
     void start(QVariantHash const &params) override;
-    void stop() override;
+    void stop() final override;
 
     QString url() const;
 

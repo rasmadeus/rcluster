@@ -40,7 +40,7 @@ int main(int argc, char *argv[])
 
     QObject::connect(&supervisors, &Supervisors::processStateChanged, [&corebus](QUuid const &id, QProcess::ProcessState state){
         corebus.send(QStringLiteral("PROCESS"), QStringLiteral("core"), {
-            { QStringLiteral("slave"), id },
+            { QStringLiteral("node"), id },
             { QStringLiteral("process_state"), state },
         });
     });

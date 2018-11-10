@@ -15,12 +15,12 @@ public:
 private:
     void onReset(Message const &message);
 
-    void onAppendSlave(Message const &message);
-    void onRemoveSlave(Message const &message);
-    void onRenameSlave(Message const &message);
-    void onEnableSlave(Message const &message);
-    void onDisableSlave(Message const &message);
-    void onUpdateSlave(Message const &message);
+    void onAppendNode(Message const &message);
+    void onRemoveNode(Message const &message);
+    void onRenameNode(Message const &message);
+    void onEnableNode(Message const &message);
+    void onDisableNode(Message const &message);
+    void onUpdateNode(Message const &message);
     void onProcess(Message const &message);
     void onRuntime(Message const &message);
 

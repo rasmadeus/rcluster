@@ -5,11 +5,11 @@
 #include <QPixmap>
 #include <QString>
 #include "plugin_global.h"
-#include "slave_controller.h"
+#include "node_controller.h"
 
 class Config;
 class Editor;
-class EditorData;
+struct EditorData;
 
 class PLUGIN_SHARED_EXPORT Plugin
 {
@@ -26,11 +26,10 @@ public:
     virtual QString process() const = 0;
     virtual bool hasEditor() const = 0;
     virtual Editor* editor(EditorData const &data, QWidget &parent) const = 0;
-    virtual std::unique_ptr<SlaveController> controller(Config const &config, Plugin const &plugin, Corebus &corebus) const = 0;
-    virtual QStringList watchedSlaveKeys() const = 0;
-    virtual void onWatchedSlaveRemoved(Config &config, QUuid const &watchedSlave, QUuid const &thisTypeSlave) const = 0;
-    virtual bool isSlaveWatched(Config &config, QUuid const &watchedSlave, QUuid const &thisTypeSlave) const = 0;
-    virtual bool isListener(Config &config, QUuid const &messageSource, QUuid const &thisTypeSlave) const = 0;
+    virtual std::unique_ptr<NodeController> controller(Config const &config, Plugin const &plugin, Corebus &corebus) const = 0;
+    virtual void onNodeRemoved(Config &config, QUuid const &removedNode, QUuid const &thisTypeNode) const = 0;
+    virtual void onNodeUpdated(Config &config, QUuid const &updatedNode, QUuid const &thisTypeNode) const = 0;
+    virtual bool isListener(Config &config, QString const &messageSource, QUuid const &thisTypeNode) const = 0;
 };
 
 Q_DECLARE_INTERFACE(Plugin, "rcluster.plugin")

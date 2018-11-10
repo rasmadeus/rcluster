@@ -5,7 +5,6 @@ TEMPLATE = \
     lib
 
 CONFIG += \
-    c++14 \
     precompile_header \
     warn_on \
     plugin \
@@ -35,6 +34,7 @@ RESOURCES += \
 TRANSLATIONS += \
     ../../../translations/plugins/camera_ru.ts \
 
+include($$(PRO_ROOT)/src/common/common.pri)
 include($$(PRO_ROOT)/src/libs/config/config.pri)
 include($$(PRO_ROOT)/src/libs/plugin/plugin.pri)
 include($$(PRO_ROOT)/src/libs/widgets/widgets.pri)

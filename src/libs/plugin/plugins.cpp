@@ -24,6 +24,12 @@ Plugin* Plugins::load(QString const &type)
     return qobject_cast<Plugin*>(plugin);
 }
 
+Plugins::Plugins(bool load)
+{
+    if (load)
+        this->load();
+}
+
 void Plugins::load()
 {
     clear();
@@ -41,7 +47,7 @@ void Plugins::load()
         auto instance = pluginLoader.instance();
         if (!instance)
         {
-            qCritical() << QStringLiteral("Failed to load the plugin %1.").arg(fileName);
+            qCritical() << QStringLiteral("Failed to load the plugin %1. Error: %2.").arg(fileName).arg(pluginLoader.errorString());
             continue;
         }
 
@@ -61,7 +67,7 @@ void Plugins::load()
 std::vector<Plugin *> Plugins::children(QString const &type) const
 {
     std::vector<Plugin*> res;
-    for(auto const &plugin : _plugins)
+    for (auto const &plugin : _plugins)
         if (plugin->parent() == type)
             res.push_back(plugin);
     return res;

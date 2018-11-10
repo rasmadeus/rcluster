@@ -22,9 +22,9 @@ void ConfigStorage::read()
 
 void ConfigStorage::clean()
 {
-    for(auto const &id : _config.slaves())
+    for(auto const &id : _config.nodes())
     {
-        if (_plugins.contains(_config.slave(id).type()))
+        if (_plugins.contains(_config.node(id).type()))
             _config.setProcessState(id, QProcess::NotRunning);
         else
             _config.remove(id);

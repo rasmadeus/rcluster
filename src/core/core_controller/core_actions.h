@@ -14,7 +14,7 @@ public:
     explicit CoreActions(Corebus &corebus, QMainWindow &parent);
 
 private:
-    void exitCoreAndSlaves();
+    void exitCoreAndNodes();
 
 private:
     Corebus &_corebus;

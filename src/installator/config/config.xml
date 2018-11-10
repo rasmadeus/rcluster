@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Installer>
-    <Name>RCluster applications</Name>
+    <Name>RBarometer applications</Name>
     <Version>1.0.0</Version>
-    <Title>RCluster applications installer</Title>
-    <Publisher>rcluster@rcluster.com</Publisher>
-    <StartMenuDir>RCluster</StartMenuDir>
-    <TargetDir>@ApplicationsDirX64@/rcluster</TargetDir>
+    <Title>RBarometer applications installer</Title>
+    <Publisher>info@neurotrend.ru</Publisher>
+    <StartMenuDir>RBarometer</StartMenuDir>
+    <TargetDir>@ApplicationsDirX64@/rbarometer</TargetDir>
 </Installer>

@@ -5,7 +5,6 @@ TEMPLATE = \
     lib
 
 CONFIG += \
-    c++14 \
     precompile_header \
     warn_on \
     plugin \
@@ -31,5 +30,6 @@ RESOURCES += \
 TRANSLATIONS += \
     ../../../translations/plugins/message_viewer_ru.ts \
 
+include($$(PRO_ROOT)/src/common/common.pri)
 include($$(PRO_ROOT)/src/libs/widgets/widgets.pri)
 include($$(PRO_ROOT)/src/common/install_plugin.pri)

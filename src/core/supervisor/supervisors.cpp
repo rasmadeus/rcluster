@@ -29,14 +29,14 @@ void Supervisors::setCoreAddress(QString const &host, QString const &port)
 
 void Supervisors::start(QUuid const &id)
 {
-    auto const slave = _config.slave(id);
-    if (slave.disabled())
+    auto const node = _config.node(id);
+    if (node.disabled())
         return;
 
-    if (slave.isFake())
+    if (node.isFake())
         return;
 
-    auto const plugin = _plugins.plugin(slave.type());
+    auto const plugin = _plugins.plugin(node.type());
     if (!plugin->hasProcess())
         return;
 
@@ -53,18 +53,18 @@ void Supervisors::onReseted()
     if (computers.isEmpty())
         stop();
 
-    QSet<QUuid> expectedSlaves;
+    QSet<QUuid> expectedNodes;
     for(auto const &computer : computers)
     {
-        for(auto const &slave : _config.descendants(computer))
-            expectedSlaves << slave;
-        expectedSlaves << computer;
+        for(auto const &node : _config.descendants(computer))
+            expectedNodes << node;
+        expectedNodes << computer;
     }
 
-    for(auto const &id : _processes.keys().toSet() - expectedSlaves)
+    for(auto const &id : _processes.keys().toSet() - expectedNodes)
         _processes.remove(id);
 
-    for(auto const &id : expectedSlaves - _processes.keys().toSet())
+    for(auto const &id : expectedNodes - _processes.keys().toSet())
         start(id);
 }
 
@@ -91,8 +91,8 @@ void Supervisors::onDisabled(QUuid const &id)
 
 void Supervisors::onUpdated(QUuid const &id)
 {
-    auto const slave = _config.slave(id);
-    if (slave.type() == QStringLiteral("COMPUTER"))
+    auto const node = _config.node(id);
+    if (node.type() == QStringLiteral("COMPUTER"))
         onReseted();
     else if (_config.isLocal(id) && !_processes.contains(id))
         start(id);

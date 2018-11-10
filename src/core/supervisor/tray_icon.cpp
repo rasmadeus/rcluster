@@ -9,6 +9,6 @@ TrayIcon::TrayIcon(Corebus &corebus, QObject *parent)
     _menu.addAction(tr("Exit"), qApp, &QApplication::exit);
 
     setContextMenu(&_menu);
-    setToolTip(QStringLiteral("RCluster Supervisor"));
+    setToolTip(QStringLiteral("Supervisor"));
     setIcon(QIcon{ QStringLiteral(":/res/icon.ico") });
 }

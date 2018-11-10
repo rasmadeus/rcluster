@@ -15,9 +15,8 @@
 
 namespace
 {
-    void handleQtLogging(QtMsgType type, QMessageLogContext const &context, QString const &msg)
+    void handleQtLogging(QtMsgType type, [[maybe_unused]] QMessageLogContext const &context, QString const &msg)
     {
-        Q_UNUSED(context)
         static boost::log::sources::severity_logger<boost::log::trivial::severity_level> logger;
         static std::unordered_map<int, boost::log::trivial::severity_level> const levels {
             { QtDebugMsg, boost::log::trivial::debug },

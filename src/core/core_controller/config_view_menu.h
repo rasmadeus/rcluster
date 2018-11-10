@@ -22,11 +22,11 @@ public:
     QUuid const &last() const { return _last; }
 
 private:
-    void appendSlave(QUuid const &parent, QString const &type);
-    void removeSlave(QUuid const &id);
-    void renameSlave(QUuid const &id);
-    void enableSlave(QUuid const &id);
-    void disableSlave(QUuid const &id);
+    void appendNode(QUuid const &parent, QString const &type);
+    void removeNode(QUuid const &id);
+    void renameNode(QUuid const &id);
+    void enableNode(QUuid const &id);
+    void disableNode(QUuid const &id);
 
 private:
     QWidget &_parent;

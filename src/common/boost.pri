@@ -10,22 +10,22 @@ LIBS += \
 win32 {
     CONFIG(debug, debug|release) {
         LIBS += \
-            -llibboost_system-mgw53-mt-d-x32-1_67.dll \
-            -llibboost_date_time-mgw53-mt-d-x32-1_67.dll \
-            -llibboost_filesystem-mgw53-mt-d-x32-1_67.dll \
-            -llibboost_thread-mgw53-mt-d-x32-1_67.dll \
-            -llibboost_log-mgw53-mt-d-x32-1_67.dll \
-            -llibboost_log_setup-mgw53-mt-d-x32-1_67.dll
+            -lboost_system-vc141-mt-gd-x32-1_68 \
+            -lboost_date_time-vc141-mt-gd-x32-1_68 \
+            -lboost_filesystem-vc141-mt-gd-x32-1_68 \
+            -lboost_thread-vc141-mt-gd-x32-1_68 \
+            -lboost_log-vc141-mt-gd-x32-1_68 \
+            -lboost_log_setup-vc141-mt-gd-x32-1_68
     }
 
     CONFIG(release, debug|release) {
         LIBS += \
-            -llibboost_system-mgw53-mt-x32-1_67.dll \
-            -llibboost_filesystem-mgw53-mt-x32-1_67.dll \
-            -llibboost_date_time-mgw53-mt-x32-1_67.dll \
-            -llibboost_thread-mgw53-mt-x32-1_67.dll \
-            -llibboost_log-mgw53-mt-x32-1_67.dll \
-            -llibboost_log_setup-mgw53-mt-x32-1_67.dll
+            -lboost_system-vc141-mt-x32-1_68 \
+            -lboost_filesystem-vc141-mt-x32-1_68 \
+            -lboost_date_time-vc141-mt-x32-1_68 \
+            -lboost_thread-vc141-mt-x32-1_68 \
+            -lboost_log-vc141-mt-x32-1_68 \
+            -lboost_log_setup-vc141-mt-x32-1_68
     }
 }
 

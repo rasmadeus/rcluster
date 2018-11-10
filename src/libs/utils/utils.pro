@@ -12,7 +12,6 @@ DEFINES += \
     UTILS_LIBRARY
 
 CONFIG += \
-    c++14 \
     precompile_header \
     warn_on
 
@@ -28,11 +27,14 @@ HEADERS += \
     storable.h \
     svg.h \
     device.h \
+    default_device.h \
     active_device.h \
-    device_state.h \
     simplecrypt.h \
-    hash_functions.h
-    pch.h
+    hash_functions.h \
+    device_writer.h \
+    terminator.h \
+    pch.h \
+    eye_tracker.h
 
 SOURCES += \
     translator.cpp \
@@ -40,9 +42,13 @@ SOURCES += \
     log.cpp \
     storable.cpp \
     device.cpp \
+    default_device.cpp \
     active_device.cpp \
-    device_state.cpp \
-    simplecrypt.cpp
+    simplecrypt.cpp \
+    hash_functions.cpp \
+    device_writer.cpp \
+    terminator.cpp \
+    eye_tracker.cpp
 
 DISTFILES += \
     utils.pri
@@ -50,5 +56,6 @@ DISTFILES += \
 TRANSLATIONS += \
     ../../translations/libs/utils_ru.ts \
 
+include($$(PRO_ROOT)/src/common/common.pri)
 include($$(PRO_ROOT)/src/common/boost.pri)
 include($$(PRO_ROOT)/src/common/install_lib.pri)

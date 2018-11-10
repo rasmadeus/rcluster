@@ -9,7 +9,7 @@
 
 ControllerWithActivity::ControllerWithActivity(Config const &config, Plugin const &plugin, Corebus &corebus)
     : QMainWindow{ nullptr, Qt::WindowTitleHint | Qt::WindowMinMaxButtonsHint }
-    , SlaveController{ config, plugin, corebus }
+    , NodeController{ config, plugin, corebus }
 {
     setObjectName(QStringLiteral("controller_with_activity"));
     connect(qApp, &QApplication::aboutToQuit, this, &ControllerWithActivity::storeControllerSettings);

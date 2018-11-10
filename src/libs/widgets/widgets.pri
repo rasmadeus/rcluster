@@ -1,5 +1,6 @@
 include($$(PRO_ROOT)/src/libs/config/config.pri)
 include($$(PRO_ROOT)/src/libs/plugin/plugin.pri)
+include($$(PRO_ROOT)/src/libs/utils/utils.pri)
 
 INCLUDEPATH += \
     $$PWD

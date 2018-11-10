@@ -6,7 +6,7 @@
 #include <QUuid>
 #include <storable.h>
 #include "config_global.h"
-#include "slave.h"
+#include "node.h"
 
 class CONFIG_SHARED_EXPORT Config : public QObject, public Storable
 {
@@ -24,10 +24,10 @@ public:
     QVector<QUuid> children(QUuid const &id) const { return _children.value(id); }
     QVector<QUuid> descendants(QUuid const &id) const;
     QVector<QUuid> descendants(QUuid const &id, QString const &type) const;
-    QVector<QUuid> slaves(QString const &type) const { return _types.value(type); }
-    QList<QUuid> slaves() const { return _slaves.keys(); }
-    Slave slave(QUuid const &id) const { return _slaves.value(id); }
-    bool hasSlave(QUuid const &id) const { return _slaves.contains(id); }
+    QVector<QUuid> nodes(QString const &type) const { return _types.value(type); }
+    QList<QUuid> nodes() const { return _nodes.keys(); }
+    Node node(QUuid const &id) const { return _nodes.value(id); }
+    bool hasNode(QUuid const &id) const { return _nodes.contains(id); }
     QVector<QUuid> localComputers() const;
     bool isLocal(QUuid const &id) const;
     QUuid parent(QUuid const &id, QString const &parentType) const;
@@ -35,7 +35,7 @@ public:
     QStringList types() const { return _types.keys(); }
 
 public:
-    void append(Slave const &slave);
+    void append(Node const &node);
     void remove(QUuid const &id);
     void enable(QUuid const &id);
     void disable(QUuid const &id);
@@ -59,14 +59,14 @@ signals:
     void runtimeParamChanged(QUuid const &id, QString const &key);
 
 private:
-    bool appendSlave(Slave const &slave);
-    void removeSlave(QUuid const &id);
+    bool appendNode(Node const &node);
+    void removeNode(QUuid const &id);
     void enableFromTop(QUuid const &id);
     void enableToBottom(QUuid const &id);
     void disableFromBottom(QUuid const &id);
 
 private:
-    QHash<QUuid, Slave> _slaves;
+    QHash<QUuid, Node> _nodes;
     QHash<QUuid, QVector<QUuid>> _children;
     QHash<QString, QVector<QUuid>> _types;
 };

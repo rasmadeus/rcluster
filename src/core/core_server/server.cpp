@@ -15,12 +15,12 @@ Server::Server(quint16 port, Config &config, Plugins &plugins, QObject *parent)
 
     connect(&_config, &Config::reseted, this, &Server::onConfigReseted);
 
-    connect(&_config, &Config::appended, this, &Server::onConfigSlaveAppended);
-    connect(&_config, &Config::removeFinished, this, &Server::onConfigSlaveRemoved);
-    connect(&_config, &Config::renamed, this, &Server::onConfigSlaveRenamed);
-    connect(&_config, &Config::enableFinished, this, &Server::onConfigSlaveEnabled);
-    connect(&_config, &Config::disableFinished, this, &Server::onConfigSlaveDisabled);
-    connect(&_config, &Config::updated, this, &Server::onConfigSlaveUpdated);
+    connect(&_config, &Config::appended, this, &Server::onConfigNodeAppended);
+    connect(&_config, &Config::removeFinished, this, &Server::onConfigNodeRemoved);
+    connect(&_config, &Config::renamed, this, &Server::onConfigNodeRenamed);
+    connect(&_config, &Config::enableFinished, this, &Server::onConfigNodeEnabled);
+    connect(&_config, &Config::disableFinished, this, &Server::onConfigNodeDisabled);
+    connect(&_config, &Config::updated, this, &Server::onConfigNodeUpdated);
     connect(&_config, &Config::processStateChanged, this, &Server::onConfigProcessStateChanged);
     connect(&_config, &Config::runtimeParamChanged, this, &Server::onConfigRuntime);
 
@@ -83,13 +83,12 @@ void Server::onMessage(Message const &message)
             it->second->send(message);
     }
 
-    auto const messageSource = message.fromId();
     for(auto const &type : _config.types())
     {
         auto const *plugin = _plugins.plugin(type);
-        for(auto const &id : _config.slaves(type))
+        for(auto const &id : _config.nodes(type))
         {
-            if (plugin->isListener(_config, messageSource, id))
+            if (plugin->isListener(_config, message.from(), id))
             {
                 auto it = _registeredClients.find(id);
                 if (it != _registeredClients.end())
@@ -115,9 +114,8 @@ void Server::onRegister(Message const &message)
     }
 }
 
-void Server::onExit(Message const &message)
+void Server::onExit([[maybe_unused]] Message const &message)
 {
-    Q_UNUSED(message)
     send(QStringLiteral("EXIT"));
     qApp->quit();
 }
@@ -129,72 +127,80 @@ void Server::onConfigReseted()
     });
 }
 
-void Server::onConfigSlaveAppended(QUuid const &slave)
+void Server::onConfigNodeAppended(QUuid const &node)
 {
     send(QStringLiteral("APPEND"), {
-        { QStringLiteral("slave"), _config.slave(slave).toJson() },
+        { QStringLiteral("node"), _config.node(node).toJson() },
     });
 }
 
-void Server::onConfigSlaveRemoved(QUuid const &slave)
+void Server::onConfigNodeRemoved(QUuid const &node)
 {
     send(QStringLiteral("REMOVE"), {
-        { QStringLiteral("slave"), slave },
+        { QStringLiteral("node"), node },
     });
 
     for(auto const &type : _config.types())
     {
         auto const *plugin = _plugins.plugin(type);
-        for(auto const &id : _config.slaves(type))
-            plugin->onWatchedSlaveRemoved(_config, slave, id);
+        for(auto const &id : _config.nodes(type))
+            plugin->onNodeRemoved(_config, node, id);
     }
 }
 
-void Server::onConfigSlaveRenamed(QUuid const &slave)
+void Server::onConfigNodeRenamed(QUuid const &node)
 {
     send(QStringLiteral("RENAME"), {
-        { QStringLiteral("slave"), slave },
-        { QStringLiteral("name"), _config.slave(slave).name() },
+        { QStringLiteral("node"), node },
+        { QStringLiteral("name"), _config.node(node).name() },
     });
 }
 
-void Server::onConfigSlaveEnabled(QUuid const &slave)
+void Server::onConfigNodeEnabled(QUuid const &node)
 {
     send(QStringLiteral("ENABLE"), {
-        { QStringLiteral("slave"), slave },
+        { QStringLiteral("node"), node },
     });
 }
 
-void Server::onConfigSlaveDisabled(QUuid const &slave)
+void Server::onConfigNodeDisabled(QUuid const &node)
 {
     send(QStringLiteral("DISABLE"), {
-        { QStringLiteral("slave"), slave },
+        { QStringLiteral("node"), node },
     });
 }
 
-void Server::onConfigSlaveUpdated(QUuid const &slave)
+void Server::onConfigNodeUpdated(QUuid const &node)
 {
-    auto const slaveObject = _config.slave(slave);
+    auto const nodeObject = _config.node(node);
 
     send(QStringLiteral("UPDATE"), {
-        { QStringLiteral("slave"), slave },
-        { QStringLiteral("params"), slaveObject.params() },
+        { QStringLiteral("node"), node },
+        { QStringLiteral("params"), nodeObject.params() },
     });
+
+    for (auto const &type : _config.types())
+    {
+        auto const *plugin = _plugins.plugin(type);
+        for (auto const &id : _config.nodes(type))
+            if (node != id)
+                plugin->onNodeUpdated(_config, node, id);
+    }
 }
 
-void Server::onConfigProcessStateChanged(QUuid const &slave)
+void Server::onConfigProcessStateChanged(QUuid const &node)
 {
     send(QStringLiteral("PROCESS"), {
-        { QStringLiteral("slave"), slave },
-        { QStringLiteral("process_state"), _config.slave(slave).processState() },
+        { QStringLiteral("node"), node },
+        { QStringLiteral("process_state"), _config.node(node).processState() },
     });
 }
 
-void Server::onConfigRuntime(QUuid const &slave, QString const &key)
+void Server::onConfigRuntime(QUuid const &node, QString const &key)
 {
     send(QStringLiteral("RUNTIME"), {
-        { QStringLiteral("slave"), slave },
+        { QStringLiteral("node"), node },
         { QStringLiteral("key"), key },
-        { QStringLiteral("value"), _config.slave(slave).runtimeParam(key) },
+        { QStringLiteral("value"), _config.node(node).runtimeParam(key) },
     });
 }

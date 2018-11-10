@@ -1,13 +1,13 @@
 #ifndef RTSP_RENDERER_H
 #define RTSP_RENDERER_H
 
-#include <QWidget>
-#include <device.h>
 #include "gst_element_holder.h"
+#include <QWidget>
+#include <default_device.h>
 
 class GstPipelineObserver;
 
-class MULTIMEDIA_SHARED_EXPORT RtspRenderer : public Device
+class MULTIMEDIA_SHARED_EXPORT RtspRenderer : public DefaultDevice
 {
 public:
     RtspRenderer(WId id);
@@ -23,6 +23,7 @@ public:
 
 private:
     WId _id;
+    GstBus *_bus{ nullptr };
     GstElementHolder _src;
     GstElementHolder _decodebin;
     GstElementHolder _videosink;

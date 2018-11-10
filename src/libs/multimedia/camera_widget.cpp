@@ -38,7 +38,7 @@ void CameraWidget::onError()
     if (_reconnectTimerId == -1)
     {
         _client.stop();
-        _reconnectTimerId = startTimer(std::chrono::seconds(5));
+        _reconnectTimerId = startTimer(5000);
         repaint();
     }
 }

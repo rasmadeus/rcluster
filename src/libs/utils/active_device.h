@@ -4,19 +4,19 @@
 #include <atomic>
 #include <memory>
 #include <thread>
-#include <device.h>
+#include <default_device.h>
 
-class UTILS_SHARED_EXPORT ActiveDevice : public Device
+class UTILS_SHARED_EXPORT ActiveDevice : public DefaultDevice
 {
     Q_OBJECT
 
 public:
     explicit ActiveDevice(QObject *parent = nullptr);
-    ~ActiveDevice() override;
+    ~ActiveDevice() override { stop(); }
 
 public:
     void start(QVariantHash const &params) override;
-    void stop() override;
+    void stop() final override;
 
 protected:
     virtual void run(QVariantHash const &params) = 0;

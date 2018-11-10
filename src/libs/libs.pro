@@ -13,3 +13,4 @@ config.depends = transport
 transport.depends = utils
 plugin.depends = utils
 multimedia.depends = utils
+widgets.depends = utils config plugin

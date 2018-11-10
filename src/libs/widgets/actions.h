@@ -18,7 +18,7 @@ public:
     explicit Actions(QObject &parent);
 
 public:
-    QAction &append(QString const &icon, QString const &name, bool afterSeparator = false);
+    QAction &append(QString const &icon, QString const &name, bool afterSeparator = false, QSize const &iconSize = { 32, 32 });
     void install(QMenu &menu) { install<QMenu>(menu); }
     void install(QToolBar &tool) { install<QToolBar>(tool); }
 

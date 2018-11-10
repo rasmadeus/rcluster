@@ -8,16 +8,15 @@
 
 Controller::Controller(Config const &config, Plugin const &plugin, Corebus &corebus)
     : QObject{}
-    , SlaveController{ config, plugin, corebus }
+    , NodeController{ config, plugin, corebus }
     , _ntpClient{ *this }
 {
     connect(&_ntpClient, &NtpClient::replyReceived, this, &Controller::onReply);
     connect(&_config, &Config::reseted, this, &Controller::restart);
 }
 
-void Controller::onSetup(Slave const &slave)
+void Controller::onSetup([[maybe_unused]] Node const &node)
 {
-    Q_UNUSED(slave)
     restart();
 }
 
@@ -27,11 +26,8 @@ void Controller::timerEvent(QTimerEvent *ev)
         sendRequest();
 }
 
-void Controller::onReply(QHostAddress const &address, quint16 port, NtpReply const &reply)
+void Controller::onReply([[maybe_unused]] QHostAddress const &address, [[maybe_unused]] quint16 port, NtpReply const &reply)
 {
-    Q_UNUSED(address)
-    Q_UNUSED(port)
-
     auto const offsetMs = reply.localClockOffset();
 
     if (correctLocalClock(offsetMs))
@@ -93,11 +89,12 @@ void Controller::restart()
     if (_timerId != -1)
         killTimer(_timerId);
 
-    auto const slave = _config.slave(_corebus.id());
-    _host = QHostInfo::fromName(slave.param(QStringLiteral("host")).toString()).addresses().value(0);
-    _port = static_cast<quint16>(slave.param(QStringLiteral("port")).toInt());
-    _syncTime = std::chrono::seconds(slave.param(QStringLiteral("sync_time_sec")).toInt());
-    _timerId = startTimer(_syncTime);
+    auto const node = _config.node(_corebus.id());
+    _host = QHostInfo::fromName(node.param(QStringLiteral("host")).toString()).addresses().value(0);
+    _port = static_cast<quint16>(node.param(QStringLiteral("port")).toInt());
+    auto const seconds = node.param(QStringLiteral("sync_time_sec")).toInt();
+    _syncTime = std::chrono::seconds{ seconds };
+    _timerId = startTimer(seconds);
 
     sendRequest();
 }

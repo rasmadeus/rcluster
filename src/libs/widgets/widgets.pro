@@ -8,7 +8,6 @@ DEFINES += \
     WIDGETS_LIBRARY
 
 CONFIG += \
-    c++14 \
     precompile_header \
     warn_on
 
@@ -17,33 +16,45 @@ PRECOMPILED_HEADER = \
 
 HEADERS += \
     widgets_global.h \
-    slave_item.h \
-    slave_model.h \
-    slave_sort_model.h \
+    node_item.h \
+    node_model.h \
+    node_sort_model.h \
     actions.h \
     port_spin_box.h \
     data_combo_box.h \
-    slave_type_proxy_model.h \
-    slave_check_model.h \
-    slave_item_model.h \
-    pass_line_edit.h
+    device_proxy_model.h \
+    node_type_proxy_model.h \
+    node_check_model.h \
+    node_item_model.h \
+    pass_line_edit.h \
+    splash_screen.h \
     pch.h
 
 SOURCES += \
-    slave_item.cpp \
-    slave_model.cpp \
-    slave_sort_model.cpp \
+    node_item.cpp \
+    node_model.cpp \
+    node_sort_model.cpp \
     port_spin_box.cpp \
-    slave_type_proxy_model.cpp \
-    slave_check_model.cpp \
-    slave_item_model.cpp \
+    node_type_proxy_model.cpp \
+    node_check_model.cpp \
+    node_item_model.cpp \
     actions.cpp \
     data_combo_box.cpp \
-    pass_line_edit.cpp
+    device_proxy_model.cpp \
+    pass_line_edit.cpp \
+    splash_screen.cpp
 
 DISTFILES += \
     widgets.pri
 
+TRANSLATIONS += \
+    ../../../translations/libs/widgets_ru.ts \
+
+RESOURCES += \
+    $$PWD/res.qrc
+
+include($$(PRO_ROOT)/src/common/common.pri)
 include($$(PRO_ROOT)/src/libs/config/config.pri)
 include($$(PRO_ROOT)/src/libs/plugin/plugin.pri)
+include($$(PRO_ROOT)/src/libs/utils/utils.pri)
 include($$(PRO_ROOT)/src/common/install_lib.pri)

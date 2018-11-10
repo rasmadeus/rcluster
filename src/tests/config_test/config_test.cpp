@@ -19,29 +19,29 @@ std::unique_ptr<Config> ConfigTest::makeConfig() const
 {
     auto config = std::make_unique<Config>();
 
-    Slave slave0;
-    slave0.setId(QUuid::createUuid());
-    slave0.setType(QStringLiteral("SLAVE_0"));
+    Node node0;
+    node0.setId(QUuid::createUuid());
+    node0.setType(QStringLiteral("SLAVE_0"));
 
-        Slave slave01;
-        slave01.setId(QUuid::createUuid());
-        slave01.setType(QStringLiteral("SLAVE_01"));
-        slave01.setParent(slave0.id());
+        Node node01;
+        node01.setId(QUuid::createUuid());
+        node01.setType(QStringLiteral("SLAVE_01"));
+        node01.setParent(node0.id());
 
-        Slave slave02;
-        slave02.setId(QUuid::createUuid());
-        slave02.setType(QStringLiteral("SLAVE_01"));
-        slave02.setParent(slave0.id());
+        Node node02;
+        node02.setId(QUuid::createUuid());
+        node02.setType(QStringLiteral("SLAVE_01"));
+        node02.setParent(node0.id());
 
-        Slave slave03;
-        slave03.setId(QUuid::createUuid());
-        slave03.setType(QStringLiteral("SLAVE_02"));
-        slave03.setParent(slave0.id());
+        Node node03;
+        node03.setId(QUuid::createUuid());
+        node03.setType(QStringLiteral("SLAVE_02"));
+        node03.setParent(node0.id());
 
-    config->append(slave0);
-    config->append(slave01);
-    config->append(slave02);
-    config->append(slave03);
+    config->append(node0);
+    config->append(node01);
+    config->append(node02);
+    config->append(node03);
 
     return config;
 }
@@ -52,9 +52,9 @@ void ConfigTest::testAppend_data()
 
     QTest::addColumn<int>("actualSize");
     QTest::addColumn<int>("expectedSize");
-    QTest::newRow("0") << config->slaves(QStringLiteral("SLAVE_01")).size() << 2;
-    QTest::newRow("1") << config->slaves(QStringLiteral("SLAVE_02")).size() << 1;
-    QTest::newRow("2") << config->slaves(QStringLiteral("SLAVE_0")).size() << 1;
+    QTest::newRow("0") << config->nodes(QStringLiteral("SLAVE_01")).size() << 2;
+    QTest::newRow("1") << config->nodes(QStringLiteral("SLAVE_02")).size() << 1;
+    QTest::newRow("2") << config->nodes(QStringLiteral("SLAVE_0")).size() << 1;
 }
 
 void ConfigTest::testAppend()

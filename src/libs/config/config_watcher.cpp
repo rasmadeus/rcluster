@@ -6,12 +6,12 @@ ConfigWatcher::ConfigWatcher(Config &config)
     : _config{ config }
 {
     handle(QStringLiteral("CONFIG"), std::bind(&ConfigWatcher::onReset, this, std::placeholders::_1));
-    handle(QStringLiteral("APPEND"), std::bind(&ConfigWatcher::onAppendSlave, this, std::placeholders::_1));
-    handle(QStringLiteral("REMOVE"), std::bind(&ConfigWatcher::onRemoveSlave, this, std::placeholders::_1));
-    handle(QStringLiteral("RENAME"), std::bind(&ConfigWatcher::onRenameSlave, this, std::placeholders::_1));
-    handle(QStringLiteral("ENABLE"), std::bind(&ConfigWatcher::onEnableSlave, this, std::placeholders::_1));
-    handle(QStringLiteral("DISABLE"), std::bind(&ConfigWatcher::onDisableSlave, this, std::placeholders::_1));
-    handle(QStringLiteral("UPDATE"), std::bind(&ConfigWatcher::onUpdateSlave, this, std::placeholders::_1));
+    handle(QStringLiteral("APPEND"), std::bind(&ConfigWatcher::onAppendNode, this, std::placeholders::_1));
+    handle(QStringLiteral("REMOVE"), std::bind(&ConfigWatcher::onRemoveNode, this, std::placeholders::_1));
+    handle(QStringLiteral("RENAME"), std::bind(&ConfigWatcher::onRenameNode, this, std::placeholders::_1));
+    handle(QStringLiteral("ENABLE"), std::bind(&ConfigWatcher::onEnableNode, this, std::placeholders::_1));
+    handle(QStringLiteral("DISABLE"), std::bind(&ConfigWatcher::onDisableNode, this, std::placeholders::_1));
+    handle(QStringLiteral("UPDATE"), std::bind(&ConfigWatcher::onUpdateNode, this, std::placeholders::_1));
     handle(QStringLiteral("PROCESS"), std::bind(&ConfigWatcher::onProcess, this, std::placeholders::_1));
     handle(QStringLiteral("RUNTIME"), std::bind(&ConfigWatcher::onRuntime, this, std::placeholders::_1));
 }
@@ -23,46 +23,46 @@ void ConfigWatcher::onReset(Message const &message)
     );
 }
 
-void ConfigWatcher::onAppendSlave(Message const &message)
+void ConfigWatcher::onAppendNode(Message const &message)
 {
-    Slave slave;
-    slave.fromJson(message.param(QStringLiteral("slave")).toJsonObject());
-    _config.append(slave);
+    Node node;
+    node.fromJson(message.param(QStringLiteral("node")).toJsonObject());
+    _config.append(node);
 }
 
-void ConfigWatcher::onRemoveSlave(Message const &message)
+void ConfigWatcher::onRemoveNode(Message const &message)
 {
     _config.remove(
-        message.param(QStringLiteral("slave")).toUuid()
+        message.param(QStringLiteral("node")).toUuid()
     );
 }
 
-void ConfigWatcher::onRenameSlave(Message const &message)
+void ConfigWatcher::onRenameNode(Message const &message)
 {
     _config.rename(
-        message.param(QStringLiteral("slave")).toUuid(),
+        message.param(QStringLiteral("node")).toUuid(),
         message.param(QStringLiteral("name")).toString()
     );
 }
 
-void ConfigWatcher::onEnableSlave(Message const &message)
+void ConfigWatcher::onEnableNode(Message const &message)
 {
     _config.enable(
-        message.param(QStringLiteral("slave")).toUuid()
+        message.param(QStringLiteral("node")).toUuid()
     );
 }
 
-void ConfigWatcher::onDisableSlave(Message const &message)
+void ConfigWatcher::onDisableNode(Message const &message)
 {
     _config.disable(
-        message.param(QStringLiteral("slave")).toUuid()
+        message.param(QStringLiteral("node")).toUuid()
     );
 }
 
-void ConfigWatcher::onUpdateSlave(Message const &message)
+void ConfigWatcher::onUpdateNode(Message const &message)
 {
     _config.update(
-        message.param(QStringLiteral("slave")).toUuid(),
+        message.param(QStringLiteral("node")).toUuid(),
         message.param(QStringLiteral("params")).value<QVariantHash>()
     );
 }
@@ -70,7 +70,7 @@ void ConfigWatcher::onUpdateSlave(Message const &message)
 void ConfigWatcher::onProcess(Message const &message)
 {
     _config.setProcessState(
-        message.param(QStringLiteral("slave")).toUuid(),
+        message.param(QStringLiteral("node")).toUuid(),
         message.param(QStringLiteral("process_state")).value<QProcess::ProcessState>()
     );
 }
@@ -78,7 +78,7 @@ void ConfigWatcher::onProcess(Message const &message)
 void ConfigWatcher::onRuntime(Message const &message)
 {
     _config.setRuntimeParam(
-        message.param(QStringLiteral("slave")).toUuid(),
+        message.param(QStringLiteral("node")).toUuid(),
         message.param(QStringLiteral("key")).toString(),
         message.param(QStringLiteral("value"))
     );

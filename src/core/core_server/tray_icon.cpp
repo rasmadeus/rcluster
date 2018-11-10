@@ -6,6 +6,6 @@ TrayIcon::TrayIcon(QObject *parent)
 {
     _menu.addAction(tr("Exit"), qApp, &QCoreApplication::quit);
     setContextMenu(&_menu);
-    setToolTip(QStringLiteral("RCluster Core"));
+    setToolTip(QStringLiteral("Core"));
     setIcon(QIcon{ QStringLiteral(":/res/icon.ico") });
 }

@@ -80,7 +80,7 @@ void Corebus::start()
     Q_ASSERT(_timerId == -1);
 
     if (_autoConnect)
-        _timerId = startTimer(std::chrono::seconds(5));
+        _timerId = startTimer(5000);
 }
 
 void Corebus::stop()

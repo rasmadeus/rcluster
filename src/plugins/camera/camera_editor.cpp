@@ -55,6 +55,7 @@ QVariantHash CameraEditor::params() const
     auto params = static_cast<Editor*>(_paramsWidgets.currentWidget())->params();
     params[QStringLiteral("type")] = _typeComboBox.currentData().toInt();
     params[QStringLiteral("port")] = _portSpinBox.value();
+    params[QStringLiteral("rest_api_name")] = QStringLiteral("Camera");
     return params;
 }
 

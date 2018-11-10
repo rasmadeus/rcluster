@@ -9,6 +9,7 @@ public:
     static Plugin *load(QString const &type);
 
 public:
+    Plugins(bool load = false);
     ~Plugins() { clear(); }
 
 public:

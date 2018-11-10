@@ -4,28 +4,30 @@ TEMPLATE = \
     aux
 
 INSTALLER = \
-    rcluster_setup
+    rbarometer_setup
 
 INPUT = \
     $$PWD/config/config.xml \
     $$PWD/packages
 
-rcluster.input = \
+rbar.input = \
     INPUT
 
-rcluster.output = \
+rbar.output = \
     $$joinPath($$joinPath($$(OUT_DIR), $$getConfig()), $$INSTALLER)
 
-rcluster.commands = \
+rbar.commands = \
     $$(QT_INSTALL_FRAMEWORK_BIN)/binarycreator -c $$PWD/config/config.xml -p $$PWD/packages ${QMAKE_FILE_OUT}
 
-rcluster.CONFIG += \
+rbar.CONFIG += \
     target_predeps \
     no_link \
     combine
 
 QMAKE_EXTRA_COMPILERS += \
-    rcluster
+    rbar
 
 DISTFILES += \
-    packages/core/meta/package.xml
+    $$PWD/packages/core/meta/package.xml \
+    $$PWD/packages/core/meta/installscript.qs \
+    $$PWD/config/config.xml

@@ -14,10 +14,10 @@ ControllerWithActivity::ControllerWithActivity(Config &config, Plugins &plugins,
     , _coreActions{ corebus, *this }
     , _splitter{ this }
     , _configView{ config, plugins, corebus, *this }
-    , _slaveParamsView{ config, plugins, corebus, *this }
+    , _nodeParamsView{ config, plugins, corebus, *this }
 {
     setWindowIcon(QIcon{ QStringLiteral(":/res/icon.ico") });
-    setWindowTitle(tr("RCluster Core Controller"));
+    setWindowTitle(tr("Core Controller"));
 
     auto coreMenu = menuBar()->addMenu(tr("Core"));
     coreMenu->setObjectName(QStringLiteral("core_actions_menu"));
@@ -37,7 +37,7 @@ ControllerWithActivity::ControllerWithActivity(Config &config, Plugins &plugins,
 
     _splitter.setContentsMargins(rcluster::layoutGap(), rcluster::layoutGap(), rcluster::layoutGap(), rcluster::layoutGap());
     _splitter.addWidget(&_configView);
-    _splitter.addWidget(&_slaveParamsView);
+    _splitter.addWidget(&_nodeParamsView);
     _splitter.setEnabled(false);
 
     setCentralWidget(&_splitter);
@@ -45,7 +45,7 @@ ControllerWithActivity::ControllerWithActivity(Config &config, Plugins &plugins,
     connect(qApp, &QApplication::aboutToQuit, this, &ControllerWithActivity::storeSettings);
     connect(&corebus, &Corebus::connected, this, &ControllerWithActivity::onCoreConnected);
     connect(&corebus, &Corebus::disconnected, this, &ControllerWithActivity::onCoreDisconnected);
-    connect(&_configView, &ConfigView::selected, &_slaveParamsView, &SlaveParamsView::select);
+    connect(&_configView, &ConfigView::selected, &_nodeParamsView, &NodeParamsView::select);
 
     resize(800, 600);
     restoreSettings();

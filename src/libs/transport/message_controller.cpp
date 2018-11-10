@@ -22,7 +22,9 @@ void MessageController::send(Message const &message)
     }
 
     auto const data = QJsonDocument{ message.toJson() }.toJson(QJsonDocument::Compact);
-    qDebug() << "Message to send:" << data;
+
+    if (message.action() != QStringLiteral("DEVICE"))
+        qDebug() << "Message to send:" << data;
 
     _out << data.size();
     _out << data;
@@ -69,7 +71,10 @@ void MessageController::readMessageBody()
 
     Message msg;
     msg.fromJson(QJsonDocument::fromJson(data).object());
-    qDebug() << "Message received:" << msg.toJson();
+
+    if (msg.action() != QStringLiteral("DEVICE"))
+        qDebug() << "Message received:" << msg.toJson();
+
     emit ready(msg);
 }
 

@@ -1,13 +1,8 @@
 #include "active_device.h"
 
 ActiveDevice::ActiveDevice(QObject *parent)
-    : Device{ parent }
+    : DefaultDevice{ parent }
 {
-}
-
-ActiveDevice::~ActiveDevice()
-{
-    stop();
 }
 
 void ActiveDevice::start(QVariantHash const &params)

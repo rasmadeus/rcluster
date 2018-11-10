@@ -4,5 +4,5 @@ TEMPLATE = \
 SUBDIRS += \
     core_controller \
     core_server \
-    supervisor \
-    slave
+    node \
+	supervisor

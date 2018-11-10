@@ -5,9 +5,9 @@
 #include <QLabel>
 #include <QTreeView>
 #include <default_base_editor.h>
-#include <slave_check_model.h>
+#include <node_check_model.h>
 
-class SlaveSortModel;
+class NodeSortModel;
 
 class MessageViewerEditor : public DefaultBaseEditor
 {
@@ -29,8 +29,8 @@ private:
     QTreeView _treeView;
     QPushButton _selectAll;
     QPushButton _deselectAll;
-    SlaveCheckModel *_slaveModel{ nullptr };
-    SlaveSortModel *_slaveSortModel{ nullptr };
+    NodeCheckModel *_nodeModel{ nullptr };
+    NodeSortModel *_nodeSortModel{ nullptr };
 };
 
 #endif // MESSAGE_VIEWER_EDITOR_H

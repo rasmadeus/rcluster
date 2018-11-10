@@ -2,9 +2,10 @@
 #define DATA_COMBO_BOX_H
 
 #include <QComboBox>
+#include <QJsonArray>
 #include <QUuid>
 #include <config.h>
-#include <slave.h>
+#include <node.h>
 #include "widgets_global.h"
 
 class Config;
@@ -17,6 +18,7 @@ public:
     explicit DataComboBox(QWidget *parent = nullptr);
 
 public:
+    void fill(QJsonArray const &restApiJson);
     void fill(Config const &config, QVector<QUuid> const &ids);
     void fill(Config const &config, QString const &type);
     void fillWithLocals(Config const &config, QString const &type, QUuid const &local);

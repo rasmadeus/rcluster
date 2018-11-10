@@ -8,7 +8,6 @@ extern "C"
 
 #include <memory>
 #include <QWidget>
-#include <device_state.h>
 #include "rtsp_renderer.h"
 #include "multimedia_global.h"
 

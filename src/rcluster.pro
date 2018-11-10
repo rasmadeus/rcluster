@@ -10,3 +10,4 @@ SUBDIRS += \
 core.depends = libs
 slaves.depends = libs
 tests.depends = libs
+installator.depends = libs core plugins

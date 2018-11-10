@@ -41,7 +41,7 @@ QStringList DisplayEditor::errors() const
     QStringList errors;
 
     if (!_displayComboBox.currentData().isValid())
-        errors << tr("The computer doesn't have any web cameras.");
+        errors << tr("You have to select a display.");
 
     return errors;
 }
@@ -58,5 +58,5 @@ void DisplayEditor::fill(Message const &message)
         _displayComboBox.addItem(tr("Display: %1").arg(index.toInt()), index);
     }
 
-    setParams(_config.slave(_id).params());
+    setParams(_config.node(_id).params());
 }

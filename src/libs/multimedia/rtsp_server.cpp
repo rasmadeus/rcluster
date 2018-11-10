@@ -5,24 +5,18 @@ extern "C"
 
 #include <QDebug>
 #include <config.h>
-#include "device_state.h"
 #include "rtsp_server.h"
 #include "gst_pipeline_observer.h"
 
 namespace
 {
-    GstRTSPFilterResult removeAllClients (GstRTSPServer* server, GstRTSPClient* client, gpointer data)
+    GstRTSPFilterResult removeAllClients ([[maybe_unused]] GstRTSPServer* server, [[maybe_unused]] GstRTSPClient* client, [[maybe_unused]] gpointer data)
     {
-        Q_UNUSED(server)
-        Q_UNUSED(client)
-        Q_UNUSED(data)
         return GST_RTSP_FILTER_REMOVE;
     }
 
-    void onClientConnected(GstRTSPServer *server, GstRTSPClient *client, gpointer userData)
+    void onClientConnected([[maybe_unused]] GstRTSPServer *server, GstRTSPClient *client, [[maybe_unused]] gpointer userData)
     {
-        Q_UNUSED(server)
-        Q_UNUSED(userData)
         auto const *rtspConnection = gst_rtsp_client_get_connection(client);
         qDebug() << "Client connected from:" << gst_rtsp_connection_get_ip(rtspConnection);
     }
@@ -32,9 +26,8 @@ namespace
         qDebug() << "Media" << media << "for server" << userData << "has a new state:" << state;
     }
 
-    void onMediaConstructed(GstRTSPMediaFactory *factory, GstRTSPMedia *media, gpointer userData)
+    void onMediaConstructed([[maybe_unused]] GstRTSPMediaFactory *factory, GstRTSPMedia *media, gpointer userData)
     {
-        Q_UNUSED(factory)
         qDebug() << "Media" << media << "has been constructed for server" << userData;
         g_signal_connect(media, "new-state", G_CALLBACK(onMediaNewState), userData);
     }
@@ -52,6 +45,8 @@ QString RtspServer::launch(VideoSourceType type, QVariantHash const &params)
         case VideoSourceType::Display:
             return QStringLiteral("(dx9screencapsrc monitor=%1 cursor=1 ! videoconvert ! x264enc ! video/x-h264, profile=baseline ! rtph264pay name=pay0 pt=96 )")
                 .arg(params.value(QStringLiteral("display_index")).toInt());
+		default:
+			return {};
     }
 }
 
@@ -66,7 +61,7 @@ QString RtspServer::toMountPath(QUuid const &id)
 QString RtspServer::host(Config const &config, QUuid const &cameraId)
 {
     auto const computerId = config.parent(cameraId, QStringLiteral("COMPUTER"));
-    return config.slave(computerId).param(QStringLiteral("ip")).toString();
+    return config.node(computerId).param(QStringLiteral("ip")).toString();
 }
 
 QString RtspServer::url(QString const &host, int port, QString const &mountPath)
@@ -81,12 +76,12 @@ QString RtspServer::url(QString const &host, int port, QUuid const &cameraId)
 
 QString RtspServer::url(Config const &config, QUuid const &cameraId)
 {
-    auto const port = config.slave(cameraId).param(QStringLiteral("port")).toInt();
+    auto const port = config.node(cameraId).param(QStringLiteral("port")).toInt();
     return url(host(config, cameraId), port, cameraId);
 }
 
 RtspServer::RtspServer(QObject *parent)
-    : Device{ parent }
+    : DefaultDevice{ parent }
 {
 }
 
@@ -120,32 +115,32 @@ void RtspServer::start(QVariantHash const &params)
     g_object_unref (mounts);
     _id = gst_rtsp_server_attach(_server, nullptr);
 
-    emit stateChanged(DeviceState::On);
+    emit stateChanged(Device::State::On);
 }
 
 void RtspServer::stop()
 {
-    if (_server == nullptr)
-        return;
+    if (_server != nullptr)
+    {
+        gst_rtsp_server_client_filter(_server, ::removeAllClients, nullptr);
 
-    gst_rtsp_server_client_filter(_server, ::removeAllClients, nullptr);
+        auto mounts = gst_rtsp_server_get_mount_points(_server);
+        gst_rtsp_mount_points_remove_factory(mounts, _mountPath.toUtf8().constData());
+        g_object_unref(mounts);
 
-    auto mounts = gst_rtsp_server_get_mount_points(_server);
-    gst_rtsp_mount_points_remove_factory(mounts, _mountPath.toUtf8().constData());
-    g_object_unref (mounts);
+        auto pool = gst_rtsp_server_get_session_pool(_server);
+        gst_rtsp_session_pool_cleanup(pool);
+        g_object_unref(pool);
 
-    auto pool = gst_rtsp_server_get_session_pool(_server);
-    gst_rtsp_session_pool_cleanup(pool);
-    g_object_unref(pool);
+        g_source_remove(_id);
+        g_object_unref(_factory);
+        g_object_unref(_server);
 
-    g_source_remove(_id);
-    g_object_unref(_factory);
-    g_object_unref(_server);
+        _factory = nullptr;
+        _server = nullptr;
+    }
 
-    _factory = nullptr;
-    _server = nullptr;
-
-    emit stateChanged(DeviceState::Off);
+    emit stateChanged(Device::State::Off);
 }
 
 QString RtspServer::url() const

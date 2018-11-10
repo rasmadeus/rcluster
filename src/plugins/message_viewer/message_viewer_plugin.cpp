@@ -8,16 +8,17 @@ Editor *MessageViewerPlugin::editor(EditorData const &data, QWidget &parent) con
     return new MessageViewerEditor{ data, parent };
 }
 
-std::unique_ptr<SlaveController> MessageViewerPlugin::controller(Config const &config, Plugin const &plugin, Corebus &corebus) const
+std::unique_ptr<NodeController> MessageViewerPlugin::controller(Config const &config, Plugin const &plugin, Corebus &corebus) const
 {
     return std::make_unique<MessageViewerController>(config, plugin, corebus);
 }
 
-bool MessageViewerPlugin::isListener(Config &config, QUuid const &messageSource, QUuid const &thisTypeSlave) const
+void MessageViewerPlugin::onNodeRemoved(Config &config, QUuid const &removedNode, QUuid const &thisTypeNode) const
 {
-    auto const slave = config.slave(thisTypeSlave);
-    auto const slaves = slave.param(QStringLiteral("slaves")).toList();
-    return std::any_of(slaves.cbegin(), slaves.cend(), [&messageSource](auto const &item){
-        return messageSource == item.toUuid();
-    });
+    clearParamList(config, removedNode, thisTypeNode, QStringLiteral("nodes"));
+}
+
+bool MessageViewerPlugin::isListener(Config &config, QString const &messageSource, QUuid const &thisTypeNode) const
+{
+    return messageSource == QStringLiteral("core") || isListenerParamList(config, messageSource, thisTypeNode, QStringLiteral("nodes"));
 }

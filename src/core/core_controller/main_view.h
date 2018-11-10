@@ -5,7 +5,7 @@
 #include <QSplitter>
 #include "core_actions.h"
 #include "config_view.h"
-#include "slave_params_view.h"
+#include "node_params_view.h"
 
 class Corebus;
 class Plugins;
@@ -28,7 +28,7 @@ private:
     CoreActions _coreActions;
     QSplitter _splitter;
     ConfigView _configView;
-    SlaveParamsView _slaveParamsView;
+    NodeParamsView _nodeParamsView;
 };
 
 #endif // MAIN_VIEW_H

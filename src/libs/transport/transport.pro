@@ -14,7 +14,6 @@ DEFINES += \
     TRANSPORT_LIBRARY
 
 CONFIG += \
-    c++14 \
     precompile_header \
     warn_on
 
@@ -43,5 +42,6 @@ DISTFILES += \
 TRANSLATIONS += \
     ../../translations/libs/transport_ru.ts \
 
+include($$(PRO_ROOT)/src/common/common.pri)
 include($$(PRO_ROOT)/src/libs/utils/utils.pri)
 include($$(PRO_ROOT)/src/common/install_lib.pri)

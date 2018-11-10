@@ -4,7 +4,7 @@
 #include <QVBoxLayout>
 #include <config.h>
 #include <globals.h>
-#include <slave_sort_model.h>
+#include <node_sort_model.h>
 #include "message_viewer_editor.h"
 
 MessageViewerEditor::MessageViewerEditor(EditorData const &data, QWidget &parent)
@@ -14,15 +14,15 @@ MessageViewerEditor::MessageViewerEditor(EditorData const &data, QWidget &parent
     , _selectAll{ tr("Select all"), this }
     , _deselectAll{ tr("Deselect all"), this }
 {
-    _slaveModel = new SlaveCheckModel{ _config, _plugins, *this };
+    _nodeModel = new NodeCheckModel{ _config, _plugins, *this };
 
-    _slaveSortModel = new SlaveSortModel{ *this };
-    _slaveSortModel->setSourceModel(_slaveModel);
+    _nodeSortModel = new NodeSortModel{ *this };
+    _nodeSortModel->setSourceModel(_nodeModel);
 
     _treeView.header()->hide();
     _treeView.setSelectionBehavior(QAbstractItemView::SelectRows);
     _treeView.setSelectionMode(QAbstractItemView::SingleSelection);
-    _treeView.setModel(_slaveSortModel);
+    _treeView.setModel(_nodeSortModel);
 
     auto buttonsLayout = new QHBoxLayout{};
     buttonsLayout->setMargin(0);
@@ -38,36 +38,36 @@ MessageViewerEditor::MessageViewerEditor(EditorData const &data, QWidget &parent
     mainLayout->addWidget(&_treeView);
     mainLayout->addLayout(buttonsLayout);
 
-    connect(_slaveModel, &SlaveModel::rowsInserted, this, &MessageViewerEditor::onConfigChanged);
-    connect(_slaveModel, &SlaveModel::dataChanged, this, &MessageViewerEditor::onConfigChanged);
+    connect(_nodeModel, &NodeModel::rowsInserted, this, &MessageViewerEditor::onConfigChanged);
+    connect(_nodeModel, &NodeModel::dataChanged, this, &MessageViewerEditor::onConfigChanged);
 
     connect(&_treeView, &QTreeView::clicked, this, &MessageViewerEditor::onTreeViewClicked);
-    connect(&_selectAll, &QPushButton::clicked, _slaveModel, &SlaveCheckModel::selectAll);
-    connect(&_deselectAll, &QPushButton::clicked, _slaveModel, &SlaveCheckModel::deselectAll);
+    connect(&_selectAll, &QPushButton::clicked, _nodeModel, &NodeCheckModel::selectAll);
+    connect(&_deselectAll, &QPushButton::clicked, _nodeModel, &NodeCheckModel::deselectAll);
 
     onConfigChanged();
 }
 
 void MessageViewerEditor::onTreeViewClicked(QModelIndex const &index)
 {
-    _slaveModel->setData(_slaveSortModel->mapToSource(index), {}, SlaveCheckModel::RoleToggleCheckState);
+    _nodeModel->setData(_nodeSortModel->mapToSource(index), {}, NodeCheckModel::RoleToggleCheckState);
 }
 
 void MessageViewerEditor::onConfigChanged()
 {
-    _slaveSortModel->sort(SlaveModel::ColumnCaption);
-    _slaveSortModel->invalidate();
+    _nodeSortModel->sort(NodeModel::ColumnCaption);
+    _nodeSortModel->invalidate();
 }
 
 QVariantHash MessageViewerEditor::params() const
 {
     return {
-        { QStringLiteral("slaves"), _slaveModel->checked() },
+        { QStringLiteral("nodes"), _nodeModel->checked() },
     };
 }
 
 void MessageViewerEditor::setParams(QVariantHash const &params)
 {
-    _slaveModel->setChecked(params.value(QStringLiteral("slaves")).toList());
+    _nodeModel->setChecked(params.value(QStringLiteral("nodes")).toList());
     _treeView.expandAll();
 }
