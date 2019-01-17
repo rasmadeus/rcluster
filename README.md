@@ -1,3 +1,3 @@
-# rbarometer
+# rcluster
 
-RBarometer - a program platform
+RClsuter - a program platform
